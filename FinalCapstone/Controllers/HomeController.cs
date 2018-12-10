@@ -10,12 +10,12 @@ namespace FinalCapstone.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index(IndexViewModel model)
         {
-            return View();
+            return View(model);
         }
 
-                public IActionResult Privacy()
+        public IActionResult Privacy()
         {
             return View();
         }
