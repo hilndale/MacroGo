@@ -11,5 +11,9 @@ namespace FinalCapstone.Models
         public string Email { get; set; }
         public bool IsAdmin { get; set; }
         public string Password { get; set; }
+        public int MaxProtein { get; set; }
+        public int MaxFat { get; set; }
+        public int MaxCarbs { get; set; }
+        public int MaxCalories { get; set; }
     }
 }
