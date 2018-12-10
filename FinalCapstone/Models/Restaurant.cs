@@ -11,7 +11,6 @@ namespace FinalCapstone.Models
         public string RestaurantName { get; set; }
         public TimeSpan OpenTime { get; set; }
         public TimeSpan CloseTime { get; set; }
-        public TimeSpan OpenTimeWeekend { get; set; }
-        public TimeSpan CloseTimeWeekend { get; set; }
+        
     }
 }
