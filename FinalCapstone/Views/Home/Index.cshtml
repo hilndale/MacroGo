@@ -1,11 +1,33 @@
-﻿@{
+﻿@model IndexViewModel
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-            <h2>Yes, this loads the home page - but that's about all.</h2>
+            <label asp-for="MinCarbs">Min Carbs: </label>
+            <input asp-for="MinCarbs" />
+            <label asp-for="MaxCarbs">Max Carbs: </label>
+            <input asp-for="MaxCarbs" />
+            <label asp-for="MinProtein">Min Protein: </label>
+            <input asp-for="MinProtein" />
+            <label asp-for="MaxProtein">Max Protein: </label>
+            <input asp-for="MaxProtein" />
+            <label asp-for="MinFat">Min Fat: </label>
+            <input asp-for="MinFat" />
+            <label asp-for="MaxFat">Max Fat: </label>
+            <input asp-for="MaxFat" />
+        </div>
+        <div class="col-md-3"
+                <label asp-for="RestaurantChosen">Filter by Restaurant </label>
+            <select asp-for="RestaurantChosen" asp-items="Model.RestaurantSelect"></select>
+                <label asp-for="OrderbySelect1">Order by 1: </label>
+            <select asp-for="OrderbySelect1" asp-items="Model.OrderbyLevel1"></select>
+                    <label asp-for="OrderbySelect2">Order by 2: </label>
+            <select asp-for="OrderbySelect2" asp-items="Model.OrderbyLevel2"></select>
+                    <label asp-for="OrderbySelect3">Order by 3: </label>
+            <select asp-for="OrderbySelect3" asp-items="Model.OrderbyLevel3"></select>
         </div>
     </div>
 </div>
