@@ -1,0 +1,2 @@
+-- script to create tables and static data for tables
+-- should be placed in this file
