@@ -27,3 +27,4 @@ namespace FinalCapstone.Controllers
         }
     }
 }
+// will provide routes to welcome page and index
