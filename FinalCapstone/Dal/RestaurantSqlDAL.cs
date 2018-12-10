@@ -5,7 +5,14 @@ using System.Threading.Tasks;
 
 namespace FinalCapstone.Dal
 {
-    public class RestaurantSqlDAL
+    public class RestaurantSqlDAL : IRestaurantDAL
     {
+        private readonly string connectionString;
+
+        public RestaurantSqlDAL(string connectionString)
+        {
+            this.connectionString = connectionString;
+        }
     }
 }
+

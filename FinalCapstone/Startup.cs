@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using FinalCapstone.Controllers;
+using FinalCapstone.Dal;
 
 namespace FinalCapstone
 {
@@ -30,7 +32,10 @@ namespace FinalCapstone
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
+            services.AddScoped<IFoodItemDAL>(x => new FoodItemSqlDAL(Configuration.GetConnectionString("MacroGo")));
+            services.AddScoped<IRestaurantDAL>(x => new RestaurantSqlDAL(Configuration.GetConnectionString("MacroGo")));
+            services.AddScoped<IUserDAL>(x => new UserSqlDAL(Configuration.GetConnectionString("MacroGo")));
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -48,6 +53,7 @@ namespace FinalCapstone
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseSession(); //added, not sure if we'll need
 
             app.UseMvc(routes =>
             {

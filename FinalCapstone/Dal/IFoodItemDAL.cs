@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FinalCapstone.Dal
 {
-    public class IFoodItemDAL
+    public interface IFoodItemDAL
     {
     }
 }
