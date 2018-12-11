@@ -24,7 +24,10 @@ namespace FinalCapstone.Controllers
         public IActionResult Index(IndexViewModel model)
         {
             IList<Restaurant> Restaurants = _restaurantDAL.GetRestaurants();
-            IList<SelectListItem> RestaurantSelections = new List<SelectListItem>();
+            IList<SelectListItem> RestaurantSelections = new List<SelectListItem>()
+            {
+                new SelectListItem() {Text = ""},
+            };
 
             foreach (Restaurant restaurant in Restaurants)
             {
