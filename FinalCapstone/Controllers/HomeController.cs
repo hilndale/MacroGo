@@ -173,16 +173,35 @@ namespace FinalCapstone.Controllers
             return View(model);
         }
 
-        //public IActionResult UpdateFoodItem(FoodList model)
-        //{
-        //    bool updatedFood = _foodDAL.UpdateFoodItem(model);
 
-        //    if (updatedFood == false)
-        //    {
-        //        return View(UpdateFoodItem)
-        //    }
-        //    return View(updatedFood);
-        //}
+        [HttpGet]
+        public IActionResult UpdateFoodItem()
+        {
+            FoodItemViewModel updatedFood = new FoodItemViewModel();
+            return View(updatedFood);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdateFoodItem(FoodList model)
+        {
+            if (!ModelState.IsValid)
+            {
+                FoodItemViewModel foodItemViewModel = new FoodItemViewModel();
+
+                return View(foodItemViewModel);
+
+            }
+
+            else
+            {
+                // need to move FoodItemViewModel fields to FoodList fields - note that we must retrieve the value from the restaurant selectlistitem
+                _foodDAL.AddFoodItem(model);
+                TempData["msg"] = "<button><strong> Your item has been added!</strong></button>";
+                return RedirectToAction(nameof(AddFoodItem));
+            }
+        }
+        
     }
 
 

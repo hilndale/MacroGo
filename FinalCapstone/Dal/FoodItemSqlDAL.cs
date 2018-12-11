@@ -173,7 +173,7 @@ namespace FinalCapstone.Dal
                         food.Calories = Convert.ToInt32(reader["calories"]);
                         food.Fat = Convert.ToInt32(reader["Total_Fat_g"]);
                         food.Carbs = Convert.ToInt32(reader["Carbohydrates_g"]);
-                        food.Protein = Convert.ToInt32(reader["Protein_g"]); 
+                        food.Protein = Convert.ToInt32(reader["Protein_g"]);
                     }
                 }
             }
