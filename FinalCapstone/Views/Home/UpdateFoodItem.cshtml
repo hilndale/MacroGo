@@ -1,0 +1,20 @@
+﻿@model FoodItemViewModel
+@{
+    ViewData["Title"] = "Update Food Item";
+}
+
+<h2>Update Food</h2>
+
+<label asp-for="FoodId">Name of Item</label>
+<input asp-for="FoodId" />
+<label asp-for="RestaurantId">Filter by Restaurant </label>
+<select asp-for="RestaurantId"> </select>
+<label asp-for="Protein">Protein (in grams)</label>
+<input asp-for="Protein" />
+<label asp-for="Fat">Fat (in grams)</label>
+<input asp-for="Fat" />
+<label asp-for="Carbs">Carbs (in grams)</label>
+<input asp-for="Carbs" />
+<label asp-for="Calories">Calories</label>
+<input asp-for="Calories" />
+

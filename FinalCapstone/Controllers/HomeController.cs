@@ -104,7 +104,7 @@ namespace FinalCapstone.Controllers
 
             foreach (Restaurant restaurant in Restaurants)
             {
-                RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantId.ToString()});
+                RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantId.ToString() });
             }
 
             foodItemViewModel.RestaurantSelect = RestaurantSelections;
@@ -125,7 +125,7 @@ namespace FinalCapstone.Controllers
 
                 foreach (Restaurant restaurant in Restaurants)
                 {
-                    RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantId.ToString()});
+                    RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantId.ToString() });
                 }
 
                 foodItemViewModel.RestaurantSelect = RestaurantSelections;
@@ -143,11 +143,27 @@ namespace FinalCapstone.Controllers
             }
         }
 
-        public IActionResult DeleteFoodItem(FoodItemViewModel model)
+        [HttpGet]
+        public IActionResult DeleteFoodItem()
         {
-            //this is shell only
+            FoodItemViewModel model = new FoodItemViewModel();
+            return View("DeleteFoodItem", model);
+        }
 
-            return View(model);
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteFoodItem(FoodList model)
+        {
+            FoodList food = _foodDAL.GetFood(model.FoodId);
+            //checked to see if user is admin?
+            if (food == null)
+            {
+                return View("DeleteFoodItem", model);
+            }
+
+            _foodDAL.DeleteFoodItem(model);
+            TempData["msg"] = "Your item has been deleted!"; //need session?
+            return RedirectToAction(nameof(DeleteFoodItem));
         }
 
         public IActionResult ChangeFoodItem(FoodItemViewModel model)
@@ -156,6 +172,17 @@ namespace FinalCapstone.Controllers
 
             return View(model);
         }
+
+        //public IActionResult UpdateFoodItem(FoodList model)
+        //{
+        //    bool updatedFood = _foodDAL.UpdateFoodItem(model);
+
+        //    if (updatedFood == false)
+        //    {
+        //        return View(UpdateFoodItem)
+        //    }
+        //    return View(updatedFood);
+        //}
     }
 
 
