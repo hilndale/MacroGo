@@ -31,6 +31,8 @@ namespace FinalCapstone.Controllers
                 RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantName });
             }
 
+            model.RestaurantSelect = RestaurantSelections;
+
             return View(model);
         }
 
