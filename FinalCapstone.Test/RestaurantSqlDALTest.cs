@@ -1,5 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FinalCapstone.Dal;
+using System.Linq;
 
 namespace FinalCapstone.Test
 {
@@ -21,10 +22,9 @@ namespace FinalCapstone.Test
             public void No_restaurants_exist()
             {
                 //sample test method to verify that the DatabaseTest setup is correct and there is no data in the table for test
-                //var restaurants = _restaurantDAL.GetRestaurants();
-                //Assert.IsFalse(restaurants.Any());
+                var restaurants = _restaurantDAL.GetRestaurants();
+                Assert.IsFalse(restaurants.Any());
             }
-
         }
     }
 }
