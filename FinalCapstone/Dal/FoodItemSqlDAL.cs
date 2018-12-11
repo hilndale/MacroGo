@@ -146,7 +146,7 @@ namespace FinalCapstone.Dal
             catch (Exception ex)
             {
                 throw ex;
-            }
+            } 
 
             return AllItems;
         }
