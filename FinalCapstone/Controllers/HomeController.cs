@@ -54,8 +54,11 @@ namespace FinalCapstone.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult AddFoodItem(FoodItemViewModel model)
+        [HttpGet]
+        public IActionResult AddFoodItem()
         {
+            FoodItemViewModel foodItemViewModel = new FoodItemViewModel();
+
             IList<Restaurant> Restaurants = _restaurantDAL.GetRestaurants();
             IList<SelectListItem> RestaurantSelections = new List<SelectListItem>();
 
@@ -64,7 +67,28 @@ namespace FinalCapstone.Controllers
                 RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantName });
             }
 
-            model.RestaurantSelect = RestaurantSelections;
+            foodItemViewModel.RestaurantSelect = RestaurantSelections;
+
+            return View(foodItemViewModel);
+        }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult AddFoodItem(FoodItemViewModel model)
+        //{
+
+        //}
+
+        public IActionResult DeleteFoodItem(FoodItemViewModel model)
+        {
+            //this is shell only
+
+            return View(model);
+        }
+
+        public IActionResult ChangeFoodItem(FoodItemViewModel model)
+        {
+            //this is shell only
 
             return View(model);
         }
