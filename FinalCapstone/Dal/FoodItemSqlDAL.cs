@@ -27,7 +27,7 @@ namespace FinalCapstone.Dal
 
                     SqlCommand cmd = new SqlCommand("INSERT INTO FOOD (Food_Item, Restaurant_Id, Calories, Total_Fat_g, Carbohydrates_g, Protein_g) VALUES (@Food_Item, @Restaurant_Id, @Calories, @Total_Fat_g, @Carbohydrates_g, @Protein_g);", conn);
 
-                    cmd.Parameters.AddWithValue("@Food_Item", food.FoodId);
+                    cmd.Parameters.AddWithValue("@Food_Item", food.FoodName);
                     cmd.Parameters.AddWithValue("@Restaurant_Id", food.RestaurantId);
                     cmd.Parameters.AddWithValue("@Calories", food.Calories);
                     cmd.Parameters.AddWithValue("@Total_Fat_g", food.Fat);
