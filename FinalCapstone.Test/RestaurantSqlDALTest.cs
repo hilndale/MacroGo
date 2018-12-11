@@ -34,9 +34,7 @@ namespace FinalCapstone.Test
                 //sample test method to verify that the DatabaseTest setup is correct and there is no data in the table for test
                 var restaurants = _restaurantDAL.GetRestaurants();
                 Assert.IsFalse(restaurants.Any());
-            }
-
-       
+            }       
         }
     }
 }
