@@ -46,21 +46,28 @@ namespace FinalCapstone.Controllers
             List<Item> allItems = _foodDAL.GetAllFoodItems();
 
             ResultViewModel viewModel = new ResultViewModel();
-            viewModel.Results = getResults.GetResult(allItems, model);
+            IList<Item> Results = getResults.GetResult(allItems, model);
 
             return RedirectToAction(nameof(Result));
         }
 
-        public IActionResult Result(IndexViewModel model)
+        [HttpGet]
+        public IActionResult Result()
         {
-            IndexModel getResults = new IndexModel();
-            ResultViewModel viewModel = new ResultViewModel();
-
-            List<Item> allItems = _foodDAL.GetAllFoodItems();
-
-            viewModel.Results = getResults.GetResult(allItems, model);
-            return View(viewModel);
+            return View();
         }
+
+        //[HttpGet]
+        //public IActionResult Result(IndexViewModel model)
+        //{
+        //    IndexModel getResults = new IndexModel();
+        //    ResultViewModel viewModel = new ResultViewModel();
+
+        //    List<Item> allItems = _foodDAL.GetAllFoodItems();
+
+        //    viewModel.Results = getResults.GetResult(allItems, model);
+        //    return View(viewModel);
+        //}
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
