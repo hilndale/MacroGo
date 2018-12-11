@@ -25,7 +25,7 @@ namespace FinalCapstone.Dal
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("INSERT INTO FOOD (Food_Item, Restaurant_Id, Calories, Total_Fat_g, Carbohydrates_g, Protein_g) VALUES (@Food_Item, @Restaurant_Id, @Calories, @Total_Fat_g, @Carbohydrates_g, @Protein_g);", conn);
+                    SqlCommand cmd = new SqlCommand(@"INSERT INTO food (Food_Item, Restaurant_Id, Calories, Total_Fat_g, Carbohydrates_g, Protein_g) VALUES (@Food_Item, @Restaurant_Id, @Calories, @Total_Fat_g, @Carbohydrates_g, @Protein_g);", conn);
 
                     cmd.Parameters.AddWithValue("@Food_Item", food.FoodName);
                     cmd.Parameters.AddWithValue("@Restaurant_Id", food.RestaurantId);
@@ -39,7 +39,7 @@ namespace FinalCapstone.Dal
                     if (count == 1)
                     {
                         result = true;
-                    } 
+                    }
                 }
             }
             catch (Exception ex)
@@ -51,7 +51,31 @@ namespace FinalCapstone.Dal
 
         public bool DeleteFoodItem(FoodList food)
         {
-            return false;
+            bool result = false;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand(@"DELETE * FROM food WHERE Food_Id = @Food_Id;", conn);
+
+                    cmd.Parameters.AddWithValue("@Food_Id", food.FoodId);
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+                    if (rowsAffected == 1)
+                    {
+                        result = true;
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+
+            } 
+            return result;
         }
 
         public bool UpdateFoodItem(FoodList food)
