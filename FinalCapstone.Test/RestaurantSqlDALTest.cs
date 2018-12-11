@@ -18,6 +18,16 @@ namespace FinalCapstone.Test
         [TestClass]
         public class RestaurantTest : RestaurantSqlDALTest
         {
+
+            [TestMethod]
+            public void Restaurant_List_Populated()
+            {
+                //sample test method to verify that the DatabaseTest setup is correct and there is no data in the table for test
+                var restaurants = _restaurantDAL.GetRestaurants();
+                Assert.IsTrue(restaurants.Count > 0);
+            }
+
+
             [TestMethod]
             public void No_restaurants_exist()
             {
@@ -25,6 +35,8 @@ namespace FinalCapstone.Test
                 var restaurants = _restaurantDAL.GetRestaurants();
                 Assert.IsFalse(restaurants.Any());
             }
+
+       
         }
     }
 }
