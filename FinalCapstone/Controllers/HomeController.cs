@@ -1,9 +1,11 @@
 ﻿using FinalCapstone.Dal;
 using FinalCapstone.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Diagnostics;
+using FinalCapstone.Extensions;
 
 namespace FinalCapstone.Controllers
 {
@@ -42,19 +44,36 @@ namespace FinalCapstone.Controllers
         public IActionResult Index(IndexViewModel model)
         {
             IndexModel getResults = new IndexModel();
+            ResultViewModel viewModel = new ResultViewModel();
 
             List<Item> allItems = _foodDAL.GetAllFoodItems();
 
-            ResultViewModel viewModel = new ResultViewModel();
-            IList<Item> Results = getResults.GetResult(allItems, model);
+            viewModel.Results = getResults.GetResult(allItems, model);
+            TempData["viewModel"] = viewModel;
+            TempData.Put("key", viewModel);
 
             return RedirectToAction(nameof(Result));
         }
 
+        //[HttpPost] 
+        //public IActionResult Index(IndexViewModel model)
+        //{
+        //    IndexModel getResults = new IndexModel();
+
+        //    List<Item> allItems = _foodDAL.GetAllFoodItems();
+
+        //    ResultViewModel viewModel = new ResultViewModel();
+        //    viewModel.Results = getResults.GetResult(allItems, model);
+
+        //    return RedirectToAction(nameof(Result));
+        //}
+
         [HttpGet]
         public IActionResult Result()
         {
-            return View();
+            ResultViewModel viewModel = (ResultViewModel) TempData.Get<ResultViewModel>("key");
+
+            return View(viewModel);
         }
 
         //[HttpGet]
@@ -162,16 +181,35 @@ namespace FinalCapstone.Controllers
             return View(model);
         }
 
-        //public IActionResult UpdateFoodItem(FoodList model)
-        //{
-        //    bool updatedFood = _foodDAL.UpdateFoodItem(model);
 
-        //    if (updatedFood == false)
-        //    {
-        //        return View(UpdateFoodItem)
-        //    }
-        //    return View(updatedFood);
-        //}
+        [HttpGet]
+        public IActionResult UpdateFoodItem()
+        {
+            FoodItemViewModel updatedFood = new FoodItemViewModel();
+            return View(updatedFood);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdateFoodItem(FoodList model)
+        {
+            if (!ModelState.IsValid)
+            {
+                FoodItemViewModel foodItemViewModel = new FoodItemViewModel();
+
+                return View(foodItemViewModel);
+
+            }
+
+            else
+            {
+                // need to move FoodItemViewModel fields to FoodList fields - note that we must retrieve the value from the restaurant selectlistitem
+                _foodDAL.AddFoodItem(model);
+                TempData["msg"] = "<button><strong> Your item has been added!</strong></button>";
+                return RedirectToAction(nameof(AddFoodItem));
+            }
+        }
+        
     }
 
 

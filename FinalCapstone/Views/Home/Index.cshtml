@@ -7,22 +7,22 @@
     <div class="row">
         <form asp-controller="home" asp-action="index" method="post">
             <label asp-for="MinCarbs">Min Carbs: </label>
-            <input asp-for="MinCarbs" />
+            <input id="minCarbs" asp-for="MinCarbs" />
             <label asp-for="MaxCarbs">Max Carbs: </label>
-            <input asp-for="MaxCarbs" />
+            <input id="maxCarbs" asp-for="MaxCarbs" />
             <label asp-for="MinProtein">Min Protein: </label>
-            <input asp-for="MinProtein" />
+            <input id="minProtein"  asp-for="MinProtein" />
             <label asp-for="MaxProtein">Max Protein: </label>
-            <input asp-for="MaxProtein" />
+            <input id="maxProtein" asp-for="MaxProtein" />
             <label asp-for="MinFat">Min Fat: </label>
-            <input asp-for="MinFat" />
+            <input id="minFat" asp-for="MinFat" />
             <label asp-for="MaxFat">Max Fat: </label>
-            <input asp-for="MaxFat" />
+            <input id="maxFat" asp-for="MaxFat" />
 
             <label asp-for="RestaurantChosen">Filter by Restaurant </label>
-            <select asp-for="RestaurantChosen" asp-items="Model.RestaurantSelect"></select>
+            <select id="restaurant" asp-for="RestaurantChosen" asp-items="Model.RestaurantSelect"></select>
             <label asp-for="FilterCountSelect"># of results: </label>
-            <select asp-for="FilterCountSelect" asp-items="Model.FilterCount"></select>
+            <select id="filter" asp-for="FilterCountSelect" asp-items="Model.FilterCount"></select>
             <label asp-for="OrderbySelect1">Order by 1: </label>
             <select asp-for="OrderbySelect1" asp-items="Model.OrderbyLevel1"></select>
             <label asp-for="OrderbySelect2">Order by 2: </label>
@@ -30,7 +30,43 @@
             <label asp-for="OrderbySelect3">Order by 3: </label>
             <select asp-for="OrderbySelect3" asp-items="Model.OrderbyLevel3"></select>
 
-            <input type="submit" value="Submit" />
+            <input id="submitButton" type="submit" value="Submit" />
         </form>
+
+        @*<table class="table">
+            <thead>
+                <tr>
+                    <th>Restaurant Name</th>
+                    <th>Food</th>
+                    <th>Calories</th>
+                    <th>Carbs</th>
+                    <th>Protein</th>
+                    <th>Fat</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Results)
+                {
+                    <tr>
+                        <td>@item.RestaurantName</td>
+                        <td>
+                            @item.FoodName
+                        </td>
+                        <td>
+                            @item.Calories
+                        </td>
+                        <td>
+                            @item.Carbs
+                        </td>
+                        <td>
+                            @item.Protein
+                        </td>
+                        <td>
+                            @item.Fat
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
-</div>
+</div>*@
