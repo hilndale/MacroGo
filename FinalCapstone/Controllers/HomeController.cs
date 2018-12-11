@@ -95,7 +95,7 @@ namespace FinalCapstone.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddFoodItem(FoodList model)
+        public IActionResult AddFoodItem(FoodItemViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -106,7 +106,7 @@ namespace FinalCapstone.Controllers
 
                 foreach (Restaurant restaurant in Restaurants)
                 {
-                    RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantId.ToString() });
+                    RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantId.ToString()});
                 }
 
                 foodItemViewModel.RestaurantSelect = RestaurantSelections;
@@ -117,8 +117,16 @@ namespace FinalCapstone.Controllers
 
             else
             {
-                // need to move FoodItemViewModel fields to FoodList fields - note that we must retrieve the value from the restaurant selectlistitem
-                _foodDAL.AddFoodItem(model);
+                
+                FoodList food = new FoodList();
+                food.FoodName = model.FoodName;
+                food.RestaurantId = int.Parse(model.RestaurantChosen);
+                food.Calories = model.Calories;
+                food.Carbs = model.Carbs;
+                food.Fat = model.Fat;
+                food.Protein = model.Protein;
+
+                _foodDAL.AddFoodItem(food);
                 TempData["msg"] = "<button><strong> Your item has been added!</strong></button>";
                 return RedirectToAction(nameof(AddFoodItem));
             }

@@ -9,7 +9,8 @@
     <label asp-for="FoodName">Name of Item</label>
     <input asp-for="FoodName" />
     <label asp-for="RestaurantChosen">Filter by Restaurant </label>
-    <select asp-for="RestaurantChosen" asp-items="Model.RestaurantSelect"></select>
+    @Html.DropDownListFor(x => Model.RestaurantChosen, new SelectList(Model.RestaurantSelect, "Value", "Text"), htmlAttributes: new { @class = "form-control", id = "Restaurant" })
+    @*<select asp-for="RestaurantChosen" asp-items="Model.RestaurantSelect"></select>*@
     <label asp-for="Protein">Protein (in grams)</label>
     <input asp-for="Protein" />
     <label asp-for="Fat">Fat (in grams)</label>
