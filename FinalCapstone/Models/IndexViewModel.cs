@@ -20,11 +20,7 @@ namespace FinalCapstone.Models
         public string OrderbySelect3 { get; set; }
         public string FilterCountSelect { get; set; }
 
-        //pull from DAL via controller when DAL is complete 
-        public IList<SelectListItem> RestaurantSelect = new List<SelectListItem>()
-        {
-
-        };
+        public IList<SelectListItem> RestaurantSelect { get; set; }
 
         public IList<SelectListItem> OrderbyLevel1 = new List<SelectListItem>()
         {
