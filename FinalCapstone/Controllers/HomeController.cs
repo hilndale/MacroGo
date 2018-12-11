@@ -67,7 +67,7 @@ namespace FinalCapstone.Controllers
 
             foreach (Restaurant restaurant in Restaurants)
             {
-                RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantName });
+                RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantId.ToString()});
             }
 
             foodItemViewModel.RestaurantSelect = RestaurantSelections;
@@ -88,7 +88,7 @@ namespace FinalCapstone.Controllers
 
                 foreach (Restaurant restaurant in Restaurants)
                 {
-                    RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantName });
+                    RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantId.ToString()});
                 }
 
                 foodItemViewModel.RestaurantSelect = RestaurantSelections;
@@ -99,6 +99,7 @@ namespace FinalCapstone.Controllers
 
             else
             {
+                // need to move FoodItemViewModel fields to FoodList fields - note that we must retrieve the value from the restaurant selectlistitem
                 _foodDAL.AddFoodItem(model);
                 TempData["msg"] = "<button><strong> Your item has been added!</strong></button>";
                 return RedirectToAction(nameof(AddFoodItem));
