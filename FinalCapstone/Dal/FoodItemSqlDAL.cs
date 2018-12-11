@@ -16,7 +16,7 @@ namespace FinalCapstone.Dal
             this.connectionString = connectionString;
         }
 
-        public bool AddFoodItem(FoodList food)
+        public bool AddFoodItem(FoodList food) //return int foodid
         {
             bool result = false;
             try
@@ -59,8 +59,7 @@ namespace FinalCapstone.Dal
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand(@"DELETE * FROM food WHERE Food_Id = @Food_Id;", conn);
-
+                    SqlCommand cmd = new SqlCommand("DELETE FROM food WHERE Food_Id = @Food_Id;", conn);
                     cmd.Parameters.AddWithValue("@Food_Id", food.FoodId);
 
                     int rowsAffected = cmd.ExecuteNonQuery();
@@ -73,7 +72,6 @@ namespace FinalCapstone.Dal
             }
             catch (Exception ex)
             {
-
             }
             return result;
         }
