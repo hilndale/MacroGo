@@ -26,7 +26,7 @@ namespace FinalCapstone.Controllers
             IList<Restaurant> Restaurants = _restaurantDAL.GetRestaurants();
             IList<SelectListItem> RestaurantSelections = new List<SelectListItem>()
             {
-                new SelectListItem() {Text = ""},
+                new SelectListItem() {Text = "All Restaurants"},
             };
 
             foreach (Restaurant restaurant in Restaurants)
