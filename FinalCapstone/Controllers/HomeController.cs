@@ -1,9 +1,11 @@
 ﻿using FinalCapstone.Dal;
 using FinalCapstone.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Diagnostics;
+using FinalCapstone.Extensions;
 
 namespace FinalCapstone.Controllers
 {
@@ -42,19 +44,36 @@ namespace FinalCapstone.Controllers
         public IActionResult Index(IndexViewModel model)
         {
             IndexModel getResults = new IndexModel();
+            ResultViewModel viewModel = new ResultViewModel();
 
             List<Item> allItems = _foodDAL.GetAllFoodItems();
 
-            ResultViewModel viewModel = new ResultViewModel();
-            IList<Item> Results = getResults.GetResult(allItems, model);
+            viewModel.Results = getResults.GetResult(allItems, model);
+            TempData["viewModel"] = viewModel;
+            TempData.Put("key", viewModel);
 
             return RedirectToAction(nameof(Result));
         }
 
+        //[HttpPost] 
+        //public IActionResult Index(IndexViewModel model)
+        //{
+        //    IndexModel getResults = new IndexModel();
+
+        //    List<Item> allItems = _foodDAL.GetAllFoodItems();
+
+        //    ResultViewModel viewModel = new ResultViewModel();
+        //    viewModel.Results = getResults.GetResult(allItems, model);
+
+        //    return RedirectToAction(nameof(Result));
+        //}
+
         [HttpGet]
         public IActionResult Result()
         {
-            return View();
+            ResultViewModel viewModel = (ResultViewModel) TempData.Get<ResultViewModel>("key");
+
+            return View(viewModel);
         }
 
         //[HttpGet]
@@ -85,7 +104,7 @@ namespace FinalCapstone.Controllers
 
             foreach (Restaurant restaurant in Restaurants)
             {
-                RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantId.ToString()});
+                RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantId.ToString() });
             }
 
             foodItemViewModel.RestaurantSelect = RestaurantSelections;
@@ -106,7 +125,7 @@ namespace FinalCapstone.Controllers
 
                 foreach (Restaurant restaurant in Restaurants)
                 {
-                    RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantId.ToString()});
+                    RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantId.ToString() });
                 }
 
                 foodItemViewModel.RestaurantSelect = RestaurantSelections;
@@ -124,11 +143,27 @@ namespace FinalCapstone.Controllers
             }
         }
 
-        public IActionResult DeleteFoodItem(FoodItemViewModel model)
+        [HttpGet]
+        public IActionResult DeleteFoodItem()
         {
-            //this is shell only
+            FoodItemViewModel model = new FoodItemViewModel();
+            return View("DeleteFoodItem", model);
+        }
 
-            return View(model);
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteFoodItem(FoodList model)
+        {
+            FoodList food = _foodDAL.GetFood(model.FoodId);
+            //checked to see if user is admin?
+            if (food == null)
+            {
+                return View("DeleteFoodItem", model);
+            }
+
+            _foodDAL.DeleteFoodItem(model);
+            TempData["msg"] = "Your item has been deleted!"; //need session?
+            return RedirectToAction(nameof(DeleteFoodItem));
         }
 
         public IActionResult ChangeFoodItem(FoodItemViewModel model)

@@ -85,6 +85,7 @@ namespace FinalCapstone.Dal
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
+
                    
                     SqlCommand cmd = new SqlCommand(@"UPDATE Food SET [Food_Item]=@Food_Item,[Restaurant_Id]=@Restaurant_Id, [Calories]=@Calories, [Total_Fat_g]=@Total_Fat_g, [Carbohydrates_g]=@Carbohydrates_g, [Protein_g]=@Protein_g WHERE Food_Id = @Food_Id;", conn);
 
@@ -150,6 +151,39 @@ namespace FinalCapstone.Dal
 
             return AllItems;
         }
+
+        public FoodList GetFood(int foodId)
+        {
+            FoodList food = new FoodList();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    string sql = "SELECT TOP 1 * FROM food WHERE food_Id = @Food_id;";
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@Food_Id", foodId);
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        food.FoodId = Convert.ToInt32(reader["food_Id"]);
+                        food.FoodName = Convert.ToString(reader["food_item"]);
+                        food.RestaurantId = Convert.ToInt32(reader["restaurant_Id"]);
+                        food.Calories = Convert.ToInt32(reader["calories"]);
+                        food.Fat = Convert.ToInt32(reader["Total_Fat_g"]);
+                        food.Carbs = Convert.ToInt32(reader["Carbohydrates_g"]);
+                        food.Protein = Convert.ToInt32(reader["Protein_g"]); 
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            return food;
+        }
+
     }
 }
 

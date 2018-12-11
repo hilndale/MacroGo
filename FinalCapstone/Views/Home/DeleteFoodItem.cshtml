@@ -3,12 +3,22 @@
     ViewData["Title"] = "Delete Food Item";
 }
 
-<h2>Delete Food</h2>
+<h2>Delete Menu Item</h2> 
+@* passing this an object so along with foodid that user inputs must pass all other info on that food item? *@
+<div>
+    <form asp-action="DeleteFoodItem" asp-controller="Home" method="post">
+        <label asp-for="FoodId">Unique ID of menu item</label>
+        <input asp-for="FoodId" />
 
-<label asp-for="FoodName">Name of Item</label>
-<input asp-for="FoodName" />
-<label asp-for="RestaurantChosen">Filter by Restaurant </label>
-<select asp-for="RestaurantChosen" asp-items="Model.RestaurantSelect"></select>
+
+        <button class="button button1" type="submit">Submit</button>
+    </form>
+</div>
+
+
+
+@*<label asp-for="RestaurantChosen">Filter by Restaurant </label>
+<select asp-for="RestaurantChosen" asp-items="Model.RestaurantSelect"></select>*@
 @*<label asp-for="Protein">Protein (in grams)</label>
 <input asp-for="Protein" />
 <label asp-for="Fat">Fat (in grams)</label>

@@ -49,5 +49,7 @@ namespace FinalCapstone.Models
            new SelectListItem() {Text = "20"},
            new SelectListItem() {Text = "30"}
         };
+
+        public IList<Item> Results { get; set; }
     }
 }

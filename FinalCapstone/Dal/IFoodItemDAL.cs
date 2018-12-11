@@ -11,6 +11,7 @@ namespace FinalCapstone.Dal
         bool AddFoodItem(FoodList food);
         bool DeleteFoodItem(FoodList food);
         bool UpdateFoodItem(FoodList food);
+        FoodList GetFood(int foodId); // added by HS, trying to get delete post to work
         List<Item> GetAllFoodItems();
     }
 }
