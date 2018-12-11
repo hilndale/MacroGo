@@ -47,7 +47,6 @@ namespace FinalCapstone.Test
 
                 Assert.AreEqual(1, restaurants.Count);
             }
-
         }
     }
 }
