@@ -15,7 +15,7 @@ namespace FinalCapstone.Controllers
             return View(model);
         }
 
-        public IActionResult Privacy()
+        public IActionResult Result()
         {
             return View();
         }
