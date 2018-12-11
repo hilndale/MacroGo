@@ -18,6 +18,7 @@ namespace FinalCapstone.Test
                 .AddJsonFile("appsettings.json", optional: false)
                 .Build();
 
+
             using (var connection = new SqlConnection(MacroGoConnectionString))
             {
                 var command = connection.CreateCommand();
