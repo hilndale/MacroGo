@@ -36,17 +36,17 @@ namespace FinalCapstone.Controllers
             return View(model);
         }
 
-        //public IActionResult Result(IndexViewModel model)
-        //{
-        //    IndexModel getResults = new IndexModel();
+        public IActionResult Result(IndexViewModel model)
+        {
+            IndexModel getResults = new IndexModel();
+            ResultViewModel viewModel = new ResultViewModel();
 
-        //    List<Item> allItems = _foodDAL.GetFoods();
+            List<Item> allItems = _foodDAL.GetAllFoodItems();
 
-        //    List<Item> resultItems = getResults.GetResult(allItems, model);
+            viewModel.Results = getResults.GetResult(allItems, model);
 
-
-        //    return View(resultItems);
-        //}
+            return View(viewModel);
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
