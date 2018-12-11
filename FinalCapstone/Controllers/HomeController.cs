@@ -1,12 +1,9 @@
-﻿using System;
+﻿using FinalCapstone.Dal;
+using FinalCapstone.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using FinalCapstone.Models;
-using FinalCapstone.Dal;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace FinalCapstone.Controllers
 {
@@ -21,8 +18,10 @@ namespace FinalCapstone.Controllers
             _restaurantDAL = restaurantDAL;
         }
 
-        public IActionResult Index(IndexViewModel model)
+        [HttpGet]
+        public IActionResult Index()
         {
+            IndexViewModel model = new IndexViewModel();
             IList<Restaurant> Restaurants = _restaurantDAL.GetRestaurants();
             IList<SelectListItem> RestaurantSelections = new List<SelectListItem>()
             {
@@ -39,6 +38,19 @@ namespace FinalCapstone.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public IActionResult Index(IndexViewModel model)
+        {
+            IndexModel getResults = new IndexModel();
+
+            List<Item> allItems = _foodDAL.GetAllFoodItems();
+
+            ResultViewModel viewModel = new ResultViewModel();
+            viewModel.Results = getResults.GetResult(allItems, model);
+
+            return RedirectToAction(nameof(Result));
+        }
+
         public IActionResult Result(IndexViewModel model)
         {
             IndexModel getResults = new IndexModel();
@@ -47,7 +59,6 @@ namespace FinalCapstone.Controllers
             List<Item> allItems = _foodDAL.GetAllFoodItems();
 
             viewModel.Results = getResults.GetResult(allItems, model);
-
             return View(viewModel);
         }
 
@@ -94,7 +105,7 @@ namespace FinalCapstone.Controllers
                 foodItemViewModel.RestaurantSelect = RestaurantSelections;
 
                 return View(foodItemViewModel);
-            
+
             }
 
             else
