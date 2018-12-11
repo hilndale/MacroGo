@@ -48,18 +48,13 @@ namespace FinalCapstone.Controllers
         //    return View(resultItems);
         //}
 
-        public IActionResult AddFoodItem(FoodItemViewModel model)
-        {
-            return View(model);
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IList<SelectListItem> getRestaurantSelectListItems()
+        public IActionResult AddFoodItem(FoodItemViewModel model)
         {
             IList<Restaurant> Restaurants = _restaurantDAL.GetRestaurants();
             IList<SelectListItem> RestaurantSelections = new List<SelectListItem>();
@@ -68,7 +63,10 @@ namespace FinalCapstone.Controllers
             {
                 RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantName });
             }
-            return RestaurantSelections;
+
+            model.RestaurantSelect = RestaurantSelections;
+
+            return View(model);
         }
     }
 
