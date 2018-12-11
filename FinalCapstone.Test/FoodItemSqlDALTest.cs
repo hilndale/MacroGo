@@ -25,25 +25,6 @@ namespace FinalCapstone.Test
             _foodItemDAL = new FoodItemSqlDAL(MacroGoConnectionString);
 
             tran = new TransactionScope();
-
-            using (SqlConnection conn = new SqlConnection(MacroGoConnectionString))
-            {
-                conn.Open();
-
-                string sql1 = "INSERT INTO restaurants ([Restaurant_Name], [Open_Time], [Close_Time]) VALUES ('Burger King', '6:00AM', '11:00PM'); SELECT CAST(SCOPE_IDENTITY() as int);";
-                SqlCommand cmd1 = new SqlCommand(sql1, conn);
-                restaurantId = (int)cmd1.ExecuteScalar();
-                // cmd1.ExecuteScalar();
-
-                string sql = "INSERT INTO Food ([Food_Item],[Restaurant_Id],[Calories],[Total_Fat_g],[Carbohydrates_g],[Protein_g])" +
-                    " VALUES ('Cheesy Bean and Rice Burrito', @Restaurant_Id, 425, 25, 40, 20);";
-                SqlCommand cmd2 = new SqlCommand(sql, conn);
-                cmd2.Parameters.AddWithValue("@Restaurant_Id", restaurantId);
-
-                cmd2.ExecuteScalar();
-
-
-            }
         }
 
         // Rollback the existing transaction.
@@ -56,11 +37,19 @@ namespace FinalCapstone.Test
         [TestMethod]
         public void AddFoodItemTest()
         {
+            using (SqlConnection conn = new SqlConnection(MacroGoConnectionString))
+            {
+                conn.Open();
+
+                string sql1 = "INSERT INTO restaurants ([Restaurant_Name], [Open_Time], [Close_Time]) VALUES ('Burger King', '6:00AM', '11:00PM'); SELECT CAST(SCOPE_IDENTITY() as int);";
+                SqlCommand cmd1 = new SqlCommand(sql1, conn);
+                restaurantId = (int)cmd1.ExecuteScalar();
+            }
             FoodItemSqlDAL foodItemSqlDAL = new FoodItemSqlDAL(MacroGoConnectionString);
             FoodList food = new FoodList
             {
                 FoodName = "Chips and Salsa",
-                RestaurantId = 1,
+                RestaurantId = restaurantId,
                 Protein = 15,
                 Fat = 5,
                 Carbs = 10,
@@ -68,8 +57,7 @@ namespace FinalCapstone.Test
             };
 
             bool result = foodItemSqlDAL.AddFoodItem(food);
-            Assert.IsTrue(result);
-        }
-
+            Assert.AreEqual(true, result); 
+        } 
     }
 }
