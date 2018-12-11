@@ -86,7 +86,7 @@ namespace FinalCapstone.Dal
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand(@"UPDATE Food SET [Food_Item]=@Food_Item,[Restaurant_Id]=@Restaurant_Id, [Calories]=@Calories, [Total_Fat_g]=@Total_Fat_g, [Carbohydrates_g]=Carbohydrates_g, [Protein_g]=Protein_g WHERE Food_Id = @Food_Id;", conn);
+                    SqlCommand cmd = new SqlCommand(@"UPDATE Food SET [Food_Item]=@Food_Item,[Restaurant_Id]=@Restaurant_Id, [Calories]=@Calories, [Total_Fat_g]=@Total_Fat_g, [Carbohydrates_g]=@Carbohydrates_g, [Protein_g]=@Protein_g WHERE Food_Id = @Food_Id;", conn);
 
                     cmd.Parameters.AddWithValue("@Food_Id", food.FoodId);
                     cmd.Parameters.AddWithValue("@Food_Item", food.FoodName);

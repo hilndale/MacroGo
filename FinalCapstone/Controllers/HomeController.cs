@@ -166,7 +166,7 @@ namespace FinalCapstone.Controllers
             return RedirectToAction(nameof(DeleteFoodItem));
         }
 
-        public IActionResult ChangeFoodItem(FoodItemViewModel model)
+        public IActionResult UpdateFoodItem(FoodItemViewModel model)
         {
             //this is shell only
 
