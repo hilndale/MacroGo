@@ -24,7 +24,10 @@ namespace FinalCapstone.Controllers
         public IActionResult Index(IndexViewModel model)
         {
             IList<Restaurant> Restaurants = _restaurantDAL.GetRestaurants();
-            IList<SelectListItem> RestaurantSelections = new List<SelectListItem>();
+            IList<SelectListItem> RestaurantSelections = new List<SelectListItem>()
+            {
+                new SelectListItem() {Text = "All Restaurants"},
+            };
 
             foreach (Restaurant restaurant in Restaurants)
             {
@@ -36,17 +39,17 @@ namespace FinalCapstone.Controllers
             return View(model);
         }
 
-        //public IActionResult Result(IndexViewModel model)
-        //{
-        //    IndexModel getResults = new IndexModel();
+        public IActionResult Result(IndexViewModel model)
+        {
+            IndexModel getResults = new IndexModel();
+            ResultViewModel viewModel = new ResultViewModel();
 
-        //    List<Item> allItems = _foodDAL.GetFoods();
+            List<Item> allItems = _foodDAL.GetAllFoodItems();
 
-        //    List<Item> resultItems = getResults.GetResult(allItems, model);
+            viewModel.Results = getResults.GetResult(allItems, model);
 
-
-        //    return View(resultItems);
-        //}
+            return View(viewModel);
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -54,8 +57,11 @@ namespace FinalCapstone.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult AddFoodItem(FoodItemViewModel model)
+        [HttpGet]
+        public IActionResult AddFoodItem()
         {
+            FoodItemViewModel foodItemViewModel = new FoodItemViewModel();
+
             IList<Restaurant> Restaurants = _restaurantDAL.GetRestaurants();
             IList<SelectListItem> RestaurantSelections = new List<SelectListItem>();
 
@@ -64,7 +70,51 @@ namespace FinalCapstone.Controllers
                 RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantName });
             }
 
-            model.RestaurantSelect = RestaurantSelections;
+            foodItemViewModel.RestaurantSelect = RestaurantSelections;
+
+            return View(foodItemViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddFoodItem(FoodList model)
+        {
+            if (!ModelState.IsValid)
+            {
+                FoodItemViewModel foodItemViewModel = new FoodItemViewModel();
+
+                IList<Restaurant> Restaurants = _restaurantDAL.GetRestaurants();
+                IList<SelectListItem> RestaurantSelections = new List<SelectListItem>();
+
+                foreach (Restaurant restaurant in Restaurants)
+                {
+                    RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantName });
+                }
+
+                foodItemViewModel.RestaurantSelect = RestaurantSelections;
+
+                return View(foodItemViewModel);
+            
+            }
+
+            else
+            {
+                _foodDAL.AddFoodItem(model);
+                TempData["msg"] = "<button><strong> Your item has been added!</strong></button>";
+                return RedirectToAction(nameof(AddFoodItem));
+            }
+        }
+
+        public IActionResult DeleteFoodItem(FoodItemViewModel model)
+        {
+            //this is shell only
+
+            return View(model);
+        }
+
+        public IActionResult ChangeFoodItem(FoodItemViewModel model)
+        {
+            //this is shell only
 
             return View(model);
         }

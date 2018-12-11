@@ -7,12 +7,37 @@
 
 @* Update the Result home controller so that it populates an actual list in items to return here  *@
 
-@foreach(Item item in Model.Results)
-{
-    @item.RestaurantName
-    @item.FoodName
-    @item.Calories
-    @item.Carbs
-    @item.Protein
-    @item.Fat
-}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Restaurant Name</th>
+                <th>Food</th>
+                <th>Calories</th>
+                <th>Carbs</th>
+                <th>Protein</th>
+                <th>Fat</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Results)
+            {
+                <tr>
+                    <td>@item.RestaurantName</td>
+                    <td>
+                        @item.FoodName
+                        </td>
+                    <td>
+                        @item.Calories </td>
+                    <td>
+                        @item.Carbs
+                        </td>
+                    <td>
+                        @item.Protein
+                        </td>
+                    <td>
+                        @item.Fat
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

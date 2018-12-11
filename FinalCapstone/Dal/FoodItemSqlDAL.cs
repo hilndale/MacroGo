@@ -111,6 +111,44 @@ namespace FinalCapstone.Dal
 
         }
 
+        public List<Item> GetAllFoodItems()
+        {
+            List<Item> AllItems = new List<Item>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    string sql = "Select * From Food Join Restaurants On food.restaurant_id = restaurants.restaurant_id;";
+
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        Item item = new Item
+                        {
+                            FoodName = Convert.ToString(reader["Food_Item"]),
+                            RestaurantName = Convert.ToString(reader["Restaurant_Name"]),
+                            Protein = Convert.ToInt32(reader["Protein_g"]),
+                            Fat = Convert.ToInt32(reader["Total_Fat_g"]),
+                            Carbs = Convert.ToInt32(reader["Carbohydrates_g"]),
+                            Calories = Convert.ToInt32(reader["Calories"])
+                        };
+                        AllItems.Add(item);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return AllItems;
+        }
     }
 }
 

@@ -109,7 +109,7 @@ namespace FinalCapstone.Models
             {
                 return true;
             }
-            else if (criteria.RestaurantChosen == "")
+            else if (criteria.RestaurantChosen == "All Restaurants")
             {
                 return true;
             }
