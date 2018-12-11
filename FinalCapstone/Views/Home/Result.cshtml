@@ -1,7 +1,18 @@
-﻿@model IndexModel
+﻿@model ResultViewModel
 @{
     ViewData["Title"] = "Result";
 }
 
 <h2>Result</h2>
 
+@* Update the Result home controller so that it populates an actual list in items to return here  *@
+
+@foreach(Item item in Model.Results)
+{
+    @item.RestaurantName
+    @item.FoodName
+    @item.Calories
+    @item.Carbs
+    @item.Protein
+    @item.Fat
+}
