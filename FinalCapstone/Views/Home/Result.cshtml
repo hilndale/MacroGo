@@ -1,4 +1,4 @@
-﻿@model ResultViewModel
+﻿@model IList<Item>
 @{
     ViewData["Title"] = "Result";
 }
@@ -19,7 +19,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.Results)
+            @foreach (var item in Model)
             {
                 <tr>
                     <td>@item.RestaurantName</td>

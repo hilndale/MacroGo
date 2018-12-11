@@ -1,12 +1,9 @@
-﻿using System;
+﻿using FinalCapstone.Dal;
+using FinalCapstone.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using FinalCapstone.Models;
-using FinalCapstone.Dal;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace FinalCapstone.Controllers
 {
@@ -21,8 +18,10 @@ namespace FinalCapstone.Controllers
             _restaurantDAL = restaurantDAL;
         }
 
-        public IActionResult Index(IndexViewModel model)
+        [HttpGet]
+        public IActionResult Index()
         {
+            IndexViewModel model = new IndexViewModel();
             IList<Restaurant> Restaurants = _restaurantDAL.GetRestaurants();
             IList<SelectListItem> RestaurantSelections = new List<SelectListItem>()
             {
@@ -39,17 +38,36 @@ namespace FinalCapstone.Controllers
             return View(model);
         }
 
-        public IActionResult Result(IndexViewModel model)
+        [HttpPost]
+        public IActionResult Index(IndexViewModel model)
         {
             IndexModel getResults = new IndexModel();
-            ResultViewModel viewModel = new ResultViewModel();
 
             List<Item> allItems = _foodDAL.GetAllFoodItems();
 
-            viewModel.Results = getResults.GetResult(allItems, model);
+            ResultViewModel viewModel = new ResultViewModel();
+            IList<Item> Results = getResults.GetResult(allItems, model);
 
-            return View(viewModel);
+            return RedirectToAction(nameof(Result));
         }
+
+        [HttpGet]
+        public IActionResult Result()
+        {
+            return View();
+        }
+
+        //[HttpGet]
+        //public IActionResult Result(IndexViewModel model)
+        //{
+        //    IndexModel getResults = new IndexModel();
+        //    ResultViewModel viewModel = new ResultViewModel();
+
+        //    List<Item> allItems = _foodDAL.GetAllFoodItems();
+
+        //    viewModel.Results = getResults.GetResult(allItems, model);
+        //    return View(viewModel);
+        //}
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -67,7 +85,7 @@ namespace FinalCapstone.Controllers
 
             foreach (Restaurant restaurant in Restaurants)
             {
-                RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantName });
+                RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantId.ToString()});
             }
 
             foodItemViewModel.RestaurantSelect = RestaurantSelections;
@@ -88,17 +106,18 @@ namespace FinalCapstone.Controllers
 
                 foreach (Restaurant restaurant in Restaurants)
                 {
-                    RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantName });
+                    RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantId.ToString()});
                 }
 
                 foodItemViewModel.RestaurantSelect = RestaurantSelections;
 
                 return View(foodItemViewModel);
-            
+
             }
 
             else
             {
+                // need to move FoodItemViewModel fields to FoodList fields - note that we must retrieve the value from the restaurant selectlistitem
                 _foodDAL.AddFoodItem(model);
                 TempData["msg"] = "<button><strong> Your item has been added!</strong></button>";
                 return RedirectToAction(nameof(AddFoodItem));
