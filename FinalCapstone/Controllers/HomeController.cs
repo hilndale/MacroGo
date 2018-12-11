@@ -75,12 +75,35 @@ namespace FinalCapstone.Controllers
             return View(foodItemViewModel);
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult AddFoodItem(FoodItemViewModel model)
-        //{
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddFoodItem(FoodList model)
+        {
+            if (!ModelState.IsValid)
+            {
+                FoodItemViewModel foodItemViewModel = new FoodItemViewModel();
 
-        //}
+                IList<Restaurant> Restaurants = _restaurantDAL.GetRestaurants();
+                IList<SelectListItem> RestaurantSelections = new List<SelectListItem>();
+
+                foreach (Restaurant restaurant in Restaurants)
+                {
+                    RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantName });
+                }
+
+                foodItemViewModel.RestaurantSelect = RestaurantSelections;
+
+                return View(foodItemViewModel);
+            
+            }
+
+            else
+            {
+                _foodDAL.AddFoodItem(model);
+                TempData["msg"] = "<button><strong> Your item has been added!</strong></button>";
+                return RedirectToAction(nameof(AddFoodItem));
+            }
+        }
 
         public IActionResult DeleteFoodItem(FoodItemViewModel model)
         {
