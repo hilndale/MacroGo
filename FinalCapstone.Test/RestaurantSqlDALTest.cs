@@ -44,8 +44,10 @@ namespace FinalCapstone.Test
                 }
 
                 var restaurants = _restaurantDAL.GetRestaurants();
+
                 Assert.AreEqual(1, restaurants.Count);
             }
+
         }
     }
 }
