@@ -31,6 +31,8 @@ namespace FinalCapstone.Controllers
                 RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantName });
             }
 
+            model.RestaurantSelect = RestaurantSelections;
+
             return View(model);
         }
 
@@ -51,6 +53,23 @@ namespace FinalCapstone.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public IActionResult AddFoodItem(FoodItemViewModel model)
+        {
+            IList<Restaurant> Restaurants = _restaurantDAL.GetRestaurants();
+            IList<SelectListItem> RestaurantSelections = new List<SelectListItem>();
+
+            foreach (Restaurant restaurant in Restaurants)
+            {
+                RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantName });
+            }
+
+            model.RestaurantSelect = RestaurantSelections;
+
+            return View(model);
+        }
     }
+
+
 }
 // will provide routes to welcome page and index

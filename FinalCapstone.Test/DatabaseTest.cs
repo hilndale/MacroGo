@@ -18,19 +18,19 @@ namespace FinalCapstone.Test
                 .AddJsonFile("appsettings.json", optional: false)
                 .Build();
 
-            var connection = new SqlConnection(MacroGoConnectionString);
-            //using (var connection = new SqlConnection(MacroGoConnectionString))
-            //{
-            //    var command = connection.CreateCommand();
-            //    command.CommandText =
-            //        @"DELETE FROM User_Favorites; 
-            //          DELETE FROM Users; 
-            //          DELETE FROM Food;
-            //          DELETE FROM Restaurants; ";
 
-            //    connection.Open();
-            //    command.ExecuteNonQuery();
-            //}
+            using (var connection = new SqlConnection(MacroGoConnectionString))
+            {
+                var command = connection.CreateCommand();
+                command.CommandText =
+                    @"DELETE FROM User_Favorites; 
+                      DELETE FROM Users; 
+                      DELETE FROM Food;
+                      DELETE FROM Restaurants; ";
+
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
         }
 
         [TestCleanup]
