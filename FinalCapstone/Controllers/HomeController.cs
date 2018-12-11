@@ -185,21 +185,18 @@ namespace FinalCapstone.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult UpdateFoodItem(FoodList model)
         {
-            if (!ModelState.IsValid)
-            {
-                FoodItemViewModel foodItemViewModel = new FoodItemViewModel();
+            
+                FoodList food = _foodDAL.GetFood(model.FoodId);
+                //checked to see if user is admin?
+                if (food == null)
+                {
+                    return View("DeleteFoodItem", model);
+                }
 
-                return View(foodItemViewModel);
-
-            }
-
-            else
-            {
-                // need to move FoodItemViewModel fields to FoodList fields - note that we must retrieve the value from the restaurant selectlistitem
-                _foodDAL.AddFoodItem(model);
-                TempData["msg"] = "<button><strong> Your item has been added!</strong></button>";
-                return RedirectToAction(nameof(AddFoodItem));
-            }
+                _foodDAL.UpdateFoodItem(model);
+                TempData["msg"] = "Your item has been changed!"; //need session?
+                return RedirectToAction(nameof(DeleteFoodItem));
+            
         }
         
     }
