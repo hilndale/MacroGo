@@ -11,5 +11,6 @@ namespace FinalCapstone.Dal
         bool AddFoodItem(FoodList food);
         bool DeleteFoodItem(FoodList food);
         bool UpdateFoodItem(FoodList food);
+        List<Item> GetAllFoodItems();
     }
 }

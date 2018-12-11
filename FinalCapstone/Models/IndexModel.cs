@@ -109,7 +109,7 @@ namespace FinalCapstone.Models
             {
                 return true;
             }
-            else if (criteria.RestaurantChosen == "")
+            else if (criteria.RestaurantChosen == "All Restaurants")
             {
                 return true;
             }
@@ -118,9 +118,9 @@ namespace FinalCapstone.Models
 
         //final method to return complete list matching all criteria 
         //all criteria will be used in the final method
-        public List<Item> GetResult(List<Item> allItems, IndexViewModel criteria)
+        public IList<Item> GetResult(IList<Item> allItems, IndexViewModel criteria)
         {
-            List<Item> ResultFoodItems = new List<Item>();
+            IList<Item> ResultFoodItems = new List<Item>();
 
             foreach (Item item in allItems)
             {

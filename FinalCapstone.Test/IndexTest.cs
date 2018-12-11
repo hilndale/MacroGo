@@ -57,5 +57,17 @@ namespace FinalCapstone.Test
             bool result = indexModel.MeetsRestaurantRequirement(item.RestaurantName, criteria);
             Assert.AreEqual(false, result);
         }
+        
+        [TestMethod]
+        public void BlankRestaurantValueTest()
+        {
+            IndexViewModel criteriaNew = new IndexViewModel()
+            {
+                RestaurantChosen = ""
+            };
+
+            bool result = indexModel.MeetsRestaurantRequirement(item.RestaurantName, criteriaNew);
+            Assert.AreEqual(true, result);
+        }
     }
 }
