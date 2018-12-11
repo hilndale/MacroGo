@@ -68,6 +68,17 @@ namespace FinalCapstone.Controllers
 
             return View(model);
         }
+
+        //public IActionResult UpdateFoodItem(FoodList model)
+        //{
+        //    bool updatedFood = _foodDAL.UpdateFoodItem(model);
+
+        //    if (updatedFood == false)
+        //    {
+        //        return View(UpdateFoodItem)
+        //    }
+        //    return View(updatedFood);
+        //}
     }
 
 
