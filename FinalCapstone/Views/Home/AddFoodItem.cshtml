@@ -5,15 +5,21 @@
 
 <h2>Add Food</h2>
 
-<label asp-for="FoodName">Name of Item</label>
-<input asp-for="FoodName" />
-<label asp-for="RestaurantChosen">Filter by Restaurant </label>
-<select asp-for="RestaurantChosen" asp-items="Model.RestaurantSelect"></select>
-<label asp-for="Protein">Protein (in grams)</label>
-<input asp-for="Protein" />
-<label asp-for="Fat">Fat (in grams)</label>
-<input asp-for="Fat" />
-<label asp-for="Carbs">Carbs (in grams)</label>
-<input asp-for="Carbs" />
-<label asp-for="Calories">Calories (in grams)</label>
-<input asp-for="Calories" />
+<form asp-action="Index" method="post">
+    <label asp-for="FoodName">Name of Item</label>
+    <input asp-for="FoodName" />
+    <label asp-for="RestaurantChosen">Filter by Restaurant </label>
+    <select asp-for="RestaurantChosen" asp-items="Model.RestaurantSelect"></select>
+    <label asp-for="Protein">Protein (in grams)</label>
+    <input asp-for="Protein" />
+    <label asp-for="Fat">Fat (in grams)</label>
+    <input asp-for="Fat" />
+    <label asp-for="Carbs">Carbs (in grams)</label>
+    <input asp-for="Carbs" />
+    <label asp-for="Calories">Calories (in grams)</label>
+    <input asp-for="Calories" />
+
+    <div style="text-align:center;">
+        <button class="button button1" type="submit">Submit</button>
+    </div>
+    </form>
