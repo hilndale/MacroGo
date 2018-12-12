@@ -117,48 +117,48 @@ namespace FinalCapstone.Models
             return false;
         }
 
-        //public IList<Item> Filter(IList<Item> list, IndexViewModel criteria)
-        //{
-        //    IList<Item> filteredList = new List<Item>();
+        public IList<Item> Filter(IList<Item> list, IndexViewModel criteria)
+        {
+            list = new List<Item>();
 
-        //    if (criteria.FilterCountSelect == 10)
-        //    {
-        //        return filteredList.Take(10).ToList();
-        //    }
-        //    else if (criteria.FilterCountSelect == 20)
-        //    {
-        //        return filteredList.Take(20).ToList();
-        //    }
-        //    else if (criteria.FilterCountSelect == 50)
-        //    {
-        //        return filteredList.Take(50).ToList();
-        //    }
-        //    else if (criteria.FilterCountSelect == 100)
-        //    {
-        //        return filteredList.Take(100).ToList();
-        //    }
-        //    else
-        //    {
-        //        return filteredList;
-        //    }
-        //}
+            if (criteria.FilterCountSelect == 10)
+            {
+                return list.Take(10).ToList();
+            }
+            else if (criteria.FilterCountSelect == 20)
+            {
+                return list.Take(20).ToList();
+            }
+            else if (criteria.FilterCountSelect == 50)
+            {
+                return list.Take(50).ToList();
+            }
+            else if (criteria.FilterCountSelect == 100)
+            {
+                return list.Take(100).ToList();
+            }
+            else
+            {
+                return list;
+            }
+        }
 
         public IList<Item> Sort(IList<Item> list, IndexViewModel criteria)
         {
-            IList<Item> sortedList = new List<Item>();
+            list = new List<Item>();
             IEnumerable<Item> sortedEnum = new List<Item>();
 
             if (criteria.OrderbySelect == "Carbs")
             {
-                sortedEnum = sortedList.OrderBy(f => f.Carbs);
+                sortedEnum = list.OrderBy(f => f.Carbs);
             }
             else if (criteria.OrderbySelect == "Fat")
             {
-                sortedEnum = sortedList.OrderBy(f => f.Fat);
+                sortedEnum = list.OrderBy(f => f.Fat);
             }
             else
             {
-                sortedEnum = sortedList.OrderBy(f => f.Protein);
+                sortedEnum = list.OrderBy(f => f.Protein);
             }
 
             return sortedEnum.ToList();
@@ -178,12 +178,16 @@ namespace FinalCapstone.Models
                 }
             }
 
-            //IList<Item> FinalResult = Filter(Sort(ResultFoodItems, criteria), criteria);
-            //IList<Item> FinalResult = Filter(ResultFoodItems, criteria);
+            //separating into two methods does not allow the search function to be called ?? 
 
-            //return FinalResult;
+            //IList<Item> Test = ResultFoodItems;
 
-            IEnumerable<Item> sortedEnum = new List<Item>(); //this breaks the filter function and is ascending 
+            //IList<Item> sortedEnum = Sort(Test, criteria);
+
+            //IList<Item> filtered = Filter(sortedEnum, criteria);
+
+
+            IEnumerable<Item> sortedEnum = new List<Item>();
 
             if (criteria.OrderbySelect == "Carbs")
             {
@@ -198,33 +202,25 @@ namespace FinalCapstone.Models
                 sortedEnum = ResultFoodItems.OrderByDescending(f => f.Protein);
             }
 
-            IList<Item> filtered = new List<Item>();
 
             if (criteria.FilterCountSelect == 10)
             {
-                 filtered = sortedEnum.Take(10).ToList();
+                return sortedEnum.Take(10).ToList();
             }
             else if (criteria.FilterCountSelect == 20)
             {
-                filtered = sortedEnum.Take(20).ToList();
+                return sortedEnum.Take(20).ToList();
             }
             else if (criteria.FilterCountSelect == 50)
             {
-                filtered = sortedEnum.Take(50).ToList();
+                return sortedEnum.Take(50).ToList();
             }
             else if (criteria.FilterCountSelect == 100)
             {
-                filtered = sortedEnum.Take(100).ToList();
+                return sortedEnum.Take(100).ToList();
             }
-            //else
-            //{
-            //     ResultFoodItems;
-            //}
 
-
-
-            return filtered;
-
+            return sortedEnum.ToList();
         }
     }
 }
