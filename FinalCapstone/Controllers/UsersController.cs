@@ -1,7 +1,6 @@
 ﻿using FinalCapstone.Dal;
 using FinalCapstone.Extensions;
-using Microsoft.AspNetCore.Session;
-using Microsoft.AspNetCore.Http;
+using System.Web;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinalCapstone.Controllers
@@ -13,11 +12,6 @@ namespace FinalCapstone.Controllers
         public UsersController(IUserDAL userDAL)
         {
             _userDAL = userDAL;
-        }
-
-        public IActionResult Index()
-        {
-            return View();
         }
     }
 }
