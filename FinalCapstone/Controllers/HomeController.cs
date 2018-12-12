@@ -163,10 +163,23 @@ namespace FinalCapstone.Controllers
         }
 
         [HttpGet]
-        public IActionResult UpdateOrDeleteFoodItem()
+        public IActionResult FoodDetail(int foodId)
         {
-            FoodItemViewModel updatedFood = new FoodItemViewModel();
-            return View(updatedFood);
+            FoodList food = _foodDAL.GetFood(foodId);
+            FoodItemViewModel foodModel = new FoodItemViewModel();
+
+            foodModel.FoodId = food.FoodId;
+            foodModel.FoodName = food.FoodName;
+            foodModel.RestaurantId = food.RestaurantId;
+            foodModel.Protein = food.Protein;
+            foodModel.Fat = food.Fat;
+            foodModel.Carbs = food.Carbs;
+            foodModel.Calories = food.Calories;
+
+            //Restaurant restaurant = _restaurantDAL.GetRestaurant(food.RestaurantId);
+            //foodModel.RestaurantChosen
+
+            return View(foodModel);
         }
 
         [HttpPost]
