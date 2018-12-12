@@ -173,11 +173,26 @@ namespace FinalCapstone.Controllers
 
 
         [HttpGet]
-        public IActionResult FoodItemDetail(int foodId)
+        public IActionResult FoodDetail(int id)
         {
-            FoodItemViewModel foodDetails = new FoodItemViewModel();
-            return View(foodDetails);
+            FoodList food = _foodDAL.GetFood(id);
+            FoodItemViewModel foodModel = new FoodItemViewModel();
+
+            foodModel.FoodId = food.FoodId;
+            foodModel.FoodName = food.FoodName;
+            foodModel.RestaurantId = food.RestaurantId;
+            foodModel.Protein = food.Protein;
+            foodModel.Fat = food.Fat;
+            foodModel.Carbs = food.Carbs;
+            foodModel.Calories = food.Calories;
+
+            //Restaurant restaurant = _restaurantDAL.GetRestaurant(food.RestaurantId);
+            //foodModel.RestaurantChosen;
+
+            return View(foodModel);
         }
+
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
