@@ -47,27 +47,13 @@ namespace FinalCapstone.Models
         {
            new SelectListItem() {Text = "10"},
            new SelectListItem() {Text = "20"},
-           new SelectListItem() {Text = "30"}
+           new SelectListItem() {Text = "30"},
+           new SelectListItem() {Text = "50"},
+           new SelectListItem() {Text = "100"},
+           new SelectListItem() {Text = "All"}
         };
 
         public IList<Item> Results { get; set; }
 
-        //public IList<Item> GetFilter(IList<Item> results)
-        //{
-        //    if(FilterCountSelect == 10)
-        //    {
-        //        results.Take(10); 
-        //    }
-        //    else if(FilterCountSelect == 20)
-        //    {
-        //        results.Take(20);
-        //    }
-        //    else
-        //    {
-        //        results.Take(30);
-        //    }
-
-        //    return results;
-        //}
     }
 }
