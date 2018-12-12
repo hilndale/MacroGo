@@ -146,16 +146,32 @@ namespace FinalCapstone.Controllers
             return View(model);
         }
 
-        //public IActionResult UpdateFoodItem(FoodList model)
-        //{
-        //    bool updatedFood = _foodDAL.UpdateFoodItem(model);
 
-        //    if (updatedFood == false)
-        //    {
-        //        return View(UpdateFoodItem)
-        //    }
-        //    return View(updatedFood);
-        //}
+        [HttpGet]
+        public IActionResult UpdateFoodItem()
+        {
+            FoodItemViewModel updatedFood = new FoodItemViewModel();
+            return View(updatedFood);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdateFoodItem(FoodList model)
+        {
+            
+                FoodList food = _foodDAL.GetFood(model.FoodId);
+                //checked to see if user is admin?
+                if (food == null)
+                {
+                    return View("DeleteFoodItem", model);
+                }
+
+                _foodDAL.UpdateFoodItem(model);
+                TempData["msg"] = "Your item has been changed!"; //need session?
+                return RedirectToAction(nameof(DeleteFoodItem));
+            
+        }
+        
     }
 
 
