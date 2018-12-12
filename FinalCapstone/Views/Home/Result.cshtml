@@ -48,9 +48,17 @@
                 @foreach (var item in Model.Results)
                 {
                     <tr>
-                        <td>@item.RestaurantName</td>
                         <td>
-                            @item.FoodName
+                            <a asp-controller="Restaurant" asp-action="RestaurantDetail" asp-route-id="@item.RestaurantId">
+                                <input type="hidden" asp-for="@item.RestaurantId" />
+                                @item.RestaurantName
+                            </a>
+                        </td>
+                        <td>
+                            <a asp-controller="Food" asp-action="FoodDetail" asp-route-id="@item.FoodId">
+                                <input type="hidden" asp-for="@item.FoodId" />
+                                @item.FoodName
+                            </a>
                         </td>
                         <td>
                             @item.Calories

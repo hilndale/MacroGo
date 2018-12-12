@@ -52,14 +52,14 @@ namespace FinalCapstone.Models
             }
             else if (criteria.MinProtein != 0)
             {
-                if (criteria.MinProtein >= protein)
+                if (criteria.MinProtein <= protein)
                 {
                     return true;
                 }
             }
             else if (criteria.MaxProtein != 0)
             {
-                if (criteria.MaxProtein <= protein)
+                if (criteria.MaxProtein >= protein)
                 {
                     return true;
                 }
@@ -139,9 +139,17 @@ namespace FinalCapstone.Models
             {
                 return ResultFoodItems.Take(20).ToList();
             }
+            else if(criteria.FilterCountSelect == 50)
+            {
+                return ResultFoodItems.Take(50).ToList();
+            }
+            else if (criteria.FilterCountSelect == 100)
+            {
+                return ResultFoodItems.Take(100).ToList();
+            }
             else
             {
-                return ResultFoodItems.Take(30).ToList();
+                return ResultFoodItems;
             }
         }
     }
