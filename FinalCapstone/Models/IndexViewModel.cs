@@ -15,33 +15,33 @@ namespace FinalCapstone.Models
         public int MinFat { get; set; }
         public int MaxFat { get; set; }
         public string RestaurantChosen { get; set; }
-        public string OrderbySelect1 { get; set; }
-        public string OrderbySelect2 { get; set; }
-        public string OrderbySelect3 { get; set; }
+        public string OrderbySelect { get; set; }
+        //public string OrderbySelect2 { get; set; }
+        //public string OrderbySelect3 { get; set; }
         public int FilterCountSelect { get; set; }
 
         public IList<SelectListItem> RestaurantSelect { get; set; }
 
-        public IList<SelectListItem> OrderbyLevel1 = new List<SelectListItem>()
+        public IList<SelectListItem> OrderBy = new List<SelectListItem>()
         {
            new SelectListItem() {Text = "Protein"},
            new SelectListItem() {Text = "Fat"},
            new SelectListItem() {Text = "Carbs"}
         };
 
-        public IList<SelectListItem> OrderbyLevel2 = new List<SelectListItem>()
-        {
-           new SelectListItem() {Text = "Protein"},
-           new SelectListItem() {Text = "Fat"},
-           new SelectListItem() {Text = "Carbs"}
-        };
+        //public IList<SelectListItem> OrderbyLevel2 = new List<SelectListItem>()
+        //{
+        //   new SelectListItem() {Text = "Protein"},
+        //   new SelectListItem() {Text = "Fat"},
+        //   new SelectListItem() {Text = "Carbs"}
+        //};
 
-        public IList<SelectListItem> OrderbyLevel3 = new List<SelectListItem>()
-        {
-           new SelectListItem() {Text = "Protein"},
-           new SelectListItem() {Text = "Fat"},
-           new SelectListItem() {Text = "Carbs"}
-        };
+        //public IList<SelectListItem> OrderbyLevel3 = new List<SelectListItem>()
+        //{
+        //   new SelectListItem() {Text = "Protein"},
+        //   new SelectListItem() {Text = "Fat"},
+        //   new SelectListItem() {Text = "Carbs"}
+        //};
 
         public IList<SelectListItem> FilterCount = new List<SelectListItem>()
         {
