@@ -13,21 +13,21 @@ namespace FinalCapstone.Models
         {
             if (criteria.MinCarbs != 0 && criteria.MaxCarbs != 0)
             {
-                if (criteria.MinCarbs >= carbs && criteria.MaxCarbs <= carbs)
+                if (criteria.MinCarbs <= carbs && criteria.MaxCarbs >= carbs)
                 {
                     return true;
                 }
             }
             else if (criteria.MinCarbs != 0)
             {
-                if (criteria.MinCarbs >= carbs)
+                if (criteria.MinCarbs <= carbs)
                 {
                     return true;
                 }
             }
             else if (criteria.MaxCarbs != 0)
             {
-                if (criteria.MaxCarbs <= carbs)
+                if (criteria.MaxCarbs >= carbs)
                 {
                     return true;
                 }
@@ -44,7 +44,7 @@ namespace FinalCapstone.Models
         {
             if (criteria.MinProtein != 0 && criteria.MaxProtein != 0)
             {
-                if (criteria.MinProtein >= protein && criteria.MaxProtein <= protein)
+                if (criteria.MinProtein <= protein && criteria.MaxProtein >= protein)
                 {
                     return true;
                 }
@@ -75,21 +75,21 @@ namespace FinalCapstone.Models
         {
             if (criteria.MinFat != 0 && criteria.MaxFat != 0)
             {
-                if (criteria.MinFat >= fat && criteria.MaxFat <= fat)
+                if (criteria.MinFat <= fat && criteria.MaxFat >= fat)
                 {
                     return true;
                 }
             }
             else if (criteria.MinFat != 0)
             {
-                if (criteria.MinFat >= fat)
+                if (criteria.MinFat <= fat)
                 {
                     return true;
                 }
             }
             else if (criteria.MaxFat != 0)
             {
-                if (criteria.MaxFat <= fat)
+                if (criteria.MaxFat >= fat)
                 {
                     return true;
                 }

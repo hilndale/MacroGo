@@ -1,6 +1,8 @@
 using FinalCapstone.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using FinalCapstone.Controllers;
+using FinalCapstone.Dal;
 
 namespace FinalCapstone.Test
 {
@@ -59,11 +61,11 @@ namespace FinalCapstone.Test
         }
         
         [TestMethod]
-        public void BlankRestaurantValueTest()
+        public void AllRestaurantValueTest()
         {
             IndexViewModel criteriaNew = new IndexViewModel()
             {
-                RestaurantChosen = ""
+                RestaurantChosen = "All Restaurants"
             };
 
             bool result = indexModel.MeetsRestaurantRequirement(item.RestaurantName, criteriaNew);
