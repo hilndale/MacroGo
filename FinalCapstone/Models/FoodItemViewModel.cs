@@ -16,8 +16,8 @@ namespace FinalCapstone.Models
         public int Fat { get; set; }
         public int Carbs { get; set; }
         public int Calories { get; set; }
-        public string RestaurantChosen { get; set; }  //needed? 
-
+        public string RestaurantChosen { get; set; }  
+    
         public IList<SelectListItem> RestaurantSelect { get; set; }
        
 

@@ -64,7 +64,6 @@ namespace FinalCapstone.Controllers
             IndexModel getResults = new IndexModel();
 
             List<Item> allItems = _foodDAL.GetAllFoodItems();
-
             model.Results = getResults.GetResult(allItems, model);
 
             return View(model);
@@ -164,37 +163,51 @@ namespace FinalCapstone.Controllers
             return RedirectToAction(nameof(DeleteFoodItem));
         }
 
-        public IActionResult ChangeFoodItem(FoodItemViewModel model)
-        {
-            //this is shell only
-
-            return View(model);
-        }
-
-
         [HttpGet]
-        public IActionResult UpdateFoodItem()
+        public IActionResult FoodDetail(int id)
         {
-            FoodItemViewModel updatedFood = new FoodItemViewModel();
-            return View(updatedFood);
+            FoodList food = _foodDAL.GetFood(id);
+            FoodItemViewModel foodModel = new FoodItemViewModel();
+
+            foodModel.FoodId = food.FoodId;
+            foodModel.FoodName = food.FoodName;
+            foodModel.RestaurantId = food.RestaurantId;
+            foodModel.Protein = food.Protein;
+            foodModel.Fat = food.Fat;
+            foodModel.Carbs = food.Carbs;
+            foodModel.Calories = food.Calories;
+
+            //Restaurant restaurant = _restaurantDAL.GetRestaurant(food.RestaurantId);
+            //foodModel.RestaurantChosen; 
+
+            return View(foodModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult UpdateFoodItem(FoodList model)
+        public IActionResult FoodDetail(FoodItemViewModel model)
         {
+            //FoodList food = _foodDAL.GetFood(model.FoodId);
+            FoodList food = new FoodList();
+            //FoodItemViewModel foodModel = new FoodItemViewModel();
 
-            FoodList food = _foodDAL.GetFood(model.FoodId);
-            //checked to see if user is admin?
-            if (food == null)
-            {
-                return View("DeleteFoodItem", model);
-            }
+            //if (food == null)
+            //{
+            //    return View("FoodDetail", model);
+            //}
 
-            _foodDAL.UpdateFoodItem(model);
+            food.FoodId = model.FoodId;
+            food.FoodName = model.FoodName;
+            food.RestaurantId = model.RestaurantId;
+            food.Protein = model.Protein;
+            food.Fat = model.Fat;
+            food.Carbs = model.Carbs;
+            food.Calories = model.Calories;
+
+            _foodDAL.UpdateFoodItem(food);
+
             TempData["msg"] = "Your item has been changed!"; //need session?
-            return RedirectToAction(nameof(DeleteFoodItem));
-
+            return RedirectToAction(nameof(Index));
         }
 
     }
