@@ -173,10 +173,10 @@ namespace FinalCapstone.Controllers
 
 
         [HttpGet]
-        public IActionResult UpdateFoodItem()
+        public IActionResult FoodItemDetail(int foodId)
         {
-            FoodItemViewModel updatedFood = new FoodItemViewModel();
-            return View(updatedFood);
+            FoodItemViewModel foodDetails = new FoodItemViewModel();
+            return View(foodDetails);
         }
 
         [HttpPost]
