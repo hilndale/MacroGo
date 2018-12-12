@@ -117,6 +117,53 @@ namespace FinalCapstone.Models
             return false;
         }
 
+        //public IList<Item> Filter(IList<Item> list, IndexViewModel criteria)
+        //{
+        //    IList<Item> filteredList = new List<Item>();
+
+        //    if (criteria.FilterCountSelect == 10)
+        //    {
+        //        return filteredList.Take(10).ToList();
+        //    }
+        //    else if (criteria.FilterCountSelect == 20)
+        //    {
+        //        return filteredList.Take(20).ToList();
+        //    }
+        //    else if (criteria.FilterCountSelect == 50)
+        //    {
+        //        return filteredList.Take(50).ToList();
+        //    }
+        //    else if (criteria.FilterCountSelect == 100)
+        //    {
+        //        return filteredList.Take(100).ToList();
+        //    }
+        //    else
+        //    {
+        //        return filteredList;
+        //    }
+        //}
+
+        public IList<Item> Sort(IList<Item> list, IndexViewModel criteria)
+        {
+            IList<Item> sortedList = new List<Item>();
+            IEnumerable<Item> sortedEnum = new List<Item>();
+
+            if (criteria.OrderbySelect == "Carbs")
+            {
+                sortedEnum = sortedList.OrderBy(f => f.Carbs);
+            }
+            else if (criteria.OrderbySelect == "Fat")
+            {
+                sortedEnum = sortedList.OrderBy(f => f.Fat);
+            }
+            else
+            {
+                sortedEnum = sortedList.OrderBy(f => f.Protein);
+            }
+
+            return sortedEnum.ToList();
+        }
+
         //final method to return complete list matching all criteria 
         //all criteria will be used in the final method
         public IList<Item> GetResult(IList<Item> allItems, IndexViewModel criteria)
@@ -131,26 +178,53 @@ namespace FinalCapstone.Models
                 }
             }
 
-            if (criteria.FilterCountSelect == 10)
+            //IList<Item> FinalResult = Filter(Sort(ResultFoodItems, criteria), criteria);
+            //IList<Item> FinalResult = Filter(ResultFoodItems, criteria);
+
+            //return FinalResult;
+
+            IEnumerable<Item> sortedEnum = new List<Item>(); //this breaks the filter function and is ascending 
+
+            if (criteria.OrderbySelect == "Carbs")
             {
-                return ResultFoodItems.Take(10).ToList();
+                sortedEnum = ResultFoodItems.OrderByDescending(f => f.Carbs);
             }
-            else if (criteria.FilterCountSelect == 20)
+            else if (criteria.OrderbySelect == "Fat")
             {
-                return ResultFoodItems.Take(20).ToList();
-            }
-            else if(criteria.FilterCountSelect == 50)
-            {
-                return ResultFoodItems.Take(50).ToList();
-            }
-            else if (criteria.FilterCountSelect == 100)
-            {
-                return ResultFoodItems.Take(100).ToList();
+                sortedEnum = ResultFoodItems.OrderByDescending(f => f.Fat);
             }
             else
             {
-                return ResultFoodItems;
+                sortedEnum = ResultFoodItems.OrderByDescending(f => f.Protein);
             }
+
+            IList<Item> filtered = new List<Item>();
+
+            if (criteria.FilterCountSelect == 10)
+            {
+                 filtered = sortedEnum.Take(10).ToList();
+            }
+            else if (criteria.FilterCountSelect == 20)
+            {
+                filtered = sortedEnum.Take(20).ToList();
+            }
+            else if (criteria.FilterCountSelect == 50)
+            {
+                filtered = sortedEnum.Take(50).ToList();
+            }
+            else if (criteria.FilterCountSelect == 100)
+            {
+                filtered = sortedEnum.Take(100).ToList();
+            }
+            //else
+            //{
+            //     ResultFoodItems;
+            //}
+
+
+
+            return filtered;
+
         }
     }
 }

@@ -23,12 +23,12 @@
             <select id="restaurant" asp-for="RestaurantChosen" asp-items="Model.RestaurantSelect"></select>
             <label asp-for="FilterCountSelect"># of results: </label>
             <select id="filter" asp-for="FilterCountSelect" asp-items="Model.FilterCount"></select>
-            <label asp-for="OrderbySelect1">Order by 1: </label>
-            <select asp-for="OrderbySelect1" asp-items="Model.OrderbyLevel1"></select>
-            <label asp-for="OrderbySelect2">Order by 2: </label>
+            <label asp-for="OrderbySelect">Order by 1: </label>
+            <select asp-for="OrderbySelect" asp-items="Model.OrderBy"></select>
+            @*<label asp-for="OrderbySelect2">Order by 2: </label>
             <select asp-for="OrderbySelect2" asp-items="Model.OrderbyLevel2"></select>
             <label asp-for="OrderbySelect3">Order by 3: </label>
-            <select asp-for="OrderbySelect3" asp-items="Model.OrderbyLevel3"></select>
+            <select asp-for="OrderbySelect3" asp-items="Model.OrderbyLevel3"></select>*@
 
             <input id="submitButton" type="submit" value="Submit" />
         </form>
@@ -49,7 +49,7 @@
                 {
                     <tr>
                         <td>
-                            <a asp-controller="Restaurant" asp-action="RestaurantDetail" asp-route-id="@item.RestaurantId">
+                            <a asp-controller="Home" asp-action="RestaurantDetail" asp-route-id="@item.RestaurantId">
                                 <input type="hidden" asp-for="@item.RestaurantId" />
                                 @item.RestaurantName
                             </a>
