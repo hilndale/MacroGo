@@ -53,9 +53,9 @@ namespace FinalCapstone.Dal
             return restaurants;
         }
 
-        public IList<Restaurant> GetRestaurant(int id)
+        public Restaurant GetRestaurant(int id)
         {
-
+            Restaurant restaurant = new Restaurant();
 
             try
             {
@@ -71,7 +71,7 @@ namespace FinalCapstone.Dal
 
                     while (reader.Read())
                     {
-                        Restaurant restaurant = new Restaurant();
+                        
                         {
                             restaurant.RestaurantId = Convert.ToInt32(reader["Restaurant_Id"]);
                             restaurant.RestaurantName = Convert.ToString(reader["Restaurant_Name"]);
@@ -79,7 +79,7 @@ namespace FinalCapstone.Dal
                             restaurant.CloseTime = Convert.ToString(reader["Close_Time"]);
 
                         };
-
+                        
                     }
                 }
             }
@@ -87,7 +87,9 @@ namespace FinalCapstone.Dal
             {
                 throw;
             }
+
             return restaurant;
+
         }
     }
 }

@@ -21,54 +21,81 @@ namespace FinalCapstone.Test
             Calories = 400
         };
 
-        IndexViewModel criteria = new IndexViewModel()
+        IndexViewModel criteriaPass = new IndexViewModel()
         {
             MinCarbs = 20,
-            MaxCarbs = 40,
-            MinProtein = 0,
+            MaxCarbs = 100,
+            MinProtein = 40,
             MaxProtein = 0,
             MinFat = 0,
             MaxFat = 20,
+            RestaurantChosen = "All Restaurants"
+        };
+
+        IndexViewModel criteriaFail = new IndexViewModel()
+        {
+            MinCarbs = 20,
+            MaxCarbs = 40,
+            MinProtein = 20,
+            MaxProtein = 30,
+            MinFat = 0,
+            MaxFat = 10,
             RestaurantChosen = "Test"
         };
 
         [TestMethod]
-        public void CarbTest()
+        public void CarbFailTest()
         {
-            bool result = indexModel.MeetsCarbRequirement(item.Carbs, criteria);
+            bool result = indexModel.MeetsCarbRequirement(item.Carbs, criteriaFail);
             Assert.AreEqual(false, result);
         }
 
         [TestMethod]
-        public void ProteinTest()
+        public void CarbPassTest()
         {
-            bool result = indexModel.MeetsProteinRequirement(item.Protein, criteria);
+            bool result = indexModel.MeetsCarbRequirement(item.Carbs, criteriaPass);
             Assert.AreEqual(true, result);
         }
 
         [TestMethod]
-        public void FatTest()
+        public void ProteinPassTest()
         {
-            bool result = indexModel.MeetsFatRequirement(item.Fat, criteria);
+            bool result = indexModel.MeetsProteinRequirement(item.Protein, criteriaPass);
             Assert.AreEqual(true, result);
+        }
+
+        [TestMethod]
+        public void ProteinFailTest()
+        {
+            bool result = indexModel.MeetsProteinRequirement(item.Protein, criteriaFail);
+            Assert.AreEqual(false, result);
+        }
+
+        [TestMethod]
+        public void FatPassTest()
+        {
+            bool result = indexModel.MeetsFatRequirement(item.Fat, criteriaPass);
+            Assert.AreEqual(true, result);
+        }
+
+        [TestMethod]
+        public void FatFailTest()
+        {
+            bool result = indexModel.MeetsFatRequirement(item.Fat, criteriaFail);
+            Assert.AreEqual(false, result);
         }
 
         [TestMethod]
         public void RestaurantTest()
         {
-            bool result = indexModel.MeetsRestaurantRequirement(item.RestaurantName, criteria);
+            bool result = indexModel.MeetsRestaurantRequirement(item.RestaurantName, criteriaFail);
             Assert.AreEqual(false, result);
         }
         
         [TestMethod]
         public void AllRestaurantValueTest()
         {
-            IndexViewModel criteriaNew = new IndexViewModel()
-            {
-                RestaurantChosen = "All Restaurants"
-            };
-
-            bool result = indexModel.MeetsRestaurantRequirement(item.RestaurantName, criteriaNew);
+            bool result = indexModel.MeetsRestaurantRequirement(item.RestaurantName, criteriaPass);
             Assert.AreEqual(true, result);
         }
     }
