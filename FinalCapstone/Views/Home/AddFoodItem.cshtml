@@ -5,24 +5,41 @@
 
 <h2>Add Food</h2>
 
+
 <form asp-action="AddFoodItem" method="post">
-    <label asp-for="FoodName">Name of Item</label>
-    <input asp-for="FoodName" />
-    <label asp-for="RestaurantChosen">Filter by Restaurant </label>
-    @Html.DropDownListFor(x => Model.RestaurantChosen, new SelectList(Model.RestaurantSelect, "Value", "Text"), htmlAttributes: new { @class = "form-control", id = "Restaurant" })
-    @*<select asp-for="RestaurantChosen" asp-items="Model.RestaurantSelect"></select>*@
-    <label asp-for="Protein">Protein (in grams)</label>
-    <input asp-for="Protein" />
-    <label asp-for="Fat">Fat (in grams)</label>
-    <input asp-for="Fat" />
-    <label asp-for="Carbs">Carbs (in grams)</label>
-    <input asp-for="Carbs" />
-    <label asp-for="Calories">Calories (in grams)</label>
-    <input asp-for="Calories" />
+    <p>
+        <label asp-for="FoodName">Name of Item</label>
+        <input asp-for="FoodName" />
+    </p>
+
+    <p>
+        <label asp-for="RestaurantChosen">Filter by Restaurant</label>
+        <div class="restaurantSelectList">
+            @Html.DropDownListFor(x => Model.RestaurantChosen, new SelectList(Model.RestaurantSelect, "Value", "Text"), htmlAttributes: new { @class = "form-control", id = "Restaurant" })
+            @*<select asp-for="RestaurantChosen" asp-items="Model.RestaurantSelect"></select>*@
+        </div>
+  
+    <p>
+        <label asp-for="Protein">Protein (in grams)</label>
+        <input asp-for="Protein" />
+    </p>
+    <p>
+        <label asp-for="Fat">Fat (in grams)</label>
+        <input asp-for="Fat" />
+    </p>
+    <p>
+        <label asp-for="Carbs">Carbs (in grams)</label>
+        <input asp-for="Carbs" />
+    </p>
+    <p>
+        <label asp-for="Calories">Calories</label>
+        <input asp-for="Calories" />
+    </p>
 
     <div style="text-align:center;">
         <button class="button button1" type="submit">Submit</button>
     </div>
 
 </form>
+
 
