@@ -48,15 +48,24 @@ namespace FinalCapstone.Controllers
 
         public IActionResult Result(IndexViewModel model)
         {
-            //model = TempData.Get<IndexViewModel>("key");
+            IList<Restaurant> Restaurants = _restaurantDAL.GetRestaurants();
+            IList<SelectListItem> RestaurantSelections = new List<SelectListItem>()
+            {
+                new SelectListItem() {Text = "All Restaurants"},
+            };
+
+            foreach (Restaurant restaurant in Restaurants)
+            {
+                RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantName });
+            }
+
+            model.RestaurantSelect = RestaurantSelections;
 
             IndexModel getResults = new IndexModel();
 
             List<Item> allItems = _foodDAL.GetAllFoodItems();
 
             model.Results = getResults.GetResult(allItems, model);
-
-            //viewModel = TempData.Get<ResultViewModel>("key");
 
             return View(model);
         }
