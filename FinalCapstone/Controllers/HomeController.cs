@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Diagnostics;
-using FinalCapstone.Extensions;
+using System.Web;
+using Newtonsoft.Json;
 
 namespace FinalCapstone.Controllers
 {
@@ -20,10 +21,15 @@ namespace FinalCapstone.Controllers
             _restaurantDAL = restaurantDAL;
         }
 
-        [HttpGet]
         public IActionResult Index()
         {
+            return RedirectToAction(nameof(Search));
+        }
+
+        public IActionResult Search()
+        {
             IndexViewModel model = new IndexViewModel();
+
             IList<Restaurant> Restaurants = _restaurantDAL.GetRestaurants();
             IList<SelectListItem> RestaurantSelections = new List<SelectListItem>()
             {
@@ -40,53 +46,36 @@ namespace FinalCapstone.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        public IActionResult Index(IndexViewModel model)
+        public IActionResult Result(IndexViewModel model)
         {
+            IList<Restaurant> Restaurants = _restaurantDAL.GetRestaurants();
+            IList<SelectListItem> RestaurantSelections = new List<SelectListItem>()
+            {
+                new SelectListItem() {Text = "All Restaurants"},
+            };
+
+            foreach (Restaurant restaurant in Restaurants)
+            {
+                RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantName });
+            }
+
+            model.RestaurantSelect = RestaurantSelections;
+
             IndexModel getResults = new IndexModel();
-            ResultViewModel viewModel = new ResultViewModel();
 
             List<Item> allItems = _foodDAL.GetAllFoodItems();
 
-            viewModel.Results = getResults.GetResult(allItems, model);
-            TempData["viewModel"] = viewModel;
-            TempData.Put("key", viewModel);
-
-            return RedirectToAction(nameof(Result));
-        }
-
-        //[HttpPost] 
-        //public IActionResult Index(IndexViewModel model)
-        //{
-        //    IndexModel getResults = new IndexModel();
-
-        //    List<Item> allItems = _foodDAL.GetAllFoodItems();
-
-        //    ResultViewModel viewModel = new ResultViewModel();
-        //    viewModel.Results = getResults.GetResult(allItems, model);
-
-        //    return RedirectToAction(nameof(Result));
-        //}
-
+<<<<<<< HEAD
         [HttpGet]
         public IActionResult Result()
         {
             ResultViewModel viewModel = (ResultViewModel)TempData.Get<ResultViewModel>("key");
+=======
+            model.Results = getResults.GetResult(allItems, model);
+>>>>>>> 570b3ee2a9af24b8e4b44c28ae85f8d928b35254
 
-            return View(viewModel);
+            return View(model);
         }
-
-        //[HttpGet]
-        //public IActionResult Result(IndexViewModel model)
-        //{
-        //    IndexModel getResults = new IndexModel();
-        //    ResultViewModel viewModel = new ResultViewModel();
-
-        //    List<Item> allItems = _foodDAL.GetAllFoodItems();
-
-        //    viewModel.Results = getResults.GetResult(allItems, model);
-        //    return View(viewModel);
-        //}
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -114,7 +103,7 @@ namespace FinalCapstone.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddFoodItem(FoodList model)
+        public IActionResult AddFoodItem(FoodItemViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -125,7 +114,7 @@ namespace FinalCapstone.Controllers
 
                 foreach (Restaurant restaurant in Restaurants)
                 {
-                    RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantId.ToString() });
+                    RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantId.ToString()});
                 }
 
                 foodItemViewModel.RestaurantSelect = RestaurantSelections;
@@ -136,8 +125,16 @@ namespace FinalCapstone.Controllers
 
             else
             {
-                // need to move FoodItemViewModel fields to FoodList fields - note that we must retrieve the value from the restaurant selectlistitem
-                _foodDAL.AddFoodItem(model);
+                
+                FoodList food = new FoodList();
+                food.FoodName = model.FoodName;
+                food.RestaurantId = int.Parse(model.RestaurantChosen);
+                food.Calories = model.Calories;
+                food.Carbs = model.Carbs;
+                food.Fat = model.Fat;
+                food.Protein = model.Protein;
+
+                _foodDAL.AddFoodItem(food);
                 TempData["msg"] = "<button><strong> Your item has been added!</strong></button>";
                 return RedirectToAction(nameof(AddFoodItem));
             }
@@ -177,21 +174,18 @@ namespace FinalCapstone.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult UpdateFoodItem(FoodList model)
         {
-            if (!ModelState.IsValid)
-            {
-                FoodItemViewModel foodItemViewModel = new FoodItemViewModel();
+            
+                FoodList food = _foodDAL.GetFood(model.FoodId);
+                //checked to see if user is admin?
+                if (food == null)
+                {
+                    return View("DeleteFoodItem", model);
+                }
 
-                return View(foodItemViewModel);
-
-            }
-
-            else
-            {
-                // need to move FoodItemViewModel fields to FoodList fields - note that we must retrieve the value from the restaurant selectlistitem
-                _foodDAL.AddFoodItem(model);
-                TempData["msg"] = "<button><strong> Your item has been added!</strong></button>";
-                return RedirectToAction(nameof(AddFoodItem));
-            }
+                _foodDAL.UpdateFoodItem(model);
+                TempData["msg"] = "Your item has been changed!"; //need session?
+                return RedirectToAction(nameof(DeleteFoodItem));
+            
         }
 
     }
