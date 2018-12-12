@@ -73,10 +73,10 @@ namespace FinalCapstone.Dal
                     {
                         Restaurant restaurant = new Restaurant();
                         {
-                            restaurant.RestaurantId = Convert.ToInt32(reader["Restaurant_Id"]),
-                            restaurant.RestaurantName = Convert.ToString(reader["Restaurant_Name"]),
-                            restaurant.OpenTime = Convert.ToString(reader["Open_Time"]),
-                            restaurant.CloseTime = Convert.ToString(reader["Close_Time"]),
+                            restaurant.RestaurantId = Convert.ToInt32(reader["Restaurant_Id"]);
+                            restaurant.RestaurantName = Convert.ToString(reader["Restaurant_Name"]);
+                            restaurant.OpenTime = Convert.ToString(reader["Open_Time"]);
+                            restaurant.CloseTime = Convert.ToString(reader["Close_Time"]);
 
                         };
 
@@ -87,7 +87,7 @@ namespace FinalCapstone.Dal
             {
                 throw;
             }
-            return restaurants;
+            return restaurant;
         }
     }
 }

@@ -65,15 +65,6 @@ namespace FinalCapstone.Controllers
 
             List<Item> allItems = _foodDAL.GetAllFoodItems();
 
-<<<<<<< HEAD
-        [HttpGet]
-        public IActionResult Result()
-        {
-            ResultViewModel viewModel = (ResultViewModel)TempData.Get<ResultViewModel>("key");
-=======
-            model.Results = getResults.GetResult(allItems, model);
->>>>>>> 570b3ee2a9af24b8e4b44c28ae85f8d928b35254
-
             return View(model);
         }
 
