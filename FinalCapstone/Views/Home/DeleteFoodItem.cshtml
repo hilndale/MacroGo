@@ -1,31 +1,30 @@
 ﻿@model FoodItemViewModel
-@{
-    ViewData["Title"] = "Delete Food Item";
-}
+    @{
+        ViewData["Title"] = "Delete Food Item";
+    }
 
-<h2>Delete Menu Item</h2> 
-@* passing this an object so along with foodid that user inputs must pass all other info on that food item? *@
+    <h2>Delete Menu Item</h2>
+    @* passing this an object so along with foodid that user inputs must pass all other info on that food item? *@
 <div>
     <form asp-action="DeleteFoodItem" asp-controller="Home" method="post">
         <label asp-for="FoodId">Unique ID of menu item</label>
         <input asp-for="FoodId" />
-
+       
 
         <button class="button button1" type="submit">Submit</button>
     </form>
-</div>
-
-
+    </div>
 
 @*<label asp-for="RestaurantChosen">Filter by Restaurant </label>
-<select asp-for="RestaurantChosen" asp-items="Model.RestaurantSelect"></select>*@
+    <select asp-for="RestaurantChosen" asp-items="Model.RestaurantSelect"></select>*@
 @*<label asp-for="Protein">Protein (in grams)</label>
-<input asp-for="Protein" />
-<label asp-for="Fat">Fat (in grams)</label>
-<input asp-for="Fat" />
-<label asp-for="Carbs">Carbs (in grams)</label>
-<input asp-for="Carbs" />
-<label asp-for="Calories">Calories (in grams)</label>
-<input asp-for="Calories" />*@
+    <input asp-for="Protein" />
+    <label asp-for="Fat">Fat (in grams)</label>
+    <input asp-for="Fat" />
+    <label asp-for="Carbs">Carbs (in grams)</label>
+    <input asp-for="Carbs" />
+    <label asp-for="Calories">Calories (in grams)</label>
+    <input asp-for="Calories" />*@
+
 
 

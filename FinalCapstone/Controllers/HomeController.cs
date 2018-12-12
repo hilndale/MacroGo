@@ -64,7 +64,6 @@ namespace FinalCapstone.Controllers
             IndexModel getResults = new IndexModel();
 
             List<Item> allItems = _foodDAL.GetAllFoodItems();
-
             model.Results = getResults.GetResult(allItems, model);
 
             return View(model);
@@ -164,14 +163,7 @@ namespace FinalCapstone.Controllers
             return RedirectToAction(nameof(DeleteFoodItem));
         }
 
-        public IActionResult ChangeFoodItem(FoodItemViewModel model)
-        {
-            //this is shell only
-
-            return View(model);
-        }
-
-
+       
         [HttpGet]
         public IActionResult FoodDetail(int id)
         {
