@@ -133,7 +133,9 @@ namespace FinalCapstone.Dal
                     {
                         Item item = new Item
                         {
+                            RestaurantId = Convert.ToInt32(reader["Restaurant_Id"]),
                             FoodName = Convert.ToString(reader["Food_Item"]),
+                            FoodId = Convert.ToInt32(reader["Food_Id"]),
                             RestaurantName = Convert.ToString(reader["Restaurant_Name"]),
                             Protein = Convert.ToInt32(reader["Protein_g"]),
                             Fat = Convert.ToInt32(reader["Total_Fat_g"]),
