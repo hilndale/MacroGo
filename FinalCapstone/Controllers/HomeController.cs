@@ -94,6 +94,16 @@ namespace FinalCapstone.Controllers
             return View(foodItemViewModel);
         }
 
+        [HttpGet]
+        public IActionResult RestaurantDetail(int id)
+        {
+            _restaurantDAL.GetRestaurant(id);
+
+
+
+            return View(RestaurantDetail, restaurant);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult AddFoodItem(FoodItemViewModel model)

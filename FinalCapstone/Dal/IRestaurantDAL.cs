@@ -9,5 +9,6 @@ namespace FinalCapstone.Dal
     public interface IRestaurantDAL
     {
         IList<Restaurant> GetRestaurants();
+        Restaurant GetRestaurant(int id);
     }
 }
