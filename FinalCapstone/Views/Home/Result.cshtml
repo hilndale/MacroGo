@@ -49,7 +49,7 @@
                 {
                     <tr>
                         <td>
-                            <a asp-controller="Restaurant" asp-action="RestaurantDetail" asp-route-id="@item.RestaurantId">
+                            <a asp-controller="Home" asp-action="RestaurantDetail" asp-route-id="@item.RestaurantId">
                                 <input type="hidden" asp-for="@item.RestaurantId" />
                                 @item.RestaurantName
                             </a>
