@@ -5,10 +5,10 @@
 
 <h2>Menu Item Detail</h2>
 
-<form asp-action="UpdateFoodItem" method="post">
+<form asp-controller="Home" asp-action="FoodDetail" method="post">
 
-    <label asp-for="FoodId">Food Id</label>
-    @*<input asp-for="FoodId" />*@
+    @*<label asp-for="FoodId">Food Id</label>*@
+    
     <label asp-for="FoodName">Food Name</label>
     <input asp-for="FoodName" />
     @*<label asp-for="RestaurantChosen">Restaurant</label>*@
@@ -21,13 +21,14 @@
     <input asp-for="Carbs" />
     <label asp-for="Calories">Calories</label>
     <input asp-for="Calories" />
-
-
+    
     <div style="text-align:center;">
+        <input type="hidden" asp-for="@Model.FoodId" />
+        <input type="hidden" asp-for="@Model.RestaurantId" />
         <button class="button button1" type="submit">Submit</button>
     </div>
 
+
 </form>
 
-    
 
