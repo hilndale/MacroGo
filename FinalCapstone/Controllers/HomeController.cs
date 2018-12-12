@@ -64,6 +64,7 @@ namespace FinalCapstone.Controllers
             IndexModel getResults = new IndexModel();
 
             List<Item> allItems = _foodDAL.GetAllFoodItems();
+            model.Results = getResults.GetResult(allItems, model);
 
             return View(model);
         }
@@ -177,7 +178,7 @@ namespace FinalCapstone.Controllers
             foodModel.Calories = food.Calories;
 
             //Restaurant restaurant = _restaurantDAL.GetRestaurant(food.RestaurantId);
-            //foodModel.RestaurantChosen
+            //foodModel.RestaurantChosen;
 
             return View(foodModel);
         }
