@@ -164,9 +164,9 @@ namespace FinalCapstone.Controllers
         }
 
         [HttpGet]
-        public IActionResult FoodDetail(int foodId)
+        public IActionResult FoodDetail(int id)
         {
-            FoodList food = _foodDAL.GetFood(foodId);
+            FoodList food = _foodDAL.GetFood(id);
             FoodItemViewModel foodModel = new FoodItemViewModel();
 
             foodModel.FoodId = food.FoodId;
