@@ -140,27 +140,31 @@ namespace FinalCapstone.Controllers
             }
         }
 
-        [HttpGet]
-        public IActionResult DeleteFoodItem()
-        {
-            FoodItemViewModel model = new FoodItemViewModel();
-            return View("DeleteFoodItem", model);
-        }
+        //[HttpGet]
+        //public IActionResult DeleteFoodItem()
+        //{
+        //    FoodItemViewModel model = new FoodItemViewModel();
+        //    return View("DeleteFoodItem", model);
+        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteFoodItem(FoodList model)
+        public IActionResult DeleteFoodItem(FoodItemViewModel model)
         {
-            FoodList food = _foodDAL.GetFood(model.FoodId);
-            //checked to see if user is admin?
-            if (food == null)
-            {
-                return View("DeleteFoodItem", model);
-            }
+            FoodList food = new FoodList();
 
-            _foodDAL.DeleteFoodItem(model);
+            food.FoodId = model.FoodId;
+            food.FoodName = model.FoodName;
+            food.RestaurantId = model.RestaurantId;
+            food.Protein = model.Protein;
+            food.Fat = model.Fat;
+            food.Carbs = model.Carbs;
+            food.Calories = model.Calories;
+
+            _foodDAL.DeleteFoodItem(food);
+
             TempData["msg"] = "Your item has been deleted!"; //need session?
-            return RedirectToAction(nameof(DeleteFoodItem));
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]
@@ -187,14 +191,7 @@ namespace FinalCapstone.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult FoodDetail(FoodItemViewModel model)
         {
-            //FoodList food = _foodDAL.GetFood(model.FoodId);
             FoodList food = new FoodList();
-            //FoodItemViewModel foodModel = new FoodItemViewModel();
-
-            //if (food == null)
-            //{
-            //    return View("FoodDetail", model);
-            //}
 
             food.FoodId = model.FoodId;
             food.FoodName = model.FoodName;
