@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace FinalCapstone.Models
 {
@@ -130,7 +131,18 @@ namespace FinalCapstone.Models
                 }
             }
 
-            return ResultFoodItems;
+            if (criteria.FilterCountSelect == 10)
+            {
+                return ResultFoodItems.Take(10).ToList();
+            }
+            else if (criteria.FilterCountSelect == 20)
+            {
+                return ResultFoodItems.Take(20).ToList();
+            }
+            else
+            {
+                return ResultFoodItems.Take(30).ToList();
+            }
         }
     }
 }
