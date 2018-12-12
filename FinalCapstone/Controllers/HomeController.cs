@@ -95,11 +95,9 @@ namespace FinalCapstone.Controllers
         [HttpGet]
         public IActionResult RestaurantDetail(int id)
         {
-            _restaurantDAL.GetRestaurant(id);
+            Restaurant restaurant = _restaurantDAL.GetRestaurant(id);
 
-
-
-            return View(RestaurantDetail, restaurant);
+            return View(restaurant);
         }
 
         [HttpPost]
@@ -115,7 +113,7 @@ namespace FinalCapstone.Controllers
 
                 foreach (Restaurant restaurant in Restaurants)
                 {
-                    RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantId.ToString()});
+                    RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantId.ToString() });
                 }
 
                 foodItemViewModel.RestaurantSelect = RestaurantSelections;
@@ -126,7 +124,7 @@ namespace FinalCapstone.Controllers
 
             else
             {
-                
+
                 FoodList food = new FoodList();
                 food.FoodName = model.FoodName;
                 food.RestaurantId = int.Parse(model.RestaurantChosen);
@@ -175,18 +173,18 @@ namespace FinalCapstone.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult UpdateFoodItem(FoodList model)
         {
-            
-                FoodList food = _foodDAL.GetFood(model.FoodId);
-                //checked to see if user is admin?
-                if (food == null)
-                {
-                    return View("DeleteFoodItem", model);
-                }
 
-                _foodDAL.UpdateFoodItem(model);
-                TempData["msg"] = "Your item has been changed!"; //need session?
-                return RedirectToAction(nameof(DeleteFoodItem));
-            
+            FoodList food = _foodDAL.GetFood(model.FoodId);
+            //checked to see if user is admin?
+            if (food == null)
+            {
+                return View("DeleteFoodItem", model);
+            }
+
+            _foodDAL.UpdateFoodItem(model);
+            TempData["msg"] = "Your item has been changed!"; //need session?
+            return RedirectToAction(nameof(DeleteFoodItem));
+
         }
 
     }
