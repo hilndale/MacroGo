@@ -18,7 +18,7 @@ namespace FinalCapstone.Models
         public string OrderbySelect1 { get; set; }
         public string OrderbySelect2 { get; set; }
         public string OrderbySelect3 { get; set; }
-        public string FilterCountSelect { get; set; }
+        public int FilterCountSelect { get; set; }
 
         public IList<SelectListItem> RestaurantSelect { get; set; }
 
@@ -51,5 +51,23 @@ namespace FinalCapstone.Models
         };
 
         public IList<Item> Results { get; set; }
+
+        //public IList<Item> GetFilter(IList<Item> results)
+        //{
+        //    if(FilterCountSelect == 10)
+        //    {
+        //        results.Take(10); 
+        //    }
+        //    else if(FilterCountSelect == 20)
+        //    {
+        //        results.Take(20);
+        //    }
+        //    else
+        //    {
+        //        results.Take(30);
+        //    }
+
+        //    return results;
+        //}
     }
 }
