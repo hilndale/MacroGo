@@ -3,8 +3,10 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="container">
-    <div class="row">
+@*<div class="container">
+    <div class="row">*@
+<section id="one" class="wrapper style2">
+    <div class="inner">
         <form asp-controller="home" asp-action="Result" method="get">
             <label asp-for="MinCarbs">Min Carbs: </label>
             <input id="minCarbs" asp-for="MinCarbs" />
@@ -26,10 +28,11 @@
             <label asp-for="OrderbySelect">Order by 1: </label>
             <select asp-for="OrderbySelect" asp-items="Model.OrderBy"></select>
             @*<label asp-for="OrderbySelect2">Order by 2: </label>
-        <select asp-for="OrderbySelect2" asp-items="Model.OrderbyLevel2"></select>
-        <label asp-for="OrderbySelect3">Order by 3: </label>
-        <select asp-for="OrderbySelect3" asp-items="Model.OrderbyLevel3"></select>*@
+            <select asp-for="OrderbySelect2" asp-items="Model.OrderbyLevel2"></select>
+            <label asp-for="OrderbySelect3">Order by 3: </label>
+            <select asp-for="OrderbySelect3" asp-items="Model.OrderbyLevel3"></select>*@
 
             <input id="submitButton" type="submit" value="Submit" />
         </form>
-
+    </div>
+</section>
