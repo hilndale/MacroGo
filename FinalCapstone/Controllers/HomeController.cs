@@ -71,7 +71,7 @@ namespace FinalCapstone.Controllers
         [HttpGet]
         public IActionResult Result()
         {
-            ResultViewModel viewModel = (ResultViewModel) TempData.Get<ResultViewModel>("key");
+            ResultViewModel viewModel = (ResultViewModel)TempData.Get<ResultViewModel>("key");
 
             return View(viewModel);
         }
@@ -166,16 +166,8 @@ namespace FinalCapstone.Controllers
             return RedirectToAction(nameof(DeleteFoodItem));
         }
 
-        public IActionResult UpdateFoodItem(FoodItemViewModel model)
-        {
-            //this is shell only
-
-            return View(model);
-        }
-
-
         [HttpGet]
-        public IActionResult UpdateFoodItem()
+        public IActionResult UpdateOrDeleteFoodItem()
         {
             FoodItemViewModel updatedFood = new FoodItemViewModel();
             return View(updatedFood);
@@ -201,7 +193,7 @@ namespace FinalCapstone.Controllers
                 return RedirectToAction(nameof(AddFoodItem));
             }
         }
-        
+
     }
 
 
