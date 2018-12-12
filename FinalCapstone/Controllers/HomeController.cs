@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Diagnostics;
-using FinalCapstone.Extensions;
+using System.Web;
+using Newtonsoft.Json;
 
 namespace FinalCapstone.Controllers
 {
@@ -20,10 +21,15 @@ namespace FinalCapstone.Controllers
             _restaurantDAL = restaurantDAL;
         }
 
-        [HttpGet]
         public IActionResult Index()
         {
+            return RedirectToAction(nameof(Search));
+        }
+
+        public IActionResult Search()
+        {
             IndexViewModel model = new IndexViewModel();
+
             IList<Restaurant> Restaurants = _restaurantDAL.GetRestaurants();
             IList<SelectListItem> RestaurantSelections = new List<SelectListItem>()
             {
@@ -40,53 +46,20 @@ namespace FinalCapstone.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        public IActionResult Index(IndexViewModel model)
+        public IActionResult Result(IndexViewModel model)
         {
+            //model = TempData.Get<IndexViewModel>("key");
+
             IndexModel getResults = new IndexModel();
-            ResultViewModel viewModel = new ResultViewModel();
 
             List<Item> allItems = _foodDAL.GetAllFoodItems();
 
-            viewModel.Results = getResults.GetResult(allItems, model);
-            TempData["viewModel"] = viewModel;
-            TempData.Put("key", viewModel);
+            model.Results = getResults.GetResult(allItems, model);
 
-            return RedirectToAction(nameof(Result));
+            //viewModel = TempData.Get<ResultViewModel>("key");
+
+            return View(model);
         }
-
-        //[HttpPost] 
-        //public IActionResult Index(IndexViewModel model)
-        //{
-        //    IndexModel getResults = new IndexModel();
-
-        //    List<Item> allItems = _foodDAL.GetAllFoodItems();
-
-        //    ResultViewModel viewModel = new ResultViewModel();
-        //    viewModel.Results = getResults.GetResult(allItems, model);
-
-        //    return RedirectToAction(nameof(Result));
-        //}
-
-        [HttpGet]
-        public IActionResult Result()
-        {
-            ResultViewModel viewModel = (ResultViewModel) TempData.Get<ResultViewModel>("key");
-
-            return View(viewModel);
-        }
-
-        //[HttpGet]
-        //public IActionResult Result(IndexViewModel model)
-        //{
-        //    IndexModel getResults = new IndexModel();
-        //    ResultViewModel viewModel = new ResultViewModel();
-
-        //    List<Item> allItems = _foodDAL.GetAllFoodItems();
-
-        //    viewModel.Results = getResults.GetResult(allItems, model);
-        //    return View(viewModel);
-        //}
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
