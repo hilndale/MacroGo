@@ -36,7 +36,14 @@ namespace FinalCapstone
             services.AddScoped<IRestaurantDAL>(x => new RestaurantSqlDAL(Configuration.GetConnectionString("MacroGo")));
             services.AddScoped<IUserDAL>(x => new UserSqlDAL(Configuration.GetConnectionString("MacroGo")));
 
+            services.AddSession(options =>
+            {
+                options.Cookie.HttpOnly = true;
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddDistributedMemoryCache();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,8 +60,8 @@ namespace FinalCapstone
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
-            //app.UseSession(); //added, not sure if we'll need
+            
+            app.UseSession(); //added, not sure if we'll need
 
 
             app.UseMvc(routes =>
