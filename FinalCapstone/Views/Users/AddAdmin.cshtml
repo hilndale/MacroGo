@@ -1,0 +1,27 @@
+﻿@model AddAdminViewModel
+
+@{
+    ViewData["Title"] = "AddAdmin";
+}
+
+<h2>AddAdmin</h2>
+
+<div>
+    @using (Html.BeginForm("AddAdmin", "Users", FormMethod.Post))
+    {
+        <div>
+            @Html.TextBoxFor(m => m.EmailAddress, new { placeholder = "Email" })
+            @Html.ValidationMessageFor(m => m.EmailAddress)
+            @Html.ValidationMessage("email-exists")
+        </div>
+        <div>
+            @Html.PasswordFor(m => m.Password, new { placeholder = "Password" })
+            @Html.ValidationMessageFor(m => m.Password)
+        </div>
+        <div>
+            @Html.PasswordFor(m => m.ConfirmPassword, new { placeholder = "Type password again" })
+            @Html.ValidationMessageFor(m => m.ConfirmPassword)
+        </div>
+        <button>Register</button>
+    }
+</div>

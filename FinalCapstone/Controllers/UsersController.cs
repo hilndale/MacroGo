@@ -3,7 +3,6 @@ using FinalCapstone.Extensions;
 using FinalCapstone.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Configuration;
 
 
 namespace FinalCapstone.Controllers
@@ -64,7 +63,7 @@ namespace FinalCapstone.Controllers
             {
                 ModelState.AddModelError("invalid-credentials", "An invalid username or password was provided");
                 return View("Login", model);
-                
+
             }
             else
             {
@@ -75,6 +74,43 @@ namespace FinalCapstone.Controllers
             }
 
             return RedirectToAction("UserProfile", viewModel);
+        }
+
+        public ActionResult AddAdmin()
+        {
+            return View("AddAdmin");
+        }
+
+        [HttpPost]
+        public ActionResult AddAdmin(AddAdminViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("AddAdmin", model);
+            }
+
+            Users user = _userDAL.GetUser(model.EmailAddress);
+
+            // Check to see if the username already exists
+            if (user != null)
+            {
+                ModelState.AddModelError("email-exists", "That email address is already associated with an account");
+                return View("AddAdmin", model);
+            }
+            else
+            {
+                user = new Users()
+                {
+                    Email = model.EmailAddress,
+                    Password = model.Password
+                };
+                _userDAL.SaveAdmin(user);
+
+                //don't need to set session - admin will still be logged in, they just created another admin 
+                //HttpContext.Session.Set(SessionKeys.Username, model.EmailAddress);
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: User/Register
@@ -170,8 +206,8 @@ namespace FinalCapstone.Controllers
             return RedirectToAction("UserProfile", "Users");
         }
 
-            // POST: User/Logout
-            public ActionResult Logout()
+        // POST: User/Logout
+        public ActionResult Logout()
         {
             //    FormsAuthentication.SignOut();
             HttpContext.Session.Remove(SessionKeys.Username);

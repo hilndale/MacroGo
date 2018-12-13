@@ -48,6 +48,23 @@ namespace FinalCapstone.Dal
             }
         }
 
+        public void SaveAdmin(Users user)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    user.UserId = conn.QueryFirst<int>("INSERT INTO Users (Is_Admin, Email, Password) VALUES (1, @emailValue, @password); SELECT CAST(SCOPE_IDENTITY() as int);",
+                        new { emailValue = user.Email, password = user.Password });
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw;
+            }
+        }
+
         public bool UpdateGoals(UserProfileViewModel viewModel)
         {
             try
