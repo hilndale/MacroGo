@@ -1,0 +1,37 @@
+﻿@model FoodItemViewModel
+@{
+    ViewData["Title"] = "FoodItemDetail";
+    <!--TempData["foodId"] = Model.FoodItemViewModel.FoodId;-->
+}
+
+<h2>Update Food</h2>
+
+<form asp-action="FoodItemDetail" method="get">
+
+
+
+    <label asp-for="FoodId">Food Id</label>
+    <input asp-for="FoodId" />
+    <label asp-for="FoodName">Food Name</label>
+    <input asp-for="FoodName" />
+    <label asp-for="RestaurantId">Restaurant Id</label>
+    <input asp-for="RestaurantId" />
+    <label asp-for="Protein">Protein (in grams)</label>
+    <input asp-for="Protein" />
+    <label asp-for="Fat">Fat (in grams)</label>
+    <input asp-for="Fat" />
+    <label asp-for="Carbs">Carbs (in grams)</label>
+    <input asp-for="Carbs" />
+    <label asp-for="Calories">Calories</label>
+    <input asp-for="Calories" />
+
+
+    <div style="text-align:center;">
+        <button class="button button1" type="submit">Submit</button>
+    </div>
+
+</form>
+
+
+
+
