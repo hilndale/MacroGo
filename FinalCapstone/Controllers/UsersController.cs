@@ -69,7 +69,7 @@ namespace FinalCapstone.Controllers
                 HttpContext.Session.Set(user.Email, SessionKeys.Username);
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Users", "UserProfile");
         }
 
         // GET: User/Register
@@ -87,6 +87,7 @@ namespace FinalCapstone.Controllers
                 return View("Register", model);
             }
 
+            UserProfileViewModel viewModel = new UserProfileViewModel();
             Users user = _userDAL.GetUser(model.EmailAddress);
             // Check to see if the username already exists
             if (user != null)
@@ -106,14 +107,16 @@ namespace FinalCapstone.Controllers
 
                 //FormsAuthentication.SetAuthCookie(user.Email, true);
                 HttpContext.Session.Set(model.EmailAddress, SessionKeys.Username);
+
+                viewModel = _userDAL.GetUserProfile(model.EmailAddress);
             }
 
-            return RedirectToAction("Users", "UserProfile");
+            return RedirectToAction("UserProfile", viewModel);
         }
 
-        public ActionResult UserProfile()
+        public ActionResult UserProfile(UserProfileViewModel viewModel)
         {
-            return View("UserProfile");
+            return View(viewModel);
         }
 
         // POST: User/Logout

@@ -50,5 +50,46 @@ namespace FinalCapstone.Dal
                 throw;
             }
         }
+
+        public void UpdateGoals(UserProfileViewModel viewModel)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string sql = ("UPDATE Users (Goal_Fat, Goal_Protein, Goal_Carbs) VALUES (@goalfat, @goalprotein, @goalcarbs) WHERE user_id = @email;");
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+
+                    cmd.Parameters.AddWithValue("@email", viewModel.Email);
+                    cmd.Parameters.AddWithValue("@goalfat", viewModel.GoalFat);
+                    cmd.Parameters.AddWithValue("@goalprotein", viewModel.GoalProtein);
+                    cmd.Parameters.AddWithValue("@goalcarbs", viewModel.GoalCarbs);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw;
+            }
+        }
+
+        public UserProfileViewModel GetUserProfile(string email)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    UserProfileViewModel result = conn.QueryFirstOrDefault<UserProfileViewModel>("SELECT * FROM users WHERE Email = @emailValue", new { emailValue = email });
+                    return result;
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw;
+            }
+        }
     }
 }
