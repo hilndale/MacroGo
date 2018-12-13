@@ -4,12 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace FinalCapstone.Models
 {
     public class FoodItemViewModel
     {
         public int FoodId { get; set; }
+        [Required]
         public string FoodName { get; set; }
         public int RestaurantId { get; set; }
         public int Protein { get; set; }
