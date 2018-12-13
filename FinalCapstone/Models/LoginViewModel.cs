@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace FinalCapstone.Models
 {
-    public class Users
+    public class LoginViewModel
     {
-        public int UserId { get; set; }
+        [Required(ErrorMessage = "*")]
         public string Email { get; set; }
-        public bool IsAdmin { get; set; }
+
+        [Required(ErrorMessage = "*")]
         public string Password { get; set; }
-        public int GoalFat { get; set; }
-        public int GoalProtein { get; set; }
-        public int GoalCarbs { get; set; }
     }
 }
