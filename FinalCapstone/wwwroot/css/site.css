@@ -19,12 +19,19 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
     vertical-align: baseline;
 }
 
+    form .field-validation-error {
+        color: red;
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
     display: block;
 }
 
 
-div p{
+div p {
     padding: 0;
     margin: auto;
 }
