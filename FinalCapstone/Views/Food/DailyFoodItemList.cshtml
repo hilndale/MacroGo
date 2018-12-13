@@ -1,0 +1,42 @@
+﻿@model DailyFoodItemList
+@{
+    ViewData["Title"] = "User Daily Foods";
+}
+
+<h2>Daily Foods</h2>
+
+
+<table>
+    <thead>
+        <tr>
+            <td><h3>Description</h3></td>
+            <td><h3>Protein</h3></td>
+            <td><h3>Carbohydrates</h3></td>
+            <td><h3>Fat</h3></td>
+        </tr>
+    </thead>
+    @*@totalProtein=0;
+    @totalFat=0;
+    @totalCarbs=0;*@
+
+    @foreach (var item in Model.Items)
+            {
+    <tr>
+        <td>
+            <h3>@item.FoodName</h3>
+        </td>
+        <td>
+            <h3>@item.Protein</h3>
+        </td>
+        <td>
+            <h3>@item.Fat</h3>
+        </td>
+        <td>
+            <h3>@item.Carbs</h3>
+        </td>
+        }
+    </tr>
+
+
+            }
+</table>

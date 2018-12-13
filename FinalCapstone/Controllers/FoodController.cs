@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Web;
 using Newtonsoft.Json;
+using System.Transactions;
+using FinalCapstone.Extensions;
 
 namespace FinalCapstone.Controllers
 {
@@ -59,7 +61,8 @@ namespace FinalCapstone.Controllers
 
                 foodItemViewModel.RestaurantSelect = RestaurantSelections;
 
-                return View(foodItemViewModel);   
+                return View(foodItemViewModel);
+
             }
 
             else
@@ -75,7 +78,7 @@ namespace FinalCapstone.Controllers
 
                 _foodDAL.AddFoodItem(food);
                 TempData["msg"] = "<button><strong> Your item has been added!</strong></button>";
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction(nameof(AddFoodItem));
             }
         }
 
@@ -113,9 +116,6 @@ namespace FinalCapstone.Controllers
             foodModel.Carbs = food.Carbs;
             foodModel.Calories = food.Calories;
 
-            //Restaurant restaurant = _restaurantDAL.GetRestaurant(food.RestaurantId);
-            //foodModel.RestaurantChosen; 
-
             return View(foodModel);
         }
 
@@ -135,7 +135,81 @@ namespace FinalCapstone.Controllers
 
             _foodDAL.UpdateFoodItem(food);
 
+            TempData["msg"] = "Your item has been changed!"; //need session?
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpPost]
+        public IActionResult AddFoodItemToList(FoodItemViewModel model)
+        {
+            FoodList food = new FoodList();
+            DailyFoodItemList listItems = GetActiveDailyFoodItemList();
+
+            food.FoodId = model.FoodId;
+            food.FoodName = model.FoodName;
+            food.Protein = model.Protein;
+            food.Carbs = model.Carbs;
+            food.Fat = model.Fat;
+
+            listItems.AddToList(food);
+            SetActiveDailyFoodItemList(listItems);
+            
+            return RedirectToAction("ViewDailyFoodItemList");
+        }
+
+        //[HttpPost]
+        //public ActionResult AddToCart(string sku, int quantity)
+        //{
+
+        //    // Update the Shopping Cart            
+        //    ShoppingCart cart = GetActiveShoppingCart();
+        //    cart.AddToCart(product, quantity);
+
+        //    return RedirectToAction("ViewCart");
+        //}
+
+
+        // GET: ViewDailyFoodItemList
+        public ActionResult ViewDailyFoodItemList()
+        {
+            DailyFoodItemList foodList = GetActiveDailyFoodItemList();
+            return View("DailyFoodItemList", foodList);
+        }
+
+        // Returns the active daily food item list. If there isn't one, then one is created.
+        private DailyFoodItemList GetActiveDailyFoodItemList()
+        {
+            if (HttpContext.Session.Get(SessionKeys.DailyList) == null)
+            {
+                HttpContext.Session.Set(SessionKeys.DailyList, new DailyFoodItemList());
+            }
+
+            return HttpContext.Session.Get<DailyFoodItemList>(SessionKeys.DailyList);
+
+        }
+
+        // Returns the active daily food item list. If there isn't one, then one is created.
+        private void SetActiveDailyFoodItemList(DailyFoodItemList listItems)
+        {
+            HttpContext.Session.Set(SessionKeys.DailyList, listItems);
+
+        }
+
+        //[HttpPost]
+        //public ActionResult AddToCart(string sku, int quantity)
+        //{
+        //    // Validate the SKU
+        //    Product product = productDal.GetProduct(sku);
+        //    if (product == null || quantity < 1)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+
+        //    // Update the Shopping Cart            
+        //    ShoppingCart cart = GetActiveShoppingCart();
+        //    cart.AddToCart(product, quantity);
+
+        //    return RedirectToAction("ViewCart");
+        //}
     }
 }
