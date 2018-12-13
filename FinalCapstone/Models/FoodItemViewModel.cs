@@ -15,16 +15,16 @@ namespace FinalCapstone.Models
         public string FoodName { get; set; }
         public int RestaurantId { get; set; }
         [Required(ErrorMessage = "*")]
-        [Range(0, 3000, ErrorMessage = "Must enter a quantity between 0 and 100.")]
+        [Range(0, 3000, ErrorMessage = "Must enter a quantity between 0 and 3000.")]
         public int Protein { get; set; }
         [Required(ErrorMessage = "*")]
-        [Range(0, 3000, ErrorMessage = "Must enter a quantity between 0 and 100.")]
+        [Range(0, 3000, ErrorMessage = "Must enter a quantity between 0 and 3000.")]
         public int Fat { get; set; }
         [Required(ErrorMessage = "*")]
-        [Range(0, 3000, ErrorMessage = "Must enter a quantity between 0 and 100.")]
+        [Range(0, 3000, ErrorMessage = "Must enter a quantity between 0 and 3000.")]
         public int Carbs { get; set; }
         [Required(ErrorMessage = "*")]
-        [Range(0, 3000, ErrorMessage = "Must enter a quantity between 0 and 100.")]
+        [Range(0, 3000, ErrorMessage = "Must enter a quantity between 0 and 3000.")]
         public int Calories { get; set; }
         public string RestaurantChosen { get; set; }  
     
