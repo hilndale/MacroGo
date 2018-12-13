@@ -2,9 +2,7 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-
-@*<div class="container">
-    <div class="row">*@
+<h2>Search</h2>
 <section id="one" class="wrapper style2">
     <div class="inner">
         <form asp-controller="home" asp-action="Result" method="get">
@@ -27,12 +25,11 @@
             <select id="filter" asp-for="FilterCountSelect" asp-items="Model.FilterCount"></select>
             <label asp-for="OrderbySelect">Order by 1: </label>
             <select asp-for="OrderbySelect" asp-items="Model.OrderBy"></select>
-            @*<label asp-for="OrderbySelect2">Order by 2: </label>
-            <select asp-for="OrderbySelect2" asp-items="Model.OrderbyLevel2"></select>
-            <label asp-for="OrderbySelect3">Order by 3: </label>
-            <select asp-for="OrderbySelect3" asp-items="Model.OrderbyLevel3"></select>*@
 
-            <input id="submitButton" type="submit" value="Submit" />
+            <div style="text-align:center;">
+                <input id="button button1" type="submit" value="Search" />
+            </div>
+
         </form>
     </div>
 </section>

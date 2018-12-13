@@ -5,41 +5,48 @@
 
 <h2>Add Food</h2>
 
+<section id="one" class="wrapper style2">
+    <div class="inner">
+        <form asp-action="AddFoodItem" method="post">
+            <p>
+                <label asp-for="FoodName">Name of Item</label>
+                <input asp-for="FoodName" />
+            </p>
 
-<form asp-action="AddFoodItem" method="post">
-    <p>
-        <label asp-for="FoodName">Name of Item</label>
-        <input asp-for="FoodName" />
-    </p>
+            <p>
+                <label asp-for="RestaurantChosen">Filter by Restaurant</label>
+                <div class="restaurantSelectList">
+                    @Html.DropDownListFor(x => Model.RestaurantChosen, new SelectList(Model.RestaurantSelect, "Value", "Text"), htmlAttributes: new { @class = "form-control", id = "Restaurant" })
+                    @*<select asp-for="RestaurantChosen" asp-items="Model.RestaurantSelect"></select>*@
+                </div>
 
-    <p>
-        <label asp-for="RestaurantChosen">Filter by Restaurant</label>
-        <div class="restaurantSelectList">
-            @Html.DropDownListFor(x => Model.RestaurantChosen, new SelectList(Model.RestaurantSelect, "Value", "Text"), htmlAttributes: new { @class = "form-control", id = "Restaurant" })
-            @*<select asp-for="RestaurantChosen" asp-items="Model.RestaurantSelect"></select>*@
-        </div>
-  
-    <p>
-        <label asp-for="Protein">Protein (in grams)</label>
-        <input asp-for="Protein" />
-    </p>
-    <p>
-        <label asp-for="Fat">Fat (in grams)</label>
-        <input asp-for="Fat" />
-    </p>
-    <p>
-        <label asp-for="Carbs">Carbs (in grams)</label>
-        <input asp-for="Carbs" />
-    </p>
-    <p>
-        <label asp-for="Calories">Calories</label>
-        <input asp-for="Calories" />
-    </p>
+            <p>
+                <label asp-for="Protein">Protein (in grams)</label>
+                <input asp-for="Protein" />
+                <span asp-validation-for="Protein"></span>
+            </p>
+            <p>
+                <label asp-for="Fat">Fat (in grams)</label>
+                <input asp-for="Fat" />
+                <span asp-validation-for="Fat"></span>
+            </p>
+            <p>
+                <label asp-for="Carbs">Carbs (in grams)</label>
+                <input asp-for="Carbs" />
+                <span asp-validation-for="Carbs"></span>
+            </p>
+            <p>
+                <label asp-for="Calories">Calories</label>
+                <input asp-for="Calories" />
+                <span asp-validation-for="Calories"></span>
+            </p>
 
-    <div style="text-align:center;">
-        <button class="button button1" type="submit">Submit</button>
+            <div style="text-align:center;">
+                <button class="button button1" type="submit">Submit</button>
+            </div>
+
+        </form>
     </div>
-
-</form>
+</section>
 
 

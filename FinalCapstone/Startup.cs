@@ -62,7 +62,7 @@ namespace FinalCapstone
             app.UseStaticFiles();
             app.UseCookiePolicy();
             
-            app.UseSession(); //added, not sure if we'll need
+            app.UseSession();  
 
 
             app.UseMvc(routes =>
