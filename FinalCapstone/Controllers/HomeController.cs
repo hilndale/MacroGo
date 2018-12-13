@@ -7,19 +7,23 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Web;
 using Newtonsoft.Json;
+using FinalCapstone.Extensions;
+using System.Configuration;
 
 
 namespace FinalCapstone.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : UsersController
     {
         private readonly IFoodItemDAL _foodDAL;
         private readonly IRestaurantDAL _restaurantDAL;
+        private readonly IUserDAL _userDAL;
 
-        public HomeController(IFoodItemDAL foodDAL, IRestaurantDAL restaurantDAL)
+        public HomeController(IFoodItemDAL foodDAL, IRestaurantDAL restaurantDAL, IUserDAL userDAL) : base(userDAL)
         {
             _foodDAL = foodDAL;
             _restaurantDAL = restaurantDAL;
+            _userDAL = userDAL;
         }
 
         public IActionResult Index()
@@ -74,25 +78,7 @@ namespace FinalCapstone.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        [HttpGet]
-        public IActionResult AddFoodItem()
-        {
-            FoodItemViewModel foodItemViewModel = new FoodItemViewModel();
-
-            IList<Restaurant> Restaurants = _restaurantDAL.GetRestaurants();
-            IList<SelectListItem> RestaurantSelections = new List<SelectListItem>();
-
-            foreach (Restaurant restaurant in Restaurants)
-            {
-                RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantId.ToString() });
-            }
-
-            foodItemViewModel.RestaurantSelect = RestaurantSelections;
-
-            return View(foodItemViewModel);
-        }
+        }         
 
         [HttpGet]
         public IActionResult RestaurantDetail(int id)
@@ -100,116 +86,6 @@ namespace FinalCapstone.Controllers
             Restaurant restaurant = _restaurantDAL.GetRestaurant(id);
 
             return View(restaurant);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult AddFoodItem(FoodItemViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                FoodItemViewModel foodItemViewModel = new FoodItemViewModel();
-
-                IList<Restaurant> Restaurants = _restaurantDAL.GetRestaurants();
-                IList<SelectListItem> RestaurantSelections = new List<SelectListItem>();
-
-                foreach (Restaurant restaurant in Restaurants)
-                {
-                    RestaurantSelections.Add(new SelectListItem() { Text = restaurant.RestaurantName, Value = restaurant.RestaurantId.ToString() });
-                }
-
-                foodItemViewModel.RestaurantSelect = RestaurantSelections;
-
-                return View(foodItemViewModel);
-
-            }
-
-            else
-            {
-
-                FoodList food = new FoodList();
-                food.FoodName = model.FoodName;
-                food.RestaurantId = int.Parse(model.RestaurantChosen);
-                food.Calories = model.Calories;
-                food.Carbs = model.Carbs;
-                food.Fat = model.Fat;
-                food.Protein = model.Protein;
-
-                _foodDAL.AddFoodItem(food);
-                TempData["msg"] = "<button><strong> Your item has been added!</strong></button>";
-                return RedirectToAction(nameof(AddFoodItem));
-            }
-        }
-
-        //[HttpGet]
-        //public IActionResult DeleteFoodItem()
-        //{
-        //    FoodItemViewModel model = new FoodItemViewModel();
-        //    return View("DeleteFoodItem", model);
-        //}
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeleteFoodItem(FoodItemViewModel model)
-        {
-            FoodList food = new FoodList();
-
-            food.FoodId = model.FoodId;
-            food.FoodName = model.FoodName;
-            food.RestaurantId = model.RestaurantId;
-            food.Protein = model.Protein;
-            food.Fat = model.Fat;
-            food.Carbs = model.Carbs;
-            food.Calories = model.Calories;
-
-            _foodDAL.DeleteFoodItem(food);
-
-            TempData["msg"] = "Your item has been deleted!"; //need session?
-            return RedirectToAction(nameof(Index));
-        }
-
-        [HttpGet]
-        public IActionResult FoodDetail(int id)
-        {
-            FoodList food = _foodDAL.GetFood(id);
-            FoodItemViewModel foodModel = new FoodItemViewModel();
-
-            foodModel.FoodId = food.FoodId;
-            foodModel.FoodName = food.FoodName;
-            foodModel.RestaurantId = food.RestaurantId;
-            foodModel.Protein = food.Protein;
-            foodModel.Fat = food.Fat;
-            foodModel.Carbs = food.Carbs;
-            foodModel.Calories = food.Calories;
-
-            //Restaurant restaurant = _restaurantDAL.GetRestaurant(food.RestaurantId);
-            //foodModel.RestaurantChosen; 
-
-            return View(foodModel);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult FoodDetail(FoodItemViewModel model)
-        {
-            FoodList food = new FoodList();
-
-            food.FoodId = model.FoodId;
-            food.FoodName = model.FoodName;
-            food.RestaurantId = model.RestaurantId;
-            food.Protein = model.Protein;
-            food.Fat = model.Fat;
-            food.Carbs = model.Carbs;
-            food.Calories = model.Calories;
-
-            _foodDAL.UpdateFoodItem(food);
-
-            TempData["msg"] = "Your item has been changed!"; //need session?
-            return RedirectToAction(nameof(Index));
-        }
-
-    }
-
-
+        }         
+    }     
 }
-// will provide routes to welcome page and index
