@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Dapper;
 using FinalCapstone.Models;
-using Dapper;
+using System;
+using System.Data.SqlClient;
 
 namespace FinalCapstone.Dal
 {
@@ -79,13 +76,27 @@ namespace FinalCapstone.Dal
 
         public UserProfileViewModel GetUserProfile(string Email)
         {
+            UserProfileViewModel viewModel = new UserProfileViewModel();
+
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    UserProfileViewModel result = conn.QueryFirstOrDefault<UserProfileViewModel>("SELECT * FROM users WHERE Email = @emailValue", new { emailValue = Email.Replace("\"", "") });
-                    return result;
+                    string sql = "SELECT * FROM users WHERE Email = @emailValue;";
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+
+                    cmd.Parameters.AddWithValue("@emailValue", Email.Replace("\"", ""));
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        viewModel.GoalCarbs = Convert.ToInt32(reader["Goal_Carbs"]);
+                        viewModel.GoalProtein = Convert.ToInt32(reader["Goal_Protein"]);
+                        viewModel.GoalFat = Convert.ToInt32(reader["Goal_Fat"]);
+                    }
+                    return viewModel;
                 }
             }
             catch (SqlException ex)
