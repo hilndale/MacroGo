@@ -3,11 +3,15 @@ using FinalCapstone.Extensions;
 using FinalCapstone.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Configuration;
+
 
 namespace FinalCapstone.Controllers
 {
     public class UsersController : Controller
     {
+
+       
         private readonly IUserDAL _userDAL;
 
         public UsersController(IUserDAL userDAL)
@@ -28,7 +32,7 @@ namespace FinalCapstone.Controllers
         }
 
         // GET: User/Index
-        public ActionResult Index()
+        public ActionResult UserIndex()
         {
             if (HttpContext.Session.Get(SessionKeys.Username) == null)
             {
@@ -36,7 +40,7 @@ namespace FinalCapstone.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("UserIndex", "Users");
             }
         }
 
