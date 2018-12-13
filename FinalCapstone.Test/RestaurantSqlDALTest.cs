@@ -52,18 +52,16 @@ namespace FinalCapstone.Test
             [TestMethod]
             public void GetRestaurantTest()
             {
-                int id = 0;
+                int id;
 
                 using (SqlConnection conn = new SqlConnection(MacroGoConnectionString))
                 {
                     conn.Open();
 
                     string sql = "INSERT INTO Restaurants (Restaurant_Name, Open_Time, Close_Time)" +
-                        " VALUES ('Test Restaurant', '6:00am', '10:00pm')";
-
+                        " VALUES ('Test Restaurant', '6:00am', '10:00pm'); SELECT CAST(SCOPE_IDENTITY() as int);";
                     SqlCommand cmd = new SqlCommand(sql, conn);
-
-                    id = (int)cmd.ExecuteNonQuery();
+                    id = (int)cmd.ExecuteScalar();
                 }
 
                 Restaurant restaurant = _restaurantDAL.GetRestaurant(id);

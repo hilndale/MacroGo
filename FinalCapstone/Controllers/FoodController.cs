@@ -140,5 +140,12 @@ namespace FinalCapstone.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        //[HttpGet]
+        //public IActionResult AddUpdateDeleteResult()
+        //{
+        //    //add delete and update iactionresults will return to this page
+
+        //}
+
     }
 }
