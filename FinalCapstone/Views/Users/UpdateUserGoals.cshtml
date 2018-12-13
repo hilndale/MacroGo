@@ -1,0 +1,15 @@
+﻿@model UserProfileViewModel
+@{
+    ViewData["Title"] = "UpdateUserGoals";
+}
+
+<h2>UpdateUserGoals</h2>
+
+
+@using (Html.BeginForm("UpdateUserGoals", "Users", FormMethod.Post))
+{
+    @Html.TextBoxFor(m => m.GoalCarbs, new { placeholder = "Carbs Goal" })
+    @Html.TextBoxFor(m => m.GoalFat, new { placeholder = "Fat Goal" })
+    @Html.TextBoxFor(m => m.GoalProtein, new { placeholder = "Protein Goal" })
+    <button>Update Goals</button>
+}

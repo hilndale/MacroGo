@@ -1,12 +1,13 @@
-﻿@model RegisterViewModel
+﻿@model AddAdminViewModel
+
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "AddAdmin";
 }
 
-<h2>Register</h2>
+<h2>AddAdmin</h2>
 
 <div>
-    @using (Html.BeginForm("Register", "Users", FormMethod.Post))
+    @using (Html.BeginForm("AddAdmin", "Users", FormMethod.Post))
     {
         <div>
             @Html.TextBoxFor(m => m.EmailAddress, new { placeholder = "Email" })
@@ -21,9 +22,6 @@
             @Html.PasswordFor(m => m.ConfirmPassword, new { placeholder = "Type password again" })
             @Html.ValidationMessageFor(m => m.ConfirmPassword)
         </div>
-        @Html.TextBoxFor(m => m.GoalCarbs, new { placeholder = "Daily carbohydrate goal (g)" })
-        @Html.TextBoxFor(m => m.GoalProtein, new { placeholder = "Daily protein goal (g)" })
-        @Html.TextBoxFor(m => m.GoalFat, new { placeholder = "Daily fat goal (g)" })
         <button>Register</button>
     }
 </div>
