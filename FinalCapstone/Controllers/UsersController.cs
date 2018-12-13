@@ -28,19 +28,6 @@ namespace FinalCapstone.Controllers
             }
         }
 
-        // GET: User/Index
-        public ActionResult UserIndex()
-        {
-            if (HttpContext.Session.Get(SessionKeys.Username) == null)
-            {
-                return RedirectToAction("Login");
-            }
-            else
-            {
-                return RedirectToAction("UserIndex", "Users");
-            }
-        }
-
         public ActionResult Login()
         {
             return View("Login");
@@ -71,6 +58,11 @@ namespace FinalCapstone.Controllers
 
                 HttpContext.Session.Set(SessionKeys.Username, user.Email);
                 viewModel = _userDAL.GetUserProfile(model.Email);
+            }
+
+            if(user.IsAdmin == true)
+            {
+                return RedirectToAction("AdminProfile", viewModel);
             }
 
             return RedirectToAction("UserProfile", viewModel);
