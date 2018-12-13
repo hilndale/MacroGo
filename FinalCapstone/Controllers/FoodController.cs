@@ -16,12 +16,12 @@ namespace FinalCapstone.Controllers
         private readonly IRestaurantDAL _restaurantDAL;
         private readonly IUserDAL _userDAL;
 
-        public FoodController(IFoodItemDAL foodDAL, IRestaurantDAL restaurantDAL, IUserDAL userDAL) :base(userDAL)
+        public FoodController(IFoodItemDAL foodDAL, IRestaurantDAL restaurantDAL, IUserDAL userDAL) : base(userDAL)
         {
             _foodDAL = foodDAL;
             _restaurantDAL = restaurantDAL;
             _userDAL = userDAL;
-        } 
+        }
 
         [HttpGet]
         public IActionResult AddFoodItem()
@@ -59,8 +59,7 @@ namespace FinalCapstone.Controllers
 
                 foodItemViewModel.RestaurantSelect = RestaurantSelections;
 
-                return View(foodItemViewModel);
-
+                return View(foodItemViewModel);   
             }
 
             else
@@ -76,7 +75,7 @@ namespace FinalCapstone.Controllers
 
                 _foodDAL.AddFoodItem(food);
                 TempData["msg"] = "<button><strong> Your item has been added!</strong></button>";
-                return RedirectToAction(nameof(AddFoodItem));
+                return RedirectToAction("Index", "Home");
             }
         }
 
@@ -136,16 +135,7 @@ namespace FinalCapstone.Controllers
 
             _foodDAL.UpdateFoodItem(food);
 
-            TempData["msg"] = "Your item has been changed!"; //need session?
             return RedirectToAction("Index", "Home");
         }
-
-        //[HttpGet]
-        //public IActionResult AddUpdateDeleteResult()
-        //{
-        //    //add delete and update iactionresults will return to this page
-
-        //}
-
     }
 }

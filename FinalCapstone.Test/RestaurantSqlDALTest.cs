@@ -3,6 +3,7 @@ using FinalCapstone.Dal;
 using System.Linq;
 using System.Data.SqlClient;
 using FinalCapstone.Models;
+using System.Transactions;
 
 namespace FinalCapstone.Test
 {
@@ -10,11 +11,20 @@ namespace FinalCapstone.Test
     public class RestaurantSqlDALTest : DatabaseTest
     {
         private IRestaurantDAL _restaurantDAL;
+        private TransactionScope tran;
 
         [TestInitialize]
         public void Setup()
         {
             _restaurantDAL = new RestaurantSqlDAL(MacroGoConnectionString);
+            tran = new TransactionScope();
+        }
+
+        // Rollback the existing transaction.
+        [TestCleanup]
+        public void Cleanup()
+        {
+            tran.Dispose();
         }
 
         [TestClass]
