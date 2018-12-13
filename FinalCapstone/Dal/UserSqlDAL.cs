@@ -74,6 +74,30 @@ namespace FinalCapstone.Dal
             }
         }
 
+        public bool ChangePassword(string email, string newPassword)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string sql = ("UPDATE Users SET password = @password WHERE email = @email;");
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+
+                    cmd.Parameters.AddWithValue("@email", email.Replace("\"", ""));
+                    cmd.Parameters.AddWithValue("@password", newPassword);
+
+                    cmd.ExecuteNonQuery();
+
+                    return true;
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw;
+            }
+        }
+
         public UserProfileViewModel GetUserProfile(string Email)
         {
             UserProfileViewModel viewModel = new UserProfileViewModel();

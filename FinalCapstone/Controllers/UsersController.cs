@@ -140,8 +140,28 @@ namespace FinalCapstone.Controllers
             return RedirectToAction("UserProfile", viewModel);
         }
 
-        // POST: User/Logout
-        public ActionResult Logout()
+        [HttpGet]
+        public ActionResult ChangePassword()
+        {
+            ChangePasswordViewModel model = new ChangePasswordViewModel();
+            return View("ChangePassword", model);
+        }
+
+        [HttpPost]
+        public ActionResult ChangePassword(ChangePasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("ChangePassword", model);
+            }
+
+            _userDAL.ChangePassword(HttpContext.Session.GetString(SessionKeys.Username), model.NewPassword);
+
+            return RedirectToAction("UserProfile", "Users");
+        }
+
+            // POST: User/Logout
+            public ActionResult Logout()
         {
             //    FormsAuthentication.SignOut();
             HttpContext.Session.Remove(SessionKeys.Username);
