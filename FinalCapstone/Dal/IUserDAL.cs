@@ -14,5 +14,6 @@ namespace FinalCapstone.Dal
         bool UpdateGoals(UserProfileViewModel viewModel);
         UserProfileViewModel GetUserProfile(string email);
         bool ChangePassword(string username, string newPassword);
+        bool IsAdmin(string Email);
     }
 }

@@ -145,5 +145,39 @@ namespace FinalCapstone.Dal
                 throw;
             }
         }
+
+        public bool IsAdmin(string Email)
+        {
+            Users user = new Users();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string sql = "SELECT * FROM users WHERE Email = @emailValue;";
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+
+                    cmd.Parameters.AddWithValue("@emailValue", Email.Replace("\"", ""));
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        user.IsAdmin = Convert.ToInt32(reader["Is_Admin"]);
+                    }
+
+                    if(user.IsAdmin == 1)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw;
+            }
+        }
     }
 }

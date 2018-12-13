@@ -54,18 +54,19 @@ namespace FinalCapstone.Controllers
             }
             else
             {
-                //FormsAuthentication.SetAuthCookie(user.Email, true);
-
                 HttpContext.Session.Set(SessionKeys.Username, user.Email);
-                viewModel = _userDAL.GetUserProfile(model.Email);
-            }
 
-            if(user.IsAdmin == true)
-            {
-                return RedirectToAction("AdminProfile", viewModel);
+                if (_userDAL.IsAdmin(user.Email))
+                {
+                    return RedirectToAction("Index", "Home");
+                    
+                }
+                else
+                {
+                    viewModel = _userDAL.GetUserProfile(model.Email);
+                    return RedirectToAction("UserProfile", viewModel);
+                }
             }
-
-            return RedirectToAction("UserProfile", viewModel);
         }
 
         public ActionResult AddAdmin()
