@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Web;
 using Newtonsoft.Json;
 
+
 namespace FinalCapstone.Controllers
 {
     public class HomeController : Controller
@@ -140,27 +141,31 @@ namespace FinalCapstone.Controllers
             }
         }
 
-        [HttpGet]
-        public IActionResult DeleteFoodItem()
-        {
-            FoodItemViewModel model = new FoodItemViewModel();
-            return View("DeleteFoodItem", model);
-        }
+        //[HttpGet]
+        //public IActionResult DeleteFoodItem()
+        //{
+        //    FoodItemViewModel model = new FoodItemViewModel();
+        //    return View("DeleteFoodItem", model);
+        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteFoodItem(FoodList model)
+        public IActionResult DeleteFoodItem(FoodItemViewModel model)
         {
-            FoodList food = _foodDAL.GetFood(model.FoodId);
-            //checked to see if user is admin?
-            if (food == null)
-            {
-                return View("DeleteFoodItem", model);
-            }
+            FoodList food = new FoodList();
 
-            _foodDAL.DeleteFoodItem(model);
+            food.FoodId = model.FoodId;
+            food.FoodName = model.FoodName;
+            food.RestaurantId = model.RestaurantId;
+            food.Protein = model.Protein;
+            food.Fat = model.Fat;
+            food.Carbs = model.Carbs;
+            food.Calories = model.Calories;
+
+            _foodDAL.DeleteFoodItem(food);
+
             TempData["msg"] = "Your item has been deleted!"; //need session?
-            return RedirectToAction(nameof(DeleteFoodItem));
+            return RedirectToAction(nameof(Index));
         }
 
        
@@ -179,7 +184,7 @@ namespace FinalCapstone.Controllers
             foodModel.Calories = food.Calories;
 
             //Restaurant restaurant = _restaurantDAL.GetRestaurant(food.RestaurantId);
-            //foodModel.RestaurantChosen;
+            //foodModel.RestaurantChosen; 
 
             return View(foodModel);
         }
@@ -188,20 +193,22 @@ namespace FinalCapstone.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult UpdateFoodItem(FoodList model)
+        public IActionResult FoodDetail(FoodItemViewModel model)
         {
+            FoodList food = new FoodList();
 
-            FoodList food = _foodDAL.GetFood(model.FoodId);
-            //checked to see if user is admin?
-            if (food == null)
-            {
-                return View("DeleteFoodItem", model);
-            }
+            food.FoodId = model.FoodId;
+            food.FoodName = model.FoodName;
+            food.RestaurantId = model.RestaurantId;
+            food.Protein = model.Protein;
+            food.Fat = model.Fat;
+            food.Carbs = model.Carbs;
+            food.Calories = model.Calories;
 
-            _foodDAL.UpdateFoodItem(model);
+            _foodDAL.UpdateFoodItem(food);
+
             TempData["msg"] = "Your item has been changed!"; //need session?
-            return RedirectToAction(nameof(DeleteFoodItem));
-
+            return RedirectToAction(nameof(Index));
         }
 
     }
