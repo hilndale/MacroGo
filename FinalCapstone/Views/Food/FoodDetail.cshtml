@@ -22,7 +22,7 @@
         <input type="hidden" asp-for="@Model.FoodId" />
         <input type="hidden" asp-for="@Model.RestaurantId" />
         <button class="button button1" type="submit">Update Food</button>
-
+        <button class="button button1" type="submit" asp-action="AddFoodItemToList">Add Food To Daily List</button>
         <button class="button button1" type="submit" asp-action="DeleteFoodItem">Delete Food</button>
     </div>
 
