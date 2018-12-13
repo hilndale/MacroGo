@@ -56,20 +56,25 @@ namespace FinalCapstone.Controllers
                 return View("Login", model);
             }
 
+            UserProfileViewModel viewModel = new UserProfileViewModel();
+
             Users user = _userDAL.GetUser(model.Email);
             // user does not exist or password is wrong
             if (user == null || user.Password != model.Password)
             {
                 ModelState.AddModelError("invalid-credentials", "An invalid username or password was provided");
                 return View("Login", model);
+                
             }
             else
             {
                 //FormsAuthentication.SetAuthCookie(user.Email, true);
-                HttpContext.Session.Set(user.Email, SessionKeys.Username);
+
+                HttpContext.Session.Set(SessionKeys.Username, user.Email);
+                viewModel = _userDAL.GetUserProfile(model.Email);
             }
 
-            return RedirectToAction("Users", "UserProfile");
+            return RedirectToAction("UserProfile", viewModel);
         }
 
         // GET: User/Register
@@ -106,17 +111,33 @@ namespace FinalCapstone.Controllers
                 _userDAL.SaveUser(user);
 
                 //FormsAuthentication.SetAuthCookie(user.Email, true);
-                HttpContext.Session.Set(model.EmailAddress, SessionKeys.Username);
-
-                viewModel = _userDAL.GetUserProfile(model.EmailAddress);
+                HttpContext.Session.Set(SessionKeys.Username, model.EmailAddress);
             }
 
-            return RedirectToAction("UserProfile", viewModel);
+            return RedirectToAction("UserProfile", "Users");
         }
 
         public ActionResult UserProfile(UserProfileViewModel viewModel)
         {
-            return View(viewModel);
+            viewModel = _userDAL.GetUserProfile(HttpContext.Session.GetString(SessionKeys.Username));
+
+            return View("UserProfile", viewModel);
+        }
+
+        [HttpGet]
+        public ActionResult UpdateUserGoals()
+        {
+            UserProfileViewModel viewModel = new UserProfileViewModel();
+            return View("UpdateUserGoals", viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateUserGoals(UserProfileViewModel viewModel)
+        {
+            viewModel.Email = HttpContext.Session.GetString(SessionKeys.Username);
+            bool success = _userDAL.UpdateGoals(viewModel);
+
+            return RedirectToAction("UserProfile", viewModel);
         }
 
         // POST: User/Logout

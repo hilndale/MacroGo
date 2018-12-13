@@ -51,22 +51,24 @@ namespace FinalCapstone.Dal
             }
         }
 
-        public void UpdateGoals(UserProfileViewModel viewModel)
+        public bool UpdateGoals(UserProfileViewModel viewModel)
         {
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string sql = ("UPDATE Users (Goal_Fat, Goal_Protein, Goal_Carbs) VALUES (@goalfat, @goalprotein, @goalcarbs) WHERE user_id = @email;");
+                    string sql = ("UPDATE Users SET Goal_Fat = @goalfat, Goal_Protein = @goalprotein, Goal_Carbs = @goalcarbs WHERE email = @email;");
                     SqlCommand cmd = new SqlCommand(sql, conn);
 
-                    cmd.Parameters.AddWithValue("@email", viewModel.Email);
+                    cmd.Parameters.AddWithValue("@email", viewModel.Email.Replace("\"", ""));
                     cmd.Parameters.AddWithValue("@goalfat", viewModel.GoalFat);
                     cmd.Parameters.AddWithValue("@goalprotein", viewModel.GoalProtein);
                     cmd.Parameters.AddWithValue("@goalcarbs", viewModel.GoalCarbs);
 
                     cmd.ExecuteNonQuery();
+
+                    return true;
                 }
             }
             catch (SqlException ex)
@@ -75,14 +77,14 @@ namespace FinalCapstone.Dal
             }
         }
 
-        public UserProfileViewModel GetUserProfile(string email)
+        public UserProfileViewModel GetUserProfile(string Email)
         {
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    UserProfileViewModel result = conn.QueryFirstOrDefault<UserProfileViewModel>("SELECT * FROM users WHERE Email = @emailValue", new { emailValue = email });
+                    UserProfileViewModel result = conn.QueryFirstOrDefault<UserProfileViewModel>("SELECT * FROM users WHERE Email = @emailValue", new { emailValue = Email.Replace("\"", "") });
                     return result;
                 }
             }
