@@ -9,5 +9,10 @@
 <p>Carbs Goals: @Model.GoalCarbs g per day</p>
 <p>Protein Goals: @Model.GoalProtein g per day</p>
 
-@Html.ActionLink("Update Goals", "UpdateUserGoals", "Users")
-@Html.ActionLink("Change Password", "ChangePassword", "Users")
+<button onclick="location.href='@Url.Action("UpdateUserGoals", "Users")';">Update Goals</button>
+<br />
+<button onclick="location.href='@Url.Action("ChangePassword", "Users")';">Change Password</button>
+<br />
+<button onclick="location.href='@Url.Action("Favorites", "Users")';">My Favorites</button> @*does nothing yet- there is no favorites action in controller*@
+<br />
+<button onclick="location.href='@Url.Action("Logout", "Users")';">Log Out</button>
