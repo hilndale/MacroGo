@@ -1,7 +1,26 @@
-﻿
+﻿@model RegisterViewModel
 @{
     ViewData["Title"] = "Register";
 }
 
 <h2>Register</h2>
 
+<div>
+@using (Html.BeginForm("Register", "Users", FormMethod.Post))
+{
+    <div>
+        @Html.TextBoxFor(m => m.EmailAddress, new { placeholder = "Email" })
+        @Html.ValidationMessageFor(m => m.EmailAddress)
+        @Html.ValidationMessage("username-exists")
+    </div>
+    <div>
+        @Html.PasswordFor(m => m.Password, new { placeholder = "password" })
+        @Html.ValidationMessageFor(m => m.Password)
+    </div>
+    <div>
+        @Html.PasswordFor(m => m.ConfirmPassword, new { placeholder = "type password again" })
+        @Html.ValidationMessageFor(m => m.ConfirmPassword)
+    </div>
+    <button>Register</button>
+}
+</div>

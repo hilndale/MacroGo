@@ -41,7 +41,7 @@ namespace FinalCapstone.Dal
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    user.UserId = conn.QueryFirst<int>("INSERT INTO Users (Email, Password, Goal_Fat, Goal_Protein, Goal_Carbs) VALUES (@emailValue, @password, @goalfat, @goalprotein, @goalcarbs); SELECT CAST(SCOPE_IDENTITY() as int);",
+                    user.UserId = conn.QueryFirst<int>("INSERT INTO Users (Is_Admin, Email, Password, Goal_Fat, Goal_Protein, Goal_Carbs) VALUES (0, @emailValue, @password, @goalfat, @goalprotein, @goalcarbs); SELECT CAST(SCOPE_IDENTITY() as int);",
                         new { emailValue = user.Email, password = user.Password, goalfat = user.GoalFat, goalprotein = user.GoalProtein, goalcarbs = user.GoalCarbs });
                 }
             }

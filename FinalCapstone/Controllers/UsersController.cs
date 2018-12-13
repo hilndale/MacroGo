@@ -10,8 +10,6 @@ namespace FinalCapstone.Controllers
 {
     public class UsersController : Controller
     {
-
-       
         private readonly IUserDAL _userDAL;
 
         public UsersController(IUserDAL userDAL)
@@ -107,11 +105,15 @@ namespace FinalCapstone.Controllers
                 _userDAL.SaveUser(user);
 
                 //FormsAuthentication.SetAuthCookie(user.Email, true);
-                //Session[SessionKeys.Username] = model.EmailAddress;
-                //Session[SessionKeys.UserId] = user.Id;
+                HttpContext.Session.Set(model.EmailAddress, SessionKeys.Username);
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Users", "UserProfile");
+        }
+
+        public ActionResult UserProfile()
+        {
+            return View("UserProfile");
         }
 
         // POST: User/Logout
