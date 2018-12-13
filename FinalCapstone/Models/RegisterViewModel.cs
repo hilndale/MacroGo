@@ -18,5 +18,9 @@ namespace FinalCapstone.Models
         [Required(ErrorMessage = "*")]
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
+
+        public int GoalFat { get; set; }
+        public int GoalCarbs { get; set; }
+        public int GoalProtein { get; set; }
     }
 }

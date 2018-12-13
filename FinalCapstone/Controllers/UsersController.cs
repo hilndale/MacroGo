@@ -94,19 +94,22 @@ namespace FinalCapstone.Controllers
 
             UserProfileViewModel viewModel = new UserProfileViewModel();
             Users user = _userDAL.GetUser(model.EmailAddress);
+
             // Check to see if the username already exists
             if (user != null)
             {
-                ModelState.AddModelError("username-exists", "That email address is not available");
+                ModelState.AddModelError("email-exists", "That email address is already associated with an account");
                 return View("Register", model);
             }
             else
             {
-                // Convert from the ViewModel to a Data Model and Savae
                 user = new Users()
                 {
                     Email = model.EmailAddress,
-                    Password = model.Password
+                    Password = model.Password,
+                    GoalCarbs = model.GoalCarbs,
+                    GoalProtein = model.GoalProtein,
+                    GoalFat = model.GoalFat
                 };
                 _userDAL.SaveUser(user);
 
@@ -138,6 +141,13 @@ namespace FinalCapstone.Controllers
             bool success = _userDAL.UpdateGoals(viewModel);
 
             return RedirectToAction("UserProfile", viewModel);
+        }
+
+        [HttpGet]
+        public ActionResult Favorites()
+        {
+            UserFavoritesViewModel model = new UserFavoritesViewModel();
+            return View("Favorites", model);
         }
 
         [HttpGet]
