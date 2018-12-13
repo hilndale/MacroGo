@@ -10,6 +10,7 @@ namespace FinalCapstone.Dal
     {
         Users GetUser(string email);
         void SaveUser(Users user);
+        bool UpdateGoals(UserProfileViewModel viewModel);
         UserProfileViewModel GetUserProfile(string email);
     }
 }

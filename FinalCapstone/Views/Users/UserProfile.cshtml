@@ -5,4 +5,8 @@
 }
 
 <h2>@Model.Email</h2>
+<p>Fat Goals: @Model.GoalFat g per day</p>
+<p>Carbs Goals: @Model.GoalCarbs g per day</p>
+<p>Protein Goals: @Model.GoalProtein g per day</p>
 
+@Html.ActionLink("Update Goals", "UpdateUserGoals", "Users")
