@@ -15,12 +15,13 @@ namespace FinalCapstone.Models
             {
                 Items.Add(food);
             }
-
         }
 
         public void RemoveFromList(FoodList food)
         {
-            if (Items.Contains(food))
+            food = Items.FirstOrDefault();
+
+            if (food != null && Items.Contains(food))
             {
                 Items.Remove(food);
             }
