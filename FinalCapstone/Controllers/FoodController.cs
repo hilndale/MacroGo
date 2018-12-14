@@ -171,7 +171,12 @@ namespace FinalCapstone.Controllers
             return RedirectToAction("ViewDailyFoodItemList");
 
         }
-
+        [HttpGet]
+        public IActionResult DisplayFoodItems()
+        {
+            DailyFoodItemList listItems = GetActiveDailyFoodItemList();
+            return RedirectToAction("ViewDailyFoodItemList");
+        }
 
 
         //[HttpPost]
