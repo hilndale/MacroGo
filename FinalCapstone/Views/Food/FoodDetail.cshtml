@@ -3,7 +3,6 @@
     ViewData["Title"] = "Update Food Item";
 }
 
-<h2>Update or Delete Food Item</h2>
 
 <section id="one" class="wrapper style2">
     <div class="inner">
@@ -23,12 +22,12 @@
             <div style="text-align:center;">
                 <input type="hidden" asp-for="@Model.FoodId" />
                 <input type="hidden" asp-for="@Model.RestaurantId" />
-                <button class="button button1" type="submit">Update Food</button>
-                <button class="button button1" type="submit" asp-action="AddFoodItemToList">Add Food To Daily List</button>
+                <button class="button button1" type="submit" asp-action="FoodDetail">Update Food</button>
                 <button class="button button1" type="submit" asp-action="DeleteFoodItem">Delete Food</button>
+                <button class="button button1" type="submit" asp-action="AddFoodItemToList">Add Food To Daily List</button>
+                <button class="button button-1" type="submit" asp-action="RemoveFoodItemFromList">Remove Food From Daily List</button>
             </div>
-
         </form>
-        </div>
+    </div>
 </section>
 
