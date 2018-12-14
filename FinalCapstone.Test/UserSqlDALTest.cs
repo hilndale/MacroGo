@@ -40,7 +40,7 @@ namespace FinalCapstone.Test
 
             Users user = new Users
             {
-                IsAdmin = false,
+                IsAdmin = 0,
                 Email = "test@yahoo.com",
                 Password = "password",
                 GoalFat = 10,
@@ -68,7 +68,7 @@ namespace FinalCapstone.Test
 
             Users user = new Users
             {
-                IsAdmin = true,
+                IsAdmin = 1,
                 Email = "test@yahoo.com",
                 Password = "password",
                 GoalFat = 10,
@@ -78,7 +78,7 @@ namespace FinalCapstone.Test
 
             _userDAL.SaveUser(user);
 
-            Assert.AreEqual(true, user.IsAdmin);
+            Assert.AreEqual(1, user.IsAdmin);
         }
 
 

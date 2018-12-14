@@ -157,6 +157,8 @@ namespace FinalCapstone.Controllers
             return RedirectToAction("ViewDailyFoodItemList");
         }
 
+
+
         //[HttpPost]
         //public ActionResult AddToCart(string sku, int quantity)
         //{
@@ -194,6 +196,8 @@ namespace FinalCapstone.Controllers
             HttpContext.Session.Set(SessionKeys.DailyList, listItems);
 
         }
+
+
 
         //[HttpPost]
         //public ActionResult AddToCart(string sku, int quantity)
