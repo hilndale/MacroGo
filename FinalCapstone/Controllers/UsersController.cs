@@ -22,6 +22,10 @@ namespace FinalCapstone.Controllers
             {
                 return PartialView("_AnonymousNav");
             }
+            else if(_userDAL.IsAdmin(HttpContext.Session.GetString(SessionKeys.Username)))
+            {
+                return PartialView("_AdminNav");
+            }
             else
             {
                 return PartialView("_AuthenticatedNav");
