@@ -15,28 +15,48 @@
             <td><h3>Fat</h3></td>
         </tr>
     </thead>
-    @*@totalProtein=0;
-    @totalFat=0;
-    @totalCarbs=0;*@
+    @{
+        int totalProtein = 0;
+        int totalFat = 0;
+        int totalCarbs = 0; }
 
     @foreach (var item in Model.Items)
-            {
-    <tr>
-        <td>
-            <h3>@item.FoodName</h3>
-        </td>
-        <td>
-            <h3>@item.Protein</h3>
-        </td>
-        <td>
-            <h3>@item.Fat</h3>
-        </td>
-        <td>
-            <h3>@item.Carbs</h3>
-        </td>
-        }
-    </tr>
+    {
+        <tr>
+            <td>
+                <h3>@item.FoodName</h3>
+            </td>
+            <td>
+                <h3>@item.Protein</h3>
+            </td>
+            <td>
+                <h3>@item.Fat</h3>
+            </td>
+            <td>
+                <h3>@item.Carbs</h3>
+            </td>
 
-
+            @{
+                totalProtein += item.Protein;
+                totalFat += item.Fat;
+                totalCarbs += item.Carbs;
             }
+
+        </tr>
+
+    }
+    <tfoot>
+        <tr>
+            <td></td>
+            <td>
+                <h3>@totalProtein</h3>
+            </td>
+            <td>
+                <h3>@totalFat</h3>
+            </td>
+            <td>
+                <h3>@totalCarbs</h3>
+            </td>
+        </tr>
+    </tfoot>
 </table>
