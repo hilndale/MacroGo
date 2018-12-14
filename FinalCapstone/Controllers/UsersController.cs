@@ -28,19 +28,6 @@ namespace FinalCapstone.Controllers
             }
         }
 
-        // GET: User/Index
-        public ActionResult UserIndex()
-        {
-            if (HttpContext.Session.Get(SessionKeys.Username) == null)
-            {
-                return RedirectToAction("Login");
-            }
-            else
-            {
-                return RedirectToAction("UserIndex", "Users");
-            }
-        }
-
         public ActionResult Login()
         {
             return View("Login");
@@ -67,13 +54,19 @@ namespace FinalCapstone.Controllers
             }
             else
             {
-                //FormsAuthentication.SetAuthCookie(user.Email, true);
-
                 HttpContext.Session.Set(SessionKeys.Username, user.Email);
-                viewModel = _userDAL.GetUserProfile(model.Email);
-            }
 
-            return RedirectToAction("UserProfile", viewModel);
+                if (_userDAL.IsAdmin(user.Email))
+                {
+                    return RedirectToAction("Index", "Home");
+                    
+                }
+                else
+                {
+                    viewModel = _userDAL.GetUserProfile(model.Email);
+                    return RedirectToAction("UserProfile", viewModel);
+                }
+            }
         }
 
         public ActionResult AddAdmin()
