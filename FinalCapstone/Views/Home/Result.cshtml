@@ -26,16 +26,26 @@
                 <input id="maxFat" asp-for="MaxFat" />
             </div>
 
-            <label asp-for="RestaurantChosen">Filter by Restaurant </label>
-            <select id="restaurant" asp-for="RestaurantChosen" asp-items="Model.RestaurantSelect"></select>
-            <label asp-for="FilterCountSelect"># of results: </label>
-            <select id="filter" asp-for="FilterCountSelect" asp-items="Model.FilterCount"></select>
-            <label asp-for="OrderbySelect">Order by 1: </label>
-            <select asp-for="OrderbySelect" asp-items="Model.OrderBy"></select>
+            <div class="row4">
+                <label asp-for="RestaurantChosen">Filter by Restaurant </label>
+                <select id="restaurant" asp-for="RestaurantChosen" asp-items="Model.RestaurantSelect"></select>
+            </div>
+
+            <div class="row4">
+                <label asp-for="FilterCountSelect"># of results: </label>
+                <select id="filter" asp-for="FilterCountSelect" asp-items="Model.FilterCount"></select>
+            </div>
+
+            <div class="row4">
+                <label asp-for="OrderbySelect">Order by 1: </label>
+                <select asp-for="OrderbySelect" asp-items="Model.OrderBy"></select>
+            </div>
 
             <div style="text-align:center;">
-                <input id="submitButton" type="submit" value="Submit" />
+                <input id="button button1" type="submit" value="Search" />
             </div>
+
+
         </form>
 
         <table class="table">
