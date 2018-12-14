@@ -2129,8 +2129,13 @@ textarea {
     }
 
 
-.row1, .row2, .row3, .row4 {
+.row1, .row2, .row3 {
     display: block;
+    
+}
+
+.row4 {
+    max-width: 30%
 }
 
 
