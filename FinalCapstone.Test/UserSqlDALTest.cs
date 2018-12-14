@@ -53,50 +53,28 @@ namespace FinalCapstone.Test
             Assert.AreEqual("test@yahoo.com", user.Email);
         }
 
+        [TestMethod]
+        public void UpdateGoalsTest()
+        {
+            UserProfileViewModel user = new UserProfileViewModel()
+            {
+                Email = "test@yahoo.com",
+                GoalCarbs = 100
+            };
 
-        //[TestMethod]
-        //public void SaveAdminTest()
-        //{
-        //    using (SqlConnection conn = new SqlConnection(MacroGoConnectionString))
-        //    {
-        //        conn.Open();
+            using (SqlConnection conn = new SqlConnection(MacroGoConnectionString))
+            {
+                conn.Open();
 
-        //        string sql = "INSERT INTO users ([Is_Admin], [Email], [Password], [Goal_Fat], [Goal_Protein], [Goal_Carbs]) VALUES (1, 'test@yahoo.com', 'password', 10, 15, 2000); SELECT CAST(SCOPE_IDENTITY() as int);";
-        //        SqlCommand cmd = new SqlCommand(sql, conn);
-        //        int userID = (int)cmd.ExecuteScalar();
-        //    }
+                string sql = "INSERT INTO users ([Is_Admin], [Email], [Password], [Goal_Fat], [Goal_Protein], [Goal_Carbs]) VALUES (0, 'test@yahoo.com', 'password', 10, 15, 2000); SELECT CAST(SCOPE_IDENTITY() as int);";
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.ExecuteNonQuery();
+            }
 
-        //    Users user = new Users
-        //    {
-        //        IsAdmin = 1,
-        //        Email = "test@yahoo.com",
-        //        Password = "password",
-        //        GoalFat = 10,
-        //        GoalProtein = 15,
-        //        GoalCarbs = 2000
-        //    };
-
-        //    _userDAL.SaveUser(user);
-
-        //    Assert.AreEqual(1, user.IsAdmin);
-        //}
-
-        //[TestMethod]
-        //public void UpdateGoalsTest()
-        //{
-        //    UserProfileViewModel user = new UserProfileViewModel();
-
-        //    using (SqlConnection conn = new SqlConnection(MacroGoConnectionString))
-        //    {
-        //        conn.Open();
-
-        //        string sql = "INSERT INTO users ([Is_Admin], [Email], [Password], [Goal_Fat], [Goal_Protein], [Goal_Carbs]) VALUES (0, 'test@yahoo.com', 'password', 10, 15, 2000); SELECT CAST(SCOPE_IDENTITY() as int);";
-        //        SqlCommand cmd = new SqlCommand(sql, conn);
-        //        user = (UserProfileViewModel)cmd.ExecuteScalar();
-        //    }
-
-        //    bool result = _userDAL.UpdateGoals(user);
-        //}
+            bool result = _userDAL.UpdateGoals(user);
+            Assert.AreEqual(true, result);
+            Assert.AreEqual(100, user.GoalCarbs);
+        }
 
         [TestMethod]
         public void GetUserProfile()

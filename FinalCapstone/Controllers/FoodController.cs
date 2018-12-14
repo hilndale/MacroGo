@@ -154,12 +154,16 @@ namespace FinalCapstone.Controllers
         }
 
         [HttpPost]
-        public IActionResult DeleteFoodItemFromList(FoodItemViewModel model)
+        public IActionResult RemoveFoodItemFromList(FoodItemViewModel model)
         {
             FoodList food = new FoodList();
             DailyFoodItemList listItems = GetActiveDailyFoodItemList();
 
             food.FoodId = model.FoodId;
+            food.FoodName = model.FoodName;
+            food.Protein = model.Protein;
+            food.Carbs = model.Carbs;
+            food.Fat = model.Fat;
 
             listItems.RemoveFromList(food);
             SetActiveDailyFoodItemList(listItems);
@@ -167,7 +171,6 @@ namespace FinalCapstone.Controllers
             return RedirectToAction("ViewDailyFoodItemList");
 
         }
-
         [HttpGet]
         public IActionResult DisplayFoodItems()
         {
@@ -175,6 +178,17 @@ namespace FinalCapstone.Controllers
             return RedirectToAction("ViewDailyFoodItemList");
         }
 
+
+        //[HttpPost]
+        //public ActionResult AddToCart(string sku, int quantity)
+        //{
+
+        //    // Update the Shopping Cart            
+        //    ShoppingCart cart = GetActiveShoppingCart();
+        //    cart.AddToCart(product, quantity);
+
+        //    return RedirectToAction("ViewCart");
+        //}
 
 
         // GET: ViewDailyFoodItemList
@@ -191,16 +205,13 @@ namespace FinalCapstone.Controllers
             {
                 HttpContext.Session.Set(SessionKeys.DailyList, new DailyFoodItemList());
             }
-
             return HttpContext.Session.Get<DailyFoodItemList>(SessionKeys.DailyList);
-
         }
 
         // Returns the active daily food item list. If there isn't one, then one is created.
         private void SetActiveDailyFoodItemList(DailyFoodItemList listItems)
         {
             HttpContext.Session.Set(SessionKeys.DailyList, listItems);
-
         }
 
 

@@ -4,8 +4,6 @@
 }
 
 <h2>Daily Foods</h2>
-
-
 <table>
     <thead>
         <tr>
@@ -24,7 +22,11 @@
     {
         <tr>
             <td>
-                <h3>@item.FoodName</h3>
+                <a asp-controller="Food" asp-action="FoodDetail" asp-route-id="@item.FoodId">
+                    <input type="hidden" asp-for="@item.FoodId" />
+                    <h3>@item.FoodName</h3>
+                </a>
+
             </td>
             <td>
                 <h3>@item.Protein</h3>
@@ -43,7 +45,6 @@
             }
 
         </tr>
-
     }
     <tfoot>
         <tr>
@@ -60,3 +61,4 @@
         </tr>
     </tfoot>
 </table>
+
