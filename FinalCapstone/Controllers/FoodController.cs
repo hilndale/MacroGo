@@ -66,8 +66,7 @@ namespace FinalCapstone.Controllers
             }
 
             else
-            {
-
+            { 
                 FoodList food = new FoodList();
                 food.FoodName = model.FoodName;
                 food.RestaurantId = int.Parse(model.RestaurantChosen);
@@ -77,7 +76,6 @@ namespace FinalCapstone.Controllers
                 food.Protein = model.Protein;
 
                 _foodDAL.AddFoodItem(food);
-                TempData["msg"] = "<button><strong> Your item has been added!</strong></button>";
                 return RedirectToAction(nameof(AddFoodItem));
             }
         }
@@ -98,7 +96,6 @@ namespace FinalCapstone.Controllers
 
             _foodDAL.DeleteFoodItem(food);
 
-            TempData["msg"] = "Your item has been deleted!"; //need session?
             return RedirectToAction("Index", "Home");
         }
 
@@ -134,8 +131,7 @@ namespace FinalCapstone.Controllers
             food.Calories = model.Calories;
 
             _foodDAL.UpdateFoodItem(food);
-
-            TempData["msg"] = "Your item has been changed!"; //need session?
+                       
             return RedirectToAction("Index", "Home");
         }
 
@@ -155,6 +151,21 @@ namespace FinalCapstone.Controllers
             SetActiveDailyFoodItemList(listItems);
             
             return RedirectToAction("ViewDailyFoodItemList");
+        }
+
+        [HttpPost]
+        public IActionResult DeleteFoodItemFromList(FoodItemViewModel model)
+        {
+            FoodList food = new FoodList();
+            DailyFoodItemList listItems = GetActiveDailyFoodItemList();
+
+            food.FoodId = model.FoodId;
+
+            listItems.RemoveFromList(food);
+            SetActiveDailyFoodItemList(listItems);
+
+            return RedirectToAction("ViewDailyFoodItemList");
+                        
         }
 
 

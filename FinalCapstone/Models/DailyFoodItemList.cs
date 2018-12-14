@@ -18,6 +18,15 @@ namespace FinalCapstone.Models
 
         }
 
+        public void RemoveFromList(FoodList food)
+        {
+            if (Items.Contains(food))
+            {
+                Items.Remove(food);
+            }
+        }
+
+
         ///// <summary>
         ///// Get the subtotal of all macros in the daily food list.
         ///// </summary>
