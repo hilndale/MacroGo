@@ -16,6 +16,22 @@ namespace FinalCapstone.Controllers
             _userDAL = userDAL;
         }
 
+        public string Nav()
+        {
+            if (HttpContext.Session.Get(SessionKeys.Username) == null)
+            {
+                return "_AnonymousNav";
+            }
+            else if (_userDAL.IsAdmin(HttpContext.Session.GetString(SessionKeys.Username)))
+            {
+                return "_AdminNav";
+            }
+            else
+            {
+                return "_AuthenticatedNav";
+            }
+        }
+
         public IActionResult Navigation()
         {
             if (HttpContext.Session.Get(SessionKeys.Username) == null)
