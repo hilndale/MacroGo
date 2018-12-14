@@ -2063,7 +2063,7 @@ form {
 }
 
 label {
-    display: block;
+    display: inline-block; /*was block*/
     font-size: 0.9rem;
     font-weight: 700;
 }
@@ -2127,6 +2127,12 @@ textarea {
     .select-wrapper select::-ms-expand {
         display: none;
     }
+
+
+.row1, .row2, .row3, .row4 {
+    display: block;
+}
+
 
 input[type="text"],
 input[type="password"],
