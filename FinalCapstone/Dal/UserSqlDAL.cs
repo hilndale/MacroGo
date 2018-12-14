@@ -48,23 +48,6 @@ namespace FinalCapstone.Dal
             }
         }
 
-        public void SaveAdmin(Users user)
-        {
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                {
-                    conn.Open();
-                    user.UserId = conn.QueryFirst<int>("INSERT INTO Users (Is_Admin, Email, Password) VALUES (1, @emailValue, @password); SELECT CAST(SCOPE_IDENTITY() as int);",
-                        new { emailValue = user.Email, password = user.Password });
-                }
-            }
-            catch (SqlException ex)
-            {
-                throw;
-            }
-        }
-
         public bool UpdateGoals(UserProfileViewModel viewModel)
         {
             try
@@ -133,6 +116,7 @@ namespace FinalCapstone.Dal
 
                     while (reader.Read())
                     {
+                        viewModel.IsAdmin = Convert.ToInt32(reader["Is_Admin"]);
                         viewModel.GoalCarbs = Convert.ToInt32(reader["Goal_Carbs"]);
                         viewModel.GoalProtein = Convert.ToInt32(reader["Goal_Protein"]);
                         viewModel.GoalFat = Convert.ToInt32(reader["Goal_Fat"]);
@@ -172,6 +156,26 @@ namespace FinalCapstone.Dal
                         return true;
                     }
                     return false;
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw;
+            }
+        }
+
+        public void AddAdmin(string email)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string sql = "UPDATE users SET Is_Admin = 1 WHERE email = @email;";
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+
+                    cmd.Parameters.AddWithValue("@email", email.Replace("\"", ""));
+                    cmd.ExecuteNonQuery();
                 }
             }
             catch (SqlException ex)
