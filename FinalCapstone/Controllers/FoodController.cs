@@ -66,7 +66,7 @@ namespace FinalCapstone.Controllers
             }
 
             else
-            { 
+            {
                 FoodList food = new FoodList();
                 food.FoodName = model.FoodName;
                 food.RestaurantId = int.Parse(model.RestaurantChosen);
@@ -131,7 +131,7 @@ namespace FinalCapstone.Controllers
             food.Calories = model.Calories;
 
             _foodDAL.UpdateFoodItem(food);
-                       
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -149,7 +149,7 @@ namespace FinalCapstone.Controllers
 
             listItems.AddToList(food);
             SetActiveDailyFoodItemList(listItems);
-            
+
             return RedirectToAction("ViewDailyFoodItemList");
         }
 
@@ -165,21 +165,16 @@ namespace FinalCapstone.Controllers
             SetActiveDailyFoodItemList(listItems);
 
             return RedirectToAction("ViewDailyFoodItemList");
-                        
+
         }
 
+        [HttpGet]
+        public IActionResult DisplayFoodItems()
+        {
+            DailyFoodItemList listItems = GetActiveDailyFoodItemList();
+            return RedirectToAction("ViewDailyFoodItemList");
+        }
 
-
-        //[HttpPost]
-        //public ActionResult AddToCart(string sku, int quantity)
-        //{
-
-        //    // Update the Shopping Cart            
-        //    ShoppingCart cart = GetActiveShoppingCart();
-        //    cart.AddToCart(product, quantity);
-
-        //    return RedirectToAction("ViewCart");
-        //}
 
 
         // GET: ViewDailyFoodItemList
