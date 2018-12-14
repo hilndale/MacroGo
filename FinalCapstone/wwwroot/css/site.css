@@ -3758,6 +3758,7 @@ body.subpage {
         #header > a[href="#menu"] {
             text-decoration: none;
             -webkit-tap-highlight-color: transparent;
+            font-size:x-large;
         }
 
             #header > a[href="#menu"]:before {
