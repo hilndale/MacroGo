@@ -59,7 +59,7 @@ namespace FinalCapstone.Controllers
                 if (_userDAL.IsAdmin(user.Email))
                 {
                     return RedirectToAction("Index", "Home");
-                    
+
                 }
                 else
                 {
@@ -69,41 +69,23 @@ namespace FinalCapstone.Controllers
             }
         }
 
+        [HttpGet]
         public ActionResult AddAdmin()
         {
-            return View("AddAdmin");
+            AddAdminViewModel model = new AddAdminViewModel();
+            return View("AddAdmin", model);
         }
 
         [HttpPost]
         public ActionResult AddAdmin(AddAdminViewModel model)
         {
-            if (!ModelState.IsValid)
+            if (!_userDAL.IsAdmin(model.EmailAddress))
             {
-                return View("AddAdmin", model);
+                _userDAL.AddAdmin(model.EmailAddress);
+                return RedirectToAction("Index", "Home");
             }
 
-            Users user = _userDAL.GetUser(model.EmailAddress);
-
-            // Check to see if the username already exists
-            if (user != null)
-            {
-                ModelState.AddModelError("email-exists", "That email address is already associated with an account");
-                return View("AddAdmin", model);
-            }
-            else
-            {
-                user = new Users()
-                {
-                    Email = model.EmailAddress,
-                    Password = model.Password
-                };
-                _userDAL.SaveAdmin(user);
-
-                //don't need to set session - admin will still be logged in, they just created another admin 
-                //HttpContext.Session.Set(SessionKeys.Username, model.EmailAddress);
-            }
-
-            return RedirectToAction("Index", "Home");
+            return View("AddAdmin", model);
         }
 
         // GET: User/Register
