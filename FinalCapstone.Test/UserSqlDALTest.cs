@@ -53,22 +53,46 @@ namespace FinalCapstone.Test
             Assert.AreEqual("test@yahoo.com", user.Email);
         }
 
+        [TestMethod]
+        public void UpdateGoalsTest()
+        {
+            UserProfileViewModel user = new UserProfileViewModel()
+            {
+                Email = "test@yahoo.com",
+                GoalCarbs = 100
+            };
+
+            using (SqlConnection conn = new SqlConnection(MacroGoConnectionString))
+            {
+                conn.Open();
+
+                string sql = "INSERT INTO users ([Is_Admin], [Email], [Password], [Goal_Fat], [Goal_Protein], [Goal_Carbs]) VALUES (0, 'test@yahoo.com', 'password', 10, 15, 2000); SELECT CAST(SCOPE_IDENTITY() as int);";
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.ExecuteNonQuery();
+            }
+
+            bool result = _userDAL.UpdateGoals(user);
+            Assert.AreEqual(true, result);
+            Assert.AreEqual(100, user.GoalCarbs);
+        }
 
         [TestMethod]
-        public void SaveAdminTest()
+        public void GetUserProfile()
         {
             using (SqlConnection conn = new SqlConnection(MacroGoConnectionString))
             {
                 conn.Open();
 
-                string sql = "INSERT INTO users ([Is_Admin], [Email], [Password], [Goal_Fat], [Goal_Protein], [Goal_Carbs]) VALUES (1, 'test@yahoo.com', 'password', 10, 15, 2000); SELECT CAST(SCOPE_IDENTITY() as int);";
+                string sql = "INSERT INTO users ([Is_Admin], [Email], [Password], [Goal_Fat], [Goal_Protein], [Goal_Carbs]) VALUES (0, 'test@yahoo.com', 'password', 10, 15, 2000);";
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                int userID = (int)cmd.ExecuteScalar();
+
+                cmd.ExecuteNonQuery();
+
             }
 
-            Users user = new Users
+            Users comparison = new Users()
             {
-                IsAdmin = 1,
+                IsAdmin = 0,
                 Email = "test@yahoo.com",
                 Password = "password",
                 GoalFat = 10,
@@ -76,44 +100,31 @@ namespace FinalCapstone.Test
                 GoalCarbs = 2000
             };
 
-            _userDAL.SaveUser(user);
+            UserProfileViewModel result = _userDAL.GetUserProfile("test@yahoo.com");
 
-            Assert.AreEqual(1, user.IsAdmin);
+            Assert.AreEqual(comparison.GoalCarbs, result.GoalCarbs);
         }
 
+        [TestMethod]
+        public void AddAdminTest()
+        {
+            using (SqlConnection conn = new SqlConnection(MacroGoConnectionString))
+            {
+                conn.Open();
 
-        //public void UpdateGoalsTest()
-        //{
-        //    using(SqlConnection conn = new SqlConnection(MacroGoConnectionString))
-        //    {
-        //        conn.Open();
+                string sqlUser = "INSERT INTO users ([Is_Admin], [Email], [Password], [Goal_Fat], [Goal_Protein], [Goal_Carbs]) VALUES (0, 'test@yahoo.com', 'password', 10, 15, 2000);";
 
-        //        string sql = "INSERT INTO users ([Is_Admin], [Email], [Password], [Goal_Fat], [Goal_Protein], [Goal_Carbs]) VALUES (0, 'test@yahoo.com', 'password', 10, 15, 2000); SELECT CAST(SCOPE_IDENTITY() as int);";
-        //        SqlCommand cmd = new SqlCommand(sql, conn);
-        //        UserProfileViewModel user = (UserProfileViewModel)cmd.ExecuteScalar(); 
-        //    }
+                SqlCommand cmd = new SqlCommand(sqlUser, conn);
 
-        //    bool result = _userDAL.UpdateGoals(user);
-        //}
+                cmd.ExecuteNonQuery();
 
-        //public void GetUserTest()
-        //{
-        //    using(SqlConnection conn = new SqlConnection(MacroGoConnectionString))
-        //    {
-        //        conn.Open();
+            }
 
-        //        string sql = "INSERT INTO users ([Is_Admin], [Email], [Password], [Goal_Fat], [Goal_Protein], [Goal_Carbs]) VALUES (0, 'test@yahoo.com', 'password', 10, 15, 2000); SELECT CAST(SCOPE_IDENTITY() as int);";
-        //        SqlCommand cmd = new SqlCommand(sql, conn);
+            _userDAL.AddAdmin("test@yahoo.com");
+            UserProfileViewModel result = _userDAL.GetUserProfile("test@yahoo.com");
 
-        //       int id = (int)cmd.ExecuteScalar();
-
-        //    }
-
-        //    Users user =  _userDAL.GetUser(email);
-
-
-        //}
-
+            Assert.AreEqual(1, result.IsAdmin);
+        }
     }
 
 

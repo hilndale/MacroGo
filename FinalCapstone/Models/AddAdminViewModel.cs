@@ -11,12 +11,5 @@ namespace FinalCapstone.Models
         [Required(ErrorMessage = "*")]
         [EmailAddress]
         public string EmailAddress { get; set; }
-
-        [Required(ErrorMessage = "*")]
-        public string Password { get; set; }
-
-        [Required(ErrorMessage = "*")]
-        [Compare("Password")]
-        public string ConfirmPassword { get; set; }
     }
 }
