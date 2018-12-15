@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Dapper;
 using FinalCapstone.Models;
-using Dapper;
+using System;
+using System.Data.SqlClient;
 
 namespace FinalCapstone.Dal
 {
@@ -77,15 +74,108 @@ namespace FinalCapstone.Dal
             }
         }
 
-        public UserProfileViewModel GetUserProfile(string Email)
+        public bool ChangePassword(string email, string newPassword)
         {
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    UserProfileViewModel result = conn.QueryFirstOrDefault<UserProfileViewModel>("SELECT * FROM users WHERE Email = @emailValue", new { emailValue = Email.Replace("\"", "") });
-                    return result;
+                    string sql = ("UPDATE Users SET password = @password WHERE email = @email;");
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+
+                    cmd.Parameters.AddWithValue("@email", email.Replace("\"", ""));
+                    cmd.Parameters.AddWithValue("@password", newPassword);
+
+                    cmd.ExecuteNonQuery();
+
+                    return true;
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw;
+            }
+        }
+
+        public UserProfileViewModel GetUserProfile(string Email)
+        {
+            UserProfileViewModel viewModel = new UserProfileViewModel();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string sql = "SELECT * FROM users WHERE Email = @emailValue;";
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+
+                    cmd.Parameters.AddWithValue("@emailValue", Email.Replace("\"", ""));
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        viewModel.IsAdmin = Convert.ToInt32(reader["Is_Admin"]);
+                        viewModel.GoalCarbs = Convert.ToInt32(reader["Goal_Carbs"]);
+                        viewModel.GoalProtein = Convert.ToInt32(reader["Goal_Protein"]);
+                        viewModel.GoalFat = Convert.ToInt32(reader["Goal_Fat"]);
+                    }
+                    return viewModel;
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw;
+            }
+        }
+
+        public bool IsAdmin(string Email)
+        {
+            Users user = new Users();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string sql = "SELECT * FROM users WHERE Email = @emailValue;";
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+
+                    cmd.Parameters.AddWithValue("@emailValue", Email.Replace("\"", ""));
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        user.IsAdmin = Convert.ToInt32(reader["Is_Admin"]);
+                    }
+
+                    if(user.IsAdmin == 1)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw;
+            }
+        }
+
+        public void AddAdmin(string email)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string sql = "UPDATE users SET Is_Admin = 1 WHERE email = @email;";
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+
+                    cmd.Parameters.AddWithValue("@email", email.Replace("\"", ""));
+                    cmd.ExecuteNonQuery();
                 }
             }
             catch (SqlException ex)

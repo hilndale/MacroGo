@@ -3,7 +3,6 @@ using FinalCapstone.Extensions;
 using FinalCapstone.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Configuration;
 
 
 namespace FinalCapstone.Controllers
@@ -23,22 +22,13 @@ namespace FinalCapstone.Controllers
             {
                 return PartialView("_AnonymousNav");
             }
+            else if(_userDAL.IsAdmin(HttpContext.Session.GetString(SessionKeys.Username)))
+            {
+                return PartialView("_AdminNav");
+            }
             else
             {
                 return PartialView("_AuthenticatedNav");
-            }
-        }
-
-        // GET: User/Index
-        public ActionResult UserIndex()
-        {
-            if (HttpContext.Session.Get(SessionKeys.Username) == null)
-            {
-                return RedirectToAction("Login");
-            }
-            else
-            {
-                return RedirectToAction("UserIndex", "Users");
             }
         }
 
@@ -64,17 +54,42 @@ namespace FinalCapstone.Controllers
             {
                 ModelState.AddModelError("invalid-credentials", "An invalid username or password was provided");
                 return View("Login", model);
-                
+
             }
             else
             {
-                //FormsAuthentication.SetAuthCookie(user.Email, true);
-
                 HttpContext.Session.Set(SessionKeys.Username, user.Email);
-                viewModel = _userDAL.GetUserProfile(model.Email);
+
+                if (_userDAL.IsAdmin(user.Email))
+                {
+                    return RedirectToAction("Index", "Home");
+
+                }
+                else
+                {
+                    viewModel = _userDAL.GetUserProfile(model.Email);
+                    return RedirectToAction("UserProfile", viewModel);
+                }
+            }
+        }
+
+        [HttpGet]
+        public ActionResult AddAdmin()
+        {
+            AddAdminViewModel model = new AddAdminViewModel();
+            return View("AddAdmin", model);
+        }
+
+        [HttpPost]
+        public ActionResult AddAdmin(AddAdminViewModel model)
+        {
+            if (!_userDAL.IsAdmin(model.EmailAddress))
+            {
+                _userDAL.AddAdmin(model.EmailAddress);
+                return RedirectToAction("Index", "Home");
             }
 
-            return RedirectToAction("UserProfile", viewModel);
+            return View("AddAdmin", model);
         }
 
         // GET: User/Register
@@ -94,19 +109,22 @@ namespace FinalCapstone.Controllers
 
             UserProfileViewModel viewModel = new UserProfileViewModel();
             Users user = _userDAL.GetUser(model.EmailAddress);
+
             // Check to see if the username already exists
             if (user != null)
             {
-                ModelState.AddModelError("username-exists", "That email address is not available");
+                ModelState.AddModelError("email-exists", "That email address is already associated with an account");
                 return View("Register", model);
             }
             else
             {
-                // Convert from the ViewModel to a Data Model and Savae
                 user = new Users()
                 {
                     Email = model.EmailAddress,
-                    Password = model.Password
+                    Password = model.Password,
+                    GoalCarbs = model.GoalCarbs,
+                    GoalProtein = model.GoalProtein,
+                    GoalFat = model.GoalFat
                 };
                 _userDAL.SaveUser(user);
 
@@ -138,6 +156,33 @@ namespace FinalCapstone.Controllers
             bool success = _userDAL.UpdateGoals(viewModel);
 
             return RedirectToAction("UserProfile", viewModel);
+        }
+
+        [HttpGet]
+        public ActionResult Favorites()
+        {
+            UserFavoritesViewModel model = new UserFavoritesViewModel();
+            return View("Favorites", model);
+        }
+
+        [HttpGet]
+        public ActionResult ChangePassword()
+        {
+            ChangePasswordViewModel model = new ChangePasswordViewModel();
+            return View("ChangePassword", model);
+        }
+
+        [HttpPost]
+        public ActionResult ChangePassword(ChangePasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("ChangePassword", model);
+            }
+
+            _userDAL.ChangePassword(HttpContext.Session.GetString(SessionKeys.Username), model.NewPassword);
+
+            return RedirectToAction("UserProfile", "Users");
         }
 
         // POST: User/Logout

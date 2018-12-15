@@ -3,29 +3,31 @@
     ViewData["Title"] = "Update Food Item";
 }
 
-<h2>Menu Item Detail</h2>
 
-<form asp-controller="Food" asp-action="FoodDetail" method="post">
+<section id="one" class="wrapper style2">
+    <div class="inner">
+        <form asp-controller="Food" asp-action="FoodDetail" method="post">
 
-    <label asp-for="FoodName">Food Name</label>
-    <input asp-for="FoodName" />
-    <label asp-for="Protein">Protein (in grams)</label>
-    <input asp-for="Protein" />
-    <label asp-for="Fat">Fat (in grams)</label>
-    <input asp-for="Fat" />
-    <label asp-for="Carbs">Carbs (in grams)</label>
-    <input asp-for="Carbs" />
-    <label asp-for="Calories">Calories</label>
-    <input asp-for="Calories" />
-    
-    <div style="text-align:center;">
-        <input type="hidden" asp-for="@Model.FoodId" />
-        <input type="hidden" asp-for="@Model.RestaurantId" />
-        <button class="button button1" type="submit">Update Food</button>
-        <button class="button button1" type="submit" asp-action="AddFoodItemToList">Add Food To Daily List</button>
-        <button class="button button1" type="submit" asp-action="DeleteFoodItem">Delete Food</button>
+            <label asp-for="FoodName">Food Name</label>
+            <input asp-for="FoodName" />
+            <label asp-for="Protein">Protein (in grams)</label>
+            <input asp-for="Protein" />
+            <label asp-for="Fat">Fat (in grams)</label>
+            <input asp-for="Fat" />
+            <label asp-for="Carbs">Carbs (in grams)</label>
+            <input asp-for="Carbs" />
+            <label asp-for="Calories">Calories</label>
+            <input asp-for="Calories" />
+
+            <div style="text-align:center;">
+                <input type="hidden" asp-for="@Model.FoodId" />
+                <input type="hidden" asp-for="@Model.RestaurantId" />
+                <button class="button button1" type="submit" asp-action="FoodDetail">Update Food</button>
+                <button class="button button1" type="submit" asp-action="DeleteFoodItem">Delete Food</button>
+                <button class="button button1" type="submit" asp-action="AddFoodItemToList">Add Food To Daily List</button>
+                <button class="button button-1" type="submit" asp-action="RemoveFoodItemFromList">Remove Food From Daily List</button>
+            </div>
+        </form>
     </div>
-
-</form>
-
+</section>
 

@@ -2,24 +2,44 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-
-@*<div class="container">
-    <div class="row">*@
+<h2>Search</h2>
 <section id="one" class="wrapper style2">
     <div class="inner">
         <form asp-controller="home" asp-action="Result" method="get">
-            <label asp-for="MinCarbs">Min Carbs: </label>
-            <input id="minCarbs" asp-for="MinCarbs" />
-            <label asp-for="MaxCarbs">Max Carbs: </label>
-            <input id="maxCarbs" asp-for="MaxCarbs" />
-            <label asp-for="MinProtein">Min Protein: </label>
-            <input id="minProtein" asp-for="MinProtein" />
-            <label asp-for="MaxProtein">Max Protein: </label>
-            <input id="maxProtein" asp-for="MaxProtein" />
-            <label asp-for="MinFat">Min Fat: </label>
-            <input id="minFat" asp-for="MinFat" />
-            <label asp-for="MaxFat">Max Fat: </label>
-            <input id="maxFat" asp-for="MaxFat" />
+            <div class="row1">
+                <label asp-for="MinCarbs">Min Carbs:&ensp;</label>
+                <input id="minCarbs" asp-for="MinCarbs" />
+                <label asp-for="MaxCarbs">Max Carbs: &ensp;</label>
+                <input id="maxCarbs" asp-for="MaxCarbs" />
+            </div>
+            <div class="row2">
+                <label asp-for="MinProtein">Min Protein: </label>
+                <input id="minProtein" asp-for="MinProtein" />
+                <label asp-for="MaxProtein">Max Protein: </label>
+                <input id="maxProtein" asp-for="MaxProtein" />
+            </div>
+            <div class="row3">
+                <label asp-for="MinFat">Min Fat: &emsp; &ensp;</label>
+                <input id="minFat" asp-for="MinFat" />
+                <label asp-for="MaxFat">Max Fat: &emsp;&ensp;</label>
+                <input id="maxFat" asp-for="MaxFat" />
+            </div>
+
+            <div class="row4">
+                <label asp-for="RestaurantChosen">Filter by Restaurant </label>
+                <select id="restaurant" asp-for="RestaurantChosen" asp-items="Model.RestaurantSelect"></select>
+            </div>
+
+            <div class="row4">
+                <label asp-for="FilterCountSelect"># of results: </label>
+                <select id="filter" asp-for="FilterCountSelect" asp-items="Model.FilterCount"></select>
+            </div>
+
+            <div class="row4">
+                <label asp-for="OrderbySelect">Order by 1: </label>
+                <select asp-for="OrderbySelect" asp-items="Model.OrderBy"></select>
+            </div>
+
 
             <label asp-for="RestaurantChosen">Filter by Restaurant </label>
             <select id="restaurant" asp-for="RestaurantChosen" asp-items="Model.RestaurantSelect"></select>
@@ -39,6 +59,12 @@
 
             <input id="submitButton" type="submit" value="Submit" />
             <script src="~/Scripts/TeamLimaLocationAPI.js"></script>
+
+            <div style="text-align:center;">
+                <input id="button button1" type="submit" value="Search" />
+            </div>
+
+
         </form>
     </div>
 </section>

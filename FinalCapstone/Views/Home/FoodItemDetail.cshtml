@@ -5,32 +5,32 @@
 }
 
 <h2>Update Food</h2>
+<section id="one" class="wrapper style2">
+    <div class="inner">
+        <form asp-action="FoodItemDetail" method="get">
 
-<form asp-action="FoodItemDetail" method="get">
+            <label asp-for="FoodId">Food Id</label>
+            <input asp-for="FoodId" />
+            <label asp-for="FoodName">Food Name</label>
+            <input asp-for="FoodName" />
+            <label asp-for="RestaurantId">Restaurant Id</label>
+            <input asp-for="RestaurantId" />
+            <label asp-for="Protein">Protein (in grams)</label>
+            <input asp-for="Protein" />
+            <label asp-for="Fat">Fat (in grams)</label>
+            <input asp-for="Fat" />
+            <label asp-for="Carbs">Carbs (in grams)</label>
+            <input asp-for="Carbs" />
+            <label asp-for="Calories">Calories</label>
+            <input asp-for="Calories" />
 
+            <div style="text-align:center;">
+                <button class="button button1" type="submit">Submit</button>
+            </div>
 
-
-    <label asp-for="FoodId">Food Id</label>
-    <input asp-for="FoodId" />
-    <label asp-for="FoodName">Food Name</label>
-    <input asp-for="FoodName" />
-    <label asp-for="RestaurantId">Restaurant Id</label>
-    <input asp-for="RestaurantId" />
-    <label asp-for="Protein">Protein (in grams)</label>
-    <input asp-for="Protein" />
-    <label asp-for="Fat">Fat (in grams)</label>
-    <input asp-for="Fat" />
-    <label asp-for="Carbs">Carbs (in grams)</label>
-    <input asp-for="Carbs" />
-    <label asp-for="Calories">Calories</label>
-    <input asp-for="Calories" />
-
-
-    <div style="text-align:center;">
-        <button class="button button1" type="submit">Submit</button>
-    </div>
-
-</form>
+        </form>
+        </div>
+    </section>
 
 
 

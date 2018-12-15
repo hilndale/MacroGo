@@ -1,0 +1,18 @@
+﻿@model AddAdminViewModel
+
+@{
+    ViewData["Title"] = "AddAdmin";
+}
+
+<h2>AddAdmin</h2>
+
+<div>
+    @using (Html.BeginForm("AddAdmin", "Users", FormMethod.Post))
+    {
+        <div>
+            @Html.TextBoxFor(m => m.EmailAddress, new { placeholder = "Email" })
+            @Html.ValidationMessageFor(m => m.EmailAddress)
+        </div>
+        <button>Make User an Admin</button>
+    }
+</div>

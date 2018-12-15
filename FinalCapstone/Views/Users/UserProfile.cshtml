@@ -4,9 +4,37 @@
     ViewData["Title"] = "UserProfile";
 }
 
-<h2>@Model.Email</h2>
-<p>Fat Goals: @Model.GoalFat g per day</p>
-<p>Carbs Goals: @Model.GoalCarbs g per day</p>
-<p>Protein Goals: @Model.GoalProtein g per day</p>
+<h2>User Profile</h2>
+<section id="one" class="wrapper style2">
+    <div class="inner">
+        <div class="row4">
+            <h4>Carbs Goals: @Model.GoalCarbs g per day</h4>
+        </div>
+        <div class="row4">
+            <h4>Protein Goals: @Model.GoalProtein g per day</h4>
+        </div>
+        <div class="row4">
+            <h4>Fat Goals: @Model.GoalFat g per day</h4>
+        </div>
 
-@Html.ActionLink("Update Goals", "UpdateUserGoals", "Users")
+        <div class="row4">
+            <button onclick="location.href='@Url.Action("UpdateUserGoals", "Users")';">Update Goals</button>
+            <br />
+        </div>
+
+        <div class="row4">
+            <button onclick="location.href='@Url.Action("ChangePassword", "Users")';">Change Password</button>
+            <br />
+        </div>
+
+        <div class="row4">
+            <button onclick="location.href='@Url.Action("Favorites", "Users")';">My Favorites</button> @*does nothing yet- there is no favorites action in controller*@
+            <br />
+        </div>
+
+        <div class="row4">
+            <button onclick="location.href='@Url.Action("Logout", "Users")';">Log Out</button>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,51 @@
+﻿@model UserFavoritesViewModel
+
+@{
+    ViewData["Title"] = "Favorites";
+}
+
+<h2>Favorites</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Restaurant Name</th>
+            <th>Food</th>
+            <th>Calories</th>
+            <th>Carbs</th>
+            <th>Protein</th>
+            <th>Fat</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Favorites)
+        {
+            <tr>
+                <td>
+                    <a asp-controller="Home" asp-action="RestaurantDetail" asp-route-id="@item.RestaurantId">
+                        <input type="hidden" asp-for="@item.RestaurantId" />
+                        @item.RestaurantName
+                    </a>
+                </td>
+                <td>
+                    <a asp-controller="Food" asp-action="FoodDetail" asp-route-id="@item.FoodId">
+                        <input type="hidden" asp-for="@item.FoodId" />
+                        @item.FoodName
+                    </a>
+                </td>
+                <td>
+                    @item.Calories
+                </td>
+                <td>
+                    @item.Carbs
+                </td>
+                <td>
+                    @item.Protein
+                </td>
+                <td>
+                    @item.Fat
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

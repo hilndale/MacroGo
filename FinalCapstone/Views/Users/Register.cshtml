@@ -6,21 +6,36 @@
 <h2>Register</h2>
 
 <div>
-@using (Html.BeginForm("Register", "Users", FormMethod.Post))
-{
-    <div>
-        @Html.TextBoxFor(m => m.EmailAddress, new { placeholder = "Email" })
-        @Html.ValidationMessageFor(m => m.EmailAddress)
-        @Html.ValidationMessage("username-exists")
-    </div>
-    <div>
-        @Html.PasswordFor(m => m.Password, new { placeholder = "password" })
-        @Html.ValidationMessageFor(m => m.Password)
-    </div>
-    <div>
-        @Html.PasswordFor(m => m.ConfirmPassword, new { placeholder = "type password again" })
-        @Html.ValidationMessageFor(m => m.ConfirmPassword)
-    </div>
-    <button>Register</button>
-}
+    @using (Html.BeginForm("Register", "Users", FormMethod.Post))
+    {
+        <section id="one" class="wrapper style2">
+            <div class="inner">
+                <div class="row4">
+                    @Html.TextBoxFor(m => m.EmailAddress, new { placeholder = "Email" })
+                    @Html.ValidationMessageFor(m => m.EmailAddress)
+                    @Html.ValidationMessage("email-exists")
+                </div>
+                <div class="row4">
+                    @Html.PasswordFor(m => m.Password, new { placeholder = "Password" })
+                    @Html.ValidationMessageFor(m => m.Password)
+                </div>
+                <div class="row4">
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { placeholder = "Type password again" })
+                    @Html.ValidationMessageFor(m => m.ConfirmPassword)
+                </div>
+                <div class="row4">
+                    @Html.TextBoxFor(m => m.GoalCarbs, new { placeholder = "Daily carbohydrate goal (g)" })
+                </div>
+                <div class="row4">
+                    @Html.TextBoxFor(m => m.GoalProtein, new { placeholder = "Daily protein goal (g)" })
+                </div>
+                <div class="row4">
+                    @Html.TextBoxFor(m => m.GoalFat, new { placeholder = "Daily fat goal (g)" })
+                </div>
+                <div class="row4">
+                    <button>Register</button>
+                </div>
+            </div>
+        </section>
+    }
 </div>

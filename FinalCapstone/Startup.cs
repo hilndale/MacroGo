@@ -28,13 +28,14 @@ namespace FinalCapstone
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
+                options.CheckConsentNeeded = context => false;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
             services.AddScoped<IFoodItemDAL>(x => new FoodItemSqlDAL(Configuration.GetConnectionString("MacroGo")));
             services.AddScoped<IRestaurantDAL>(x => new RestaurantSqlDAL(Configuration.GetConnectionString("MacroGo")));
             services.AddScoped<IUserDAL>(x => new UserSqlDAL(Configuration.GetConnectionString("MacroGo")));
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddSession(options =>
             {
@@ -62,7 +63,7 @@ namespace FinalCapstone
             app.UseStaticFiles();
             app.UseCookiePolicy();
             
-            app.UseSession(); //added, not sure if we'll need
+            app.UseSession();  
 
 
             app.UseMvc(routes =>

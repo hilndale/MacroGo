@@ -154,6 +154,27 @@ namespace FinalCapstone.Test
             IList<Item> results = _foodItemDAL.GetAllFoodItems();
             Assert.AreEqual(1, results.Count);
         }
+
+        [TestMethod]
+        public void GetFoodItemTest()
+        {
+            using(SqlConnection conn = new SqlConnection(MacroGoConnectionString))
+            {
+                conn.Open();
+
+                string sqlRest = "INSERT INTO restaurants ([Restaurant_Name], [Open_Time], [Close_Time]) VALUES ('Burger King', '6:00AM', '11:00PM'); SELECT CAST(SCOPE_IDENTITY() as int);";
+                SqlCommand cmd = new SqlCommand(sqlRest, conn);
+                restaurantId = (int)cmd.ExecuteScalar();
+
+                string sqlFood = "INSERT INTO food ([Food_Item], [Restaurant_Id], [Calories], [Total_Fat_g], [Carbohydrates_g], [Protein_g]) VALUES ('cheeseburger', @Restaurant_Id, 14, 12, 30, 45);SELECT CAST(SCOPE_IDENTITY() as int);";
+                SqlCommand cmd2 = new SqlCommand(sqlFood, conn);
+                cmd2.Parameters.AddWithValue("@Restaurant_Id", restaurantId);
+                foodId = (int)cmd2.ExecuteScalar();
+            }
+
+            FoodList result = _foodItemDAL.GetFood(foodId);
+            Assert.AreEqual(foodId, result.FoodId);
+        }
     }
 }
 
