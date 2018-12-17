@@ -184,7 +184,7 @@ namespace FinalCapstone.Controllers
                 _userfavoritesDAL.AddToFavorites(userFavorite);
 
             } 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Favorites", "Users");
         }
 
 

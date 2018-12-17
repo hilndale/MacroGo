@@ -6,7 +6,6 @@
 
 <h2>AddAdmin</h2>
 
-<div>
     @using (Html.BeginForm("AddAdmin", "Users", FormMethod.Post))
     {
         <section id="one" class="wrapper style2">
@@ -16,6 +15,6 @@
                     @Html.ValidationMessageFor(m => m.EmailAddress)
                 </div>
                 <button>Make User an Admin</button>
-                }
             </div>
     </section>
+    }

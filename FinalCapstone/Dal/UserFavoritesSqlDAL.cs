@@ -65,8 +65,7 @@ namespace FinalCapstone.Dal
                         favorite.Calories = Convert.ToInt32(reader["calories"]);
 
                         favorites.Add(favorite);
-                    }
-                    
+                    }                     
                 }
                 return favorites;
             }
@@ -76,6 +75,8 @@ namespace FinalCapstone.Dal
             }    
         }  
     }
+
+
 
 
     //public bool DeleteFromFavorites()
