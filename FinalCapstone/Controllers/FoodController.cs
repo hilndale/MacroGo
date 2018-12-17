@@ -215,6 +215,17 @@ namespace FinalCapstone.Controllers
             return HttpContext.Session.Get<DailyFoodItemList>(SessionKeys.DailyList);
         }
 
+        private int GetActiveUserFromSession()
+        {
+            if (HttpContext.Session.Get(SessionKeys.UserId) == null)
+            {
+                RedirectToAction("Login", "Home");
+            }
+            //return HttpContext.Session.Get<Users>(SessionKeys.Username);
+            int userId = (int)HttpContext.Session.GetInt32(SessionKeys.UserId);
+            return userId;
+        }
+
         // Returns the active daily food item list. If there isn't one, then one is created.
         private void SetActiveDailyFoodItemList(DailyFoodItemList listItems)
         {
