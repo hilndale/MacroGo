@@ -113,7 +113,14 @@ namespace FinalCapstone.Controllers
             foodModel.Carbs = food.Carbs;
             foodModel.Calories = food.Calories;
 
-            return View(foodModel);
+            if(HttpContext.Session.GetString(SessionKeys.AdminFlag) == "1")
+            {
+                return View("FoodDetail_Admin", foodModel);
+            }
+            else
+            {
+                return View("FoodDetail", foodModel);
+            }
         }
 
         [HttpPost]
