@@ -16,22 +16,6 @@ namespace FinalCapstone.Controllers
             _userDAL = userDAL;
         }
 
-        public IActionResult Navigation()
-        {
-            if (HttpContext.Session.Get(SessionKeys.Username) == null)
-            {
-                return PartialView("_AnonymousNav");
-            }
-            else if(_userDAL.IsAdmin(HttpContext.Session.GetString(SessionKeys.Username)))
-            {
-                return PartialView("_AdminNav");
-            }
-            else
-            {
-                return PartialView("_AuthenticatedNav");
-            }
-        }
-
         public ActionResult Login()
         {
             return View("Login");
@@ -63,7 +47,6 @@ namespace FinalCapstone.Controllers
                 if (_userDAL.IsAdmin(user.Email))
                 {
                     return RedirectToAction("Index", "Home");
-
                 }
                 else
                 {
@@ -128,7 +111,6 @@ namespace FinalCapstone.Controllers
                 };
                 _userDAL.SaveUser(user);
 
-                //FormsAuthentication.SetAuthCookie(user.Email, true);
                 HttpContext.Session.Set(SessionKeys.Username, model.EmailAddress);
             }
 
@@ -180,15 +162,23 @@ namespace FinalCapstone.Controllers
                 return View("ChangePassword", model);
             }
 
-            _userDAL.ChangePassword(HttpContext.Session.GetString(SessionKeys.Username), model.NewPassword);
+            Users user = _userDAL.GetUser(HttpContext.Session.GetString(SessionKeys.Username));
 
-            return RedirectToAction("UserProfile", "Users");
+            if (model.OldPassword == user.Password)
+            {
+                _userDAL.ChangePassword(HttpContext.Session.GetString(SessionKeys.Username), model.NewPassword);
+                return RedirectToAction("UserProfile", "Users");
+            }
+            else
+            {
+                model.ErrorMessage = "Old password is not correct";
+                return View("ChangePassword", model);
+            }
         }
 
         // POST: User/Logout
         public ActionResult Logout()
         {
-            //    FormsAuthentication.SignOut();
             HttpContext.Session.Remove(SessionKeys.Username);
             HttpContext.Session.Remove(SessionKeys.AdminFlag);
             return RedirectToAction("Index", "Home");

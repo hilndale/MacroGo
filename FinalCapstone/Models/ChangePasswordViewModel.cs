@@ -9,6 +9,11 @@ namespace FinalCapstone.Models
     public class ChangePasswordViewModel
     {
         [Required(ErrorMessage = "This field is required")]
+        [Display(Name = "Old Password:")]
+        public string OldPassword { get; set; }
+
+        [Required(ErrorMessage = "This field is required")]
+        [Display(Name = "New Password:")]
         public string NewPassword { get; set; }
 
         [Required(ErrorMessage = "This field is required")]
