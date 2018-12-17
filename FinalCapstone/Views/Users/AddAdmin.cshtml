@@ -9,10 +9,13 @@
 <div>
     @using (Html.BeginForm("AddAdmin", "Users", FormMethod.Post))
     {
-        <div>
-            @Html.TextBoxFor(m => m.EmailAddress, new { placeholder = "Email" })
-            @Html.ValidationMessageFor(m => m.EmailAddress)
-        </div>
-        <button>Make User an Admin</button>
-    }
-</div>
+        <section id="one" class="wrapper style2">
+            <div class="inner">
+                <div class="row4">
+                    @Html.TextBoxFor(m => m.EmailAddress, new { placeholder = "Email" })
+                    @Html.ValidationMessageFor(m => m.EmailAddress)
+                </div>
+                <button>Make User an Admin</button>
+                }
+            </div>
+    </section>
