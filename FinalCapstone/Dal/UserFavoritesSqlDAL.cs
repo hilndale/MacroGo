@@ -56,7 +56,7 @@ namespace FinalCapstone.Dal
                         UserFavorites favorite = new UserFavorites();
 
                         favorite.RestaurantName = Convert.ToString(reader["restaurant_name"]);
-                        favorite.RestaurantId = Convert.ToInt32(reader["food_id"]);
+                        favorite.RestaurantId = Convert.ToInt32(reader["restaurant_id"]);
                         favorite.FoodId = Convert.ToInt32(reader["food_id"]);
                         favorite.FoodName = Convert.ToString(reader["food_item"]);
                         favorite.Protein = Convert.ToInt32(reader["protein_g"]);
