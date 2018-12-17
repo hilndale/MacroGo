@@ -10,6 +10,7 @@ namespace FinalCapstone.Dal
     public interface IUserFavoritesSqlDAL
     {
         void AddToFavorites(UserFavorites userFavorite);
+        void DeleteFromFavorites(UserFavorites userFavorite);
         IList<UserFavorites> GetFavorites(int userID);
     }
 }

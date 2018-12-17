@@ -171,7 +171,7 @@ namespace FinalCapstone.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Favorites", "Users");
             }
             else
             {
@@ -183,40 +183,25 @@ namespace FinalCapstone.Controllers
 
                 _userfavoritesDAL.AddToFavorites(userFavorite);
 
-            } 
+            }
             return RedirectToAction("Favorites", "Users");
         }
 
+        [HttpPost]
+        public IActionResult DeleteFromFavorites(UserFavorites userFavorite)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Favorites", "Users");
+            }
+            else
+            {
+                userFavorite.UserId = GetActiveUserFromSession();
+                _userfavoritesDAL.DeleteFromFavorites(userFavorite);
+            }
 
-
-
-        //[HttpGet]
-        //public ActionResult Favorites()
-        //{
-        //    UserFavoritesViewModel model = new UserFavoritesViewModel();
-        //    return View("Favorites", model);
-        //}
-
-
-        //[HttpGet]
-        //public IActionResult FoodDetail(int id)
-        //{
-        //    FoodList food = _foodDAL.GetFood(id);
-        //    FoodItemViewModel foodModel = new FoodItemViewModel();
-
-        //    foodModel.FoodId = food.FoodId;
-        //    foodModel.FoodName = food.FoodName;
-        //    foodModel.RestaurantId = food.RestaurantId;
-        //    foodModel.Protein = food.Protein;
-        //    foodModel.Fat = food.Fat;
-        //    foodModel.Carbs = food.Carbs;
-        //    foodModel.Calories = food.Calories;
-
-        //    return View(foodModel);
-        //}
-
-
-
+            return RedirectToAction("Favorites", "Users");
+        }
 
 
         [HttpGet]

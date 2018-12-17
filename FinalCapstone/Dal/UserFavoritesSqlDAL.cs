@@ -29,8 +29,8 @@ namespace FinalCapstone.Dal
                     cmd.Parameters.AddWithValue("@restaurant_id", userFavorite.RestaurantId);
                     cmd.Parameters.AddWithValue("@food_id", userFavorite.FoodId);
 
-                    cmd.ExecuteNonQuery();                    
-                } 
+                    cmd.ExecuteNonQuery();
+                }
             }
             catch (SqlException ex)
             {
@@ -65,46 +65,39 @@ namespace FinalCapstone.Dal
                         favorite.Calories = Convert.ToInt32(reader["calories"]);
 
                         favorites.Add(favorite);
-                    }                     
+                    }
                 }
                 return favorites;
             }
             catch (SqlException ex)
             {
                 throw;
-            }    
-        }  
+            }
+        }
+
+        public void DeleteFromFavorites(UserFavorites userFavorite)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand("DELETE FROM user_favorites WHERE @Food_Id = Food_Id AND @User_Id = User_Id;", conn);
+                    cmd.Parameters.AddWithValue("@Food_Id", userFavorite.FoodId);
+                    cmd.Parameters.AddWithValue("@User_Id", userFavorite.UserId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw;
+            }
+
+        }
     }
 
 
-
-
-    //public bool DeleteFromFavorites()
-    //{
-
-    //    try
-    //    {
-    //        bool result = false;
-    //        using (SqlConnection conn = new SqlConnection(connectionString))
-    //        {
-    //            conn.Open();
-    //            string sql = "DELETE * FROM user_favorites WHERE ;";
-    //            SqlCommand cmd = new SqlCommand(sql, conn);
-    //            int count = cmd.ExecuteNonQuery();
-
-    //            if (count == 1)
-    //            {
-    //                result = true;
-    //            }
-    //        }
-    //        return result;
-    //    }
-    //    catch(Exception ex)
-    //    {
-
-    //    }
-
-    //}
 
 
 }
