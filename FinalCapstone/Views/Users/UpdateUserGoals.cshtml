@@ -8,8 +8,8 @@
 
 @using (Html.BeginForm("UpdateUserGoals", "Users", FormMethod.Post))
 {
-    @Html.TextBoxFor(m => m.GoalCarbs, new { placeholder = "Carbs Goal" })
-    @Html.TextBoxFor(m => m.GoalFat, new { placeholder = "Fat Goal" })
-    @Html.TextBoxFor(m => m.GoalProtein, new { placeholder = "Protein Goal" })
+    @Html.TextBoxFor(m => m.GoalCarbs, "{0:#.#}", new { placeholder = "Carbs Goal" })
+    @Html.TextBoxFor(m => m.GoalFat, "{0:#.#}", new { placeholder = "Fat Goal" })
+    @Html.TextBoxFor(m => m.GoalProtein, "{0:#.#}", new { placeholder = "Protein Goal" })
     <button>Update Goals</button>
 }
