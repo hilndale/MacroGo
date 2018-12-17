@@ -42,7 +42,7 @@ namespace FinalCapstone.Dal
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                string sql = "SELECT * FROM user_favorites WHERE user_id = @user_id;";
+                string sql = "SELECT * FROM user_favorites uf JOIN food f ON uf.Food_Id = f.Food_Id JOIN Restaurants r ON f.Restaurant_Id = r.Restaurant_Id WHERE user_id = @user_id;";
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.AddWithValue("@user_id", userID);
 
@@ -52,16 +52,15 @@ namespace FinalCapstone.Dal
                     UserFavorites favorite = new UserFavorites();
 
                     favorite.RestaurantName = Convert.ToString(reader["restaurant_name"]);
-
-
-                   
-
-
+                    favorite.RestaurantId = Convert.ToInt32(reader["food_id"]);
+                    favorite.FoodId = Convert.ToInt32(reader["food_id"]);
+                    favorite.FoodName = Convert.ToString(reader["food_name"]);
+                    favorite.Protein = Convert.ToInt32(reader["protein"]);
+                    favorite.Fat = Convert.ToInt32(reader["fat"]);
+                    favorite.Carbs = Convert.ToInt32(reader["carbs"]);
+                    favorite.Calories = Convert.ToInt32(reader["calories"]); 
                 }
-
             }
-
-
             return favorites;
         }
 

@@ -10,5 +10,6 @@ namespace FinalCapstone
         public static string Username = "Username";
         public static string UserId = "UserId";
         public static string DailyList = "DailyFoodList";
+        public static string AdminFlag = "AdminFlag";
     }
 }
