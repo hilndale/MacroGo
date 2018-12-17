@@ -35,6 +35,7 @@ namespace FinalCapstone
             services.AddScoped<IFoodItemDAL>(x => new FoodItemSqlDAL(Configuration.GetConnectionString("MacroGo")));
             services.AddScoped<IRestaurantDAL>(x => new RestaurantSqlDAL(Configuration.GetConnectionString("MacroGo")));
             services.AddScoped<IUserDAL>(x => new UserSqlDAL(Configuration.GetConnectionString("MacroGo")));
+            services.AddScoped<IUserFavoritesSqlDAL>(x => new UserFavoritesSqlDAL(Configuration.GetConnectionString("MacroGo")));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddSession(options =>

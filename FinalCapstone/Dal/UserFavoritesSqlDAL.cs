@@ -16,72 +16,98 @@ namespace FinalCapstone.Dal
             this.connectionString = connectionString;
         }
 
-
         public bool AddToFavorites()
         {
-            bool result = false;
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                conn.Open();
-                string sql = "INSERT INTO user_favorites ([User_Id], [Restaurant_Id], [Food_Id]) VALUES (user_Id, restaurant_id, food_id);";
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                int count = cmd.ExecuteNonQuery();
-
-                if (count == 1)
+                bool result = false;
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    result = true;
-                }
+                    conn.Open();
+                    string sql = "INSERT INTO user_favorites ([User_Id], [Restaurant_Id], [Food_Id]) VALUES (user_Id, restaurant_id, food_id);";
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    int count = cmd.ExecuteNonQuery();
+
+                    if (count == 1)
+                    {
+                        result = true;
+                    }
+                    return result;
+                } 
             }
-            return result;
+            catch (SqlException ex)
+            {
+                throw;
+            }
         }
 
         public IList<UserFavorites> GetFavorites(int userID)
         {
             IList<UserFavorites> favorites = new List<UserFavorites>();
-
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                conn.Open();
-                string sql = "SELECT * FROM user_favorites uf JOIN food f ON uf.Food_Id = f.Food_Id JOIN Restaurants r ON f.Restaurant_Id = r.Restaurant_Id WHERE user_id = @user_id;";
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@user_id", userID);
-
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    UserFavorites favorite = new UserFavorites();
+                    conn.Open();
+                    string sql = "SELECT * FROM user_favorites uf JOIN food f ON uf.Food_Id = f.Food_Id JOIN Restaurants r ON f.Restaurant_Id = r.Restaurant_Id WHERE user_id = @user_id;";
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@user_id", userID);
 
-                    favorite.RestaurantName = Convert.ToString(reader["restaurant_name"]);
-                    favorite.RestaurantId = Convert.ToInt32(reader["food_id"]);
-                    favorite.FoodId = Convert.ToInt32(reader["food_id"]);
-                    favorite.FoodName = Convert.ToString(reader["food_name"]);
-                    favorite.Protein = Convert.ToInt32(reader["protein"]);
-                    favorite.Fat = Convert.ToInt32(reader["fat"]);
-                    favorite.Carbs = Convert.ToInt32(reader["carbs"]);
-                    favorite.Calories = Convert.ToInt32(reader["calories"]); 
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        UserFavorites favorite = new UserFavorites();
+
+                        favorite.RestaurantName = Convert.ToString(reader["restaurant_name"]);
+                        favorite.RestaurantId = Convert.ToInt32(reader["food_id"]);
+                        favorite.FoodId = Convert.ToInt32(reader["food_id"]);
+                        favorite.FoodName = Convert.ToString(reader["food_name"]);
+                        favorite.Protein = Convert.ToInt32(reader["protein"]);
+                        favorite.Fat = Convert.ToInt32(reader["fat"]);
+                        favorite.Carbs = Convert.ToInt32(reader["carbs"]);
+                        favorite.Calories = Convert.ToInt32(reader["calories"]);
+                    }
                 }
+                return favorites;
             }
-            return favorites;
+            catch (SqlException ex)
+            {
+                throw;
+            }
+
+
+
         }
 
-
-        //public bool DeleteFromFavorites()
-        //{
-        //    bool result = false;
-        //    using (SqlConnection conn = new SqlConnection(connectionString))
-        //    {
-        //        conn.Open();
-        //        string sql = "DELETE * FROM user_favorites WHERE ;";
-        //        SqlCommand cmd = new SqlCommand(sql, conn);
-        //        int count = cmd.ExecuteNonQuery();
-
-        //        if (count == 1)
-        //        {
-        //            result = true;
-        //        }
-        //    }
-        //    return result;
-        //}
-
     }
+
+
+    //public bool DeleteFromFavorites()
+    //{
+
+    //    try
+    //    {
+    //        bool result = false;
+    //        using (SqlConnection conn = new SqlConnection(connectionString))
+    //        {
+    //            conn.Open();
+    //            string sql = "DELETE * FROM user_favorites WHERE ;";
+    //            SqlCommand cmd = new SqlCommand(sql, conn);
+    //            int count = cmd.ExecuteNonQuery();
+
+    //            if (count == 1)
+    //            {
+    //                result = true;
+    //            }
+    //        }
+    //        return result;
+    //    }
+    //    catch(Exception ex)
+    //    {
+
+    //    }
+
+    //}
+
+
 }

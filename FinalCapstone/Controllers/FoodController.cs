@@ -17,12 +17,14 @@ namespace FinalCapstone.Controllers
         private readonly IFoodItemDAL _foodDAL;
         private readonly IRestaurantDAL _restaurantDAL;
         private readonly IUserDAL _userDAL;
+        private readonly IUserFavoritesSqlDAL _userfavoritesDAL;
 
-        public FoodController(IFoodItemDAL foodDAL, IRestaurantDAL restaurantDAL, IUserDAL userDAL) : base(userDAL)
+        public FoodController(IFoodItemDAL foodDAL, IRestaurantDAL restaurantDAL, IUserDAL userDAL, IUserFavoritesSqlDAL userFavoritesDAL) : base(userDAL, userFavoritesDAL)
         {
             _foodDAL = foodDAL;
             _restaurantDAL = restaurantDAL;
             _userDAL = userDAL;
+            _userfavoritesDAL = userFavoritesDAL;
         }
 
         [HttpGet]
