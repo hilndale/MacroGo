@@ -8,5 +8,6 @@ namespace FinalCapstone.Models
     public class UserFavoritesViewModel
     {
         public IList<UserFavorites> Favorites { get; set; }
+
     }
 }

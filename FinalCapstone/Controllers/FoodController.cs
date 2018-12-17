@@ -99,25 +99,30 @@ namespace FinalCapstone.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+       
+
         [HttpGet]
         public IActionResult FoodDetail(int id)
         {
             FoodList food = _foodDAL.GetFood(id);
-            FoodItemViewModel foodModel = new FoodItemViewModel();
+            int userId = GetActiveUserFromSession();
+            //FoodItemViewModel foodModel = new FoodItemViewModel();
+            UserandFoodItemViewModel userFoodModel = new UserandFoodItemViewModel();
 
-            foodModel.FoodId = food.FoodId;
-            foodModel.FoodName = food.FoodName;
-            foodModel.RestaurantId = food.RestaurantId;
-            foodModel.Protein = food.Protein;
-            foodModel.Fat = food.Fat;
-            foodModel.Carbs = food.Carbs;
-            foodModel.Calories = food.Calories;
+            userFoodModel.FoodId = food.FoodId;
+            userFoodModel.FoodName = food.FoodName;
+            userFoodModel.RestaurantId = food.RestaurantId;
+            userFoodModel.Protein = food.Protein;
+            userFoodModel.Fat = food.Fat;
+            userFoodModel.Carbs = food.Carbs;
+            userFoodModel.Calories = food.Calories;
+            userFoodModel.UserId= userId;
 
-            return View(foodModel);
+            return View(userFoodModel);
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken] //updating food item
         public IActionResult FoodDetail(FoodItemViewModel model)
         {
             FoodList food = new FoodList();
@@ -134,7 +139,7 @@ namespace FinalCapstone.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-
+                     
         [HttpPost]
         public IActionResult AddFoodItemToList(FoodItemViewModel model)
         {
@@ -178,19 +183,6 @@ namespace FinalCapstone.Controllers
             return RedirectToAction("ViewDailyFoodItemList");
         }
 
-
-        //[HttpPost]
-        //public ActionResult AddToCart(string sku, int quantity)
-        //{
-
-        //    // Update the Shopping Cart            
-        //    ShoppingCart cart = GetActiveShoppingCart();
-        //    cart.AddToCart(product, quantity);
-
-        //    return RedirectToAction("ViewCart");
-        //}
-
-
         // GET: ViewDailyFoodItemList
         public ActionResult ViewDailyFoodItemList()
         {
@@ -208,29 +200,21 @@ namespace FinalCapstone.Controllers
             return HttpContext.Session.Get<DailyFoodItemList>(SessionKeys.DailyList);
         }
 
+        private int GetActiveUserFromSession()
+        {             
+            if (HttpContext.Session.Get(SessionKeys.UserId) == null)
+            {
+                RedirectToAction("Login", "Home");
+            }
+            //return HttpContext.Session.Get<Users>(SessionKeys.Username);
+            int userId = (int)HttpContext.Session.GetInt32(SessionKeys.UserId);
+            return userId;
+        } 
+
         // Returns the active daily food item list. If there isn't one, then one is created.
         private void SetActiveDailyFoodItemList(DailyFoodItemList listItems)
         {
             HttpContext.Session.Set(SessionKeys.DailyList, listItems);
         }
-
-
-
-        //[HttpPost]
-        //public ActionResult AddToCart(string sku, int quantity)
-        //{
-        //    // Validate the SKU
-        //    Product product = productDal.GetProduct(sku);
-        //    if (product == null || quantity < 1)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-
-        //    // Update the Shopping Cart            
-        //    ShoppingCart cart = GetActiveShoppingCart();
-        //    cart.AddToCart(product, quantity);
-
-        //    return RedirectToAction("ViewCart");
-        //}
     }
 }
