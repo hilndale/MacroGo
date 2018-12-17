@@ -1,15 +1,25 @@
 ﻿@model UserProfileViewModel
 @{
-    ViewData["Title"] = "UpdateUserGoals";
+    ViewData["Title"] = "Update User Goals";
 }
 
-<h2>UpdateUserGoals</h2>
+<h2>Update User Goals</h2>
 
 
 @using (Html.BeginForm("UpdateUserGoals", "Users", FormMethod.Post))
 {
-    @Html.TextBoxFor(m => m.GoalCarbs, "{0:#.#}", new { placeholder = "Carbs Goal" })
-    @Html.TextBoxFor(m => m.GoalFat, "{0:#.#}", new { placeholder = "Fat Goal" })
-    @Html.TextBoxFor(m => m.GoalProtein, "{0:#.#}", new { placeholder = "Protein Goal" })
-    <button>Update Goals</button>
-}
+    <section id="one" class="wrapper style2">
+        <div class="row4">
+            @Html.TextBoxFor(m => m.GoalCarbs, "{0:#.#}", new { placeholder = "Carbs Goal" })
+        </div>
+        <div class="row4">
+            @Html.TextBoxFor(m => m.GoalFat, "{0:#.#}", new { placeholder = "Fat Goal" })
+        </div>
+        <div class="row4">
+            @Html.TextBoxFor(m => m.GoalProtein, "{0:#.#}", new { placeholder = "Protein Goal" })
+        </div>
+        <div class="row4">
+            <button>Update Goals</button>
+        </div>
+        </section>
+        }
