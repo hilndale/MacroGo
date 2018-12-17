@@ -54,11 +54,11 @@ namespace FinalCapstone.Controllers
             {
                 ModelState.AddModelError("invalid-credentials", "An invalid username or password was provided");
                 return View("Login", model);
-
             }
             else
             {
                 HttpContext.Session.Set(SessionKeys.Username, user.Email);
+                HttpContext.Session.Set(SessionKeys.AdminFlag, user.IsAdmin);
 
                 if (_userDAL.IsAdmin(user.Email))
                 {
@@ -190,6 +190,7 @@ namespace FinalCapstone.Controllers
         {
             //    FormsAuthentication.SignOut();
             HttpContext.Session.Remove(SessionKeys.Username);
+            HttpContext.Session.Remove(SessionKeys.AdminFlag);
             return RedirectToAction("Index", "Home");
         }
     }

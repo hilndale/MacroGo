@@ -21,24 +21,28 @@
 
     <!-- Nav -->
     <nav id="menu">
-        <ul class="links">
+        @*<ul class="links">
             <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
             <li><a asp-area="" asp-controller="Food" asp-action="AddFoodItem">Add Food</a></li>
             <li><a asp-area="" asp-controller="Food" asp-action="DisplayFoodItems">Display Your Items</a></li>
             <li><a asp-area="" asp-controller="Users" asp-action="Register">Register</a></li>
             <li><a asp-area="" asp-controller="Users" asp-action="Login">Login</a></li>
 
-        </ul>
-        @*@{
-            if (Context.Session.GetString(SessionKeys.Username) != null)
+        </ul>*@
+        @{
+            if (Context.Session.GetString(SessionKeys.AdminFlag) == "1")
             {
-                Html.Partial("_AuthenticatedNav");
+                Html.RenderPartial("_AdminNav");
+            }
+            else if(Context.Session.GetString(SessionKeys.Username) != null)
+            {
+                Html.RenderPartial("_AuthenticatedNav");
             }
             else
             {
-                Html.Partial("_AnonymousNav");
+                Html.RenderPartial("_AnonymousNav");
             }
-        }*@
+        }
     </nav>
 
     <!-- Banner -->
