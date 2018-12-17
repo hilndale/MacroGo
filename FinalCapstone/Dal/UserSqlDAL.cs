@@ -14,6 +14,7 @@ namespace FinalCapstone.Dal
             this.connectionString = connectionString;
         }
 
+        //Delete if possible
         public Users GetUser(string email)
         {
             try
