@@ -33,6 +33,7 @@ namespace FinalCapstone.Dal
 
                     while (reader.Read())
                     {
+                        user.UserId = Convert.ToInt32(reader["user_id"]);
                         user.Email = Convert.ToString(reader["email"]);
                         user.IsAdmin = Convert.ToInt32(reader["Is_Admin"]);
                         user.Password = Convert.ToString(reader["password"]);

@@ -8,7 +8,7 @@ namespace FinalCapstone.Models
     public class UserFavorites
     {
         public string Email { get; set; }
-        //public int UserId { get; set; } //HS added
+        public int UserId { get; set; } //HS added
         public int RestaurantId { get; set; }
         public string RestaurantName { get; set; }
         public int FoodId { get; set; }

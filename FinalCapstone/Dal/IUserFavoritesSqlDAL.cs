@@ -9,7 +9,7 @@ namespace FinalCapstone.Dal
 {
     public interface IUserFavoritesSqlDAL
     {
-        bool AddToFavorites();
+        void AddToFavorites(UserFavorites userFavorite);
         IList<UserFavorites> GetFavorites(int userID);
     }
 }

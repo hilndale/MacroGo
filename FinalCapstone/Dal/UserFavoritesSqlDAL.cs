@@ -16,23 +16,20 @@ namespace FinalCapstone.Dal
             this.connectionString = connectionString;
         }
 
-        public bool AddToFavorites()
+        public void AddToFavorites(UserFavorites userFavorite)
         {
             try
             {
-                bool result = false;
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string sql = "INSERT INTO user_favorites ([User_Id], [Restaurant_Id], [Food_Id]) VALUES (user_Id, restaurant_id, food_id);";
-                    SqlCommand cmd = new SqlCommand(sql, conn);
-                    int count = cmd.ExecuteNonQuery();
+                    SqlCommand cmd = new SqlCommand("INSERT INTO user_favorites ([User_Id], [Restaurant_Id], [Food_Id]) VALUES (@user_Id, @restaurant_id, @food_id);", conn);
 
-                    if (count == 1)
-                    {
-                        result = true;
-                    }
-                    return result;
+                    cmd.Parameters.AddWithValue("@user_id", userFavorite.UserId);
+                    cmd.Parameters.AddWithValue("@restaurant_id", userFavorite.RestaurantId);
+                    cmd.Parameters.AddWithValue("@food_id", userFavorite.FoodId);
+
+                    cmd.ExecuteNonQuery();                    
                 } 
             }
             catch (SqlException ex)
@@ -61,24 +58,23 @@ namespace FinalCapstone.Dal
                         favorite.RestaurantName = Convert.ToString(reader["restaurant_name"]);
                         favorite.RestaurantId = Convert.ToInt32(reader["food_id"]);
                         favorite.FoodId = Convert.ToInt32(reader["food_id"]);
-                        favorite.FoodName = Convert.ToString(reader["food_name"]);
-                        favorite.Protein = Convert.ToInt32(reader["protein"]);
-                        favorite.Fat = Convert.ToInt32(reader["fat"]);
-                        favorite.Carbs = Convert.ToInt32(reader["carbs"]);
+                        favorite.FoodName = Convert.ToString(reader["food_item"]);
+                        favorite.Protein = Convert.ToInt32(reader["protein_g"]);
+                        favorite.Fat = Convert.ToInt32(reader["Total_fat_g"]);
+                        favorite.Carbs = Convert.ToInt32(reader["carbohydrates_g"]);
                         favorite.Calories = Convert.ToInt32(reader["calories"]);
+
+                        favorites.Add(favorite);
                     }
+                    
                 }
                 return favorites;
             }
             catch (SqlException ex)
             {
                 throw;
-            }
-
-
-
-        }
-
+            }    
+        }  
     }
 
 

@@ -4,7 +4,6 @@ using FinalCapstone.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace FinalCapstone.Controllers
 {
     public class UsersController : Controller
@@ -43,8 +42,9 @@ namespace FinalCapstone.Controllers
             }
             else
             {
-                HttpContext.Session.Set(SessionKeys.Username, user.Email);
-                HttpContext.Session.Set(SessionKeys.AdminFlag, user.IsAdmin);
+                HttpContext.Session.SetString(SessionKeys.Username, user.Email);
+                HttpContext.Session.SetInt32(SessionKeys.AdminFlag, user.IsAdmin);
+                HttpContext.Session.SetInt32(SessionKeys.UserId, user.UserId);
 
                 if (_userDAL.IsAdmin(user.Email))
                 {
@@ -142,30 +142,61 @@ namespace FinalCapstone.Controllers
             return RedirectToAction("UserProfile", viewModel);
         }
 
-        [HttpGet]
-        public ActionResult Favorites()
+        private int GetActiveUserFromSession()
         {
-            UserFavoritesViewModel model = new UserFavoritesViewModel();
-            return View("Favorites", model);
+            if (HttpContext.Session.Get(SessionKeys.UserId) == null)
+            {
+                RedirectToAction("Login", "Home");
+            }
+            //return HttpContext.Session.Get<Users>(SessionKeys.Username);
+            int? userId = HttpContext.Session.GetInt32(SessionKeys.UserId);
+            int result = (userId == null) ? 0 : (int)userId;
+            return result;
         }
-
-        [HttpGet]
-        public ActionResult Favorites_original()
-        {
-            UserFavoritesViewModel model = new UserFavoritesViewModel();
-            return View("Favorites", model);
-        }
-
 
         [HttpGet]
         public ActionResult Favorites(int userID)
         {
-            userID = (int)HttpContext.Session.GetInt32(SessionKeys.UserId);
+            userID = GetActiveUserFromSession();
+
             UserFavoritesViewModel model = new UserFavoritesViewModel();
             model.Favorites = _userfavoritesDAL.GetFavorites(userID);
 
             return View("Favorites", model);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddFoodToFavorites(FoodItemViewModel model, int userId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                userId = GetActiveUserFromSession();
+                UserFavorites userFavorite = new UserFavorites();
+                userFavorite.FoodId = model.FoodId;
+                userFavorite.RestaurantId = model.RestaurantId;
+                userFavorite.UserId = userId;
+
+                _userfavoritesDAL.AddToFavorites(userFavorite);
+
+            } 
+            return RedirectToAction("Index", "Home");
+        }
+
+
+
+
+        //[HttpGet]
+        //public ActionResult Favorites()
+        //{
+        //    UserFavoritesViewModel model = new UserFavoritesViewModel();
+        //    return View("Favorites", model);
+        //}
+
 
         //[HttpGet]
         //public IActionResult FoodDetail(int id)
@@ -185,19 +216,7 @@ namespace FinalCapstone.Controllers
         //}
 
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult AddFoodToFavorites(UserandFoodItemViewModel model)
-        //{
-        //    FoodList food = new FoodList();
-        //    string userEmail = GetActiveUser();
 
-        //    user.UserId = userEmail;
-        //    food.FoodId = model.FoodId;
-        //    food.RestaurantId = model.RestaurantId;
-        //    //  want to redirect to favorites list
-        //    return RedirectToAction("Index", "Home");
-        //}
 
 
         [HttpGet]
@@ -234,6 +253,7 @@ namespace FinalCapstone.Controllers
         {
             HttpContext.Session.Remove(SessionKeys.Username);
             HttpContext.Session.Remove(SessionKeys.AdminFlag);
+            HttpContext.Session.Remove(SessionKeys.UserId);
             return RedirectToAction("Index", "Home");
         }
     }

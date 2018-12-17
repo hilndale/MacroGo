@@ -24,6 +24,7 @@
                 <input type="hidden" asp-for="@Model.RestaurantId" />
                 <button class="button button1" type="submit" asp-action="AddFoodItemToList">Add Food To Daily List</button>
                 <button class="button button-1" type="submit" asp-action="RemoveFoodItemFromList">Remove Food From Daily List</button>
+                <button class="button button-1" type="submit" asp-controller="Users" asp-action="AddFoodToFavorites">Add Food to Favorites</button>
             </div>
         </form>
     </div>
