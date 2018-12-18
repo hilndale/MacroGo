@@ -43,8 +43,8 @@
 
             <label asp-for="RestaurantChosen">Filter by Restaurant </label>
             <select id="restaurant" asp-for="RestaurantChosen" asp-items="Model.RestaurantSelect"></select>
-            <label asp-for="FilterCountSelect"># of results: </label>
-            <select id="filter" asp-for="FilterCountSelect" asp-items="Model.FilterCount"></select>
+            @*<label asp-for="FilterCountSelect"># of results: </label>
+            <select id="filter" asp-for="FilterCountSelect" asp-items="Model.FilterCount"></select>*@
             <label asp-for="OrderbySelect">Order by 1: </label>
             <select asp-for="OrderbySelect" asp-items="Model.OrderBy"></select>
             @*Future radius search and get location*@
