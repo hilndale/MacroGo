@@ -122,9 +122,10 @@ namespace FinalCapstone.Test
                     Calories = 14
                 };
 
+                _userFavoritesSqlDAL.AddToFavorites(userFavorite);
                 _userFavoritesSqlDAL.DeleteFromFavorites(userFavorite);
-                Assert.AreEqual(null, userFavorite.RestaurantName);
-
+                IList<UserFavorites> userFavorites = _userFavoritesSqlDAL.GetFavorites(userId);
+                Assert.AreEqual(0, userFavorites.Count); 
             }
         }
 

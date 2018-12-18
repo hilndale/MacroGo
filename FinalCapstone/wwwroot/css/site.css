@@ -1972,6 +1972,12 @@ button,
     }
 }
 
+.btn-details {
+    text-align: center;
+    
+    
+}
+
 input[type="submit"],
 input[type="reset"],
 input[type="button"],
