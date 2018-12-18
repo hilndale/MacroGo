@@ -3,7 +3,7 @@ Implementation Notes
 Get Foodie and Nightlife Index, list of popular cuisines and nearby restaurants around the given coordinates
 
 Response Class (Status 200)
-ModelModel Schema
+Simplified Schema
 {
   "locality": {
     "latitude": "40.742051",

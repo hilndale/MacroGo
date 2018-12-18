@@ -8,7 +8,40 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <script src="~/Scripts/TeamLimaLocationAPI.js"></script>
+    <script src="~/js/TeamLimaLocationAPI.js"></script>
+
+    <script type="text/javascript">
+
+        function showLocation(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            console.log(latitude)
+            console.log(longitude)
+            alert("Latitude : " + latitude + " Longitude: " + longitude);
+            return(latitude,longitude)
+        }
+
+        function errorHandler(err) {
+            if (err.code == 1) {
+                alert("Error: Access is denied!");
+            } else if (err.code == 2) {
+                alert("Error: Position is unavailable!");
+            }
+        }
+
+        function getLocation() {
+
+            if (navigator.geolocation) {
+
+                //timeout at 15000 milliseconds (15 seconds)
+                var options = { timeout: 15000 };
+                navigator.geolocation.getCurrentPosition(showLocation, errorHandler, options);
+            } else {
+                alert("Sorry, browser does not support geolocation!");
+            }
+        }
+
+    </script>
 
 </head>
 <body>
@@ -30,15 +63,15 @@
 
         </ul>
         @*@{
-            if (Context.Session.GetString(SessionKeys.Username) != null)
-            {
-                Html.Partial("_AuthenticatedNav");
-            }
-            else
-            {
-                Html.Partial("_AnonymousNav");
-            }
-        }*@
+                if (Context.Session.GetString(SessionKeys.Username) != null)
+                {
+                    Html.Partial("_AuthenticatedNav");
+                }
+                else
+                {
+                    Html.Partial("_AnonymousNav");
+                }
+            }*@
     </nav>
 
     <!-- Banner -->
@@ -69,6 +102,7 @@
     <script src="~/js/skel.min.js"></script>
     <script src="~/js/util.js"></script>
     <script src="~/js/main.js"></script>
+    <script src="~/js/TeamLimaLocationAPI.js"></script>
 
 </body>
 </html>

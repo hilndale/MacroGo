@@ -28,6 +28,10 @@
     <select id="filter" asp-for="FilterCountSelect" asp-items="Model.FilterCount"></select>
     <label asp-for="OrderbySelect">Order by 1: </label>
     <select asp-for="OrderbySelect" asp-items="Model.OrderBy"></select>
+    <label asp-for="SearchRadius">Search Radius (Miles): </label>
+    <select id="radius" asp-for="SearchRadius" asp-items="Model.SearchRadiusSelection"></select>
+    <label asp-for="LocationAssent">Share location to customize results? </label>
+    <select id="location" asp-for="LocationAssent" asp-items="Model.LocationAssentSelection"></select>
     @*<label asp-for="OrderbySelect2">Order by 2: </label>
         <select asp-for="OrderbySelect2" asp-items="Model.OrderbyLevel2"></select>
         <label asp-for="OrderbySelect3">Order by 3: </label>
@@ -79,6 +83,11 @@
         }
     </tbody>
 </table>
+
+@*navigator.geolocation.getCurrentPosition(function (position) {
+            var loc = new Microsoft.Maps.Location(
+                position.coords.latitude,
+                position.coords.longitude);*@
 
 <h2>Search Results</h2>
 <section id="one" class="wrapper style2">
