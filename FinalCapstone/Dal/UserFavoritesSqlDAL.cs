@@ -24,11 +24,9 @@ namespace FinalCapstone.Dal
                 {
                     conn.Open();
                     SqlCommand cmd = new SqlCommand("INSERT INTO user_favorites ([User_Id], [Restaurant_Id], [Food_Id]) VALUES (@user_Id, @restaurant_id, @food_id);", conn);
-
                     cmd.Parameters.AddWithValue("@user_id", userFavorite.UserId);
                     cmd.Parameters.AddWithValue("@restaurant_id", userFavorite.RestaurantId);
                     cmd.Parameters.AddWithValue("@food_id", userFavorite.FoodId);
-
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -83,9 +81,9 @@ namespace FinalCapstone.Dal
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("DELETE FROM user_favorites WHERE @Food_Id = Food_Id AND @User_Id = User_Id;", conn);
-                    cmd.Parameters.AddWithValue("@Food_Id", userFavorite.FoodId);
+                    SqlCommand cmd = new SqlCommand("DELETE FROM user_favorites WHERE @User_Id = User_Id AND @Food_Id = Food_Id ;", conn);
                     cmd.Parameters.AddWithValue("@User_Id", userFavorite.UserId);
+                    cmd.Parameters.AddWithValue("@Food_Id", userFavorite.FoodId);
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -93,11 +91,6 @@ namespace FinalCapstone.Dal
             {
                 throw;
             }
-
         }
     }
-
-
-
-
 }

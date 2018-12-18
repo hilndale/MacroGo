@@ -43,7 +43,7 @@ namespace FinalCapstone.Controllers
             else
             {
                 HttpContext.Session.SetString(SessionKeys.Username, user.Email);
-                HttpContext.Session.SetInt32(SessionKeys.AdminFlag, user.IsAdmin);
+                HttpContext.Session.Set(SessionKeys.AdminFlag, user.IsAdmin);
                 HttpContext.Session.SetInt32(SessionKeys.UserId, user.UserId);
 
                 if (_userDAL.IsAdmin(user.Email))
@@ -96,7 +96,7 @@ namespace FinalCapstone.Controllers
             Users user = _userDAL.GetUser(model.EmailAddress);
 
             // Check to see if the username already exists
-            if (user != null)
+            if (user.Email != null)
             {
                 ModelState.AddModelError("email-exists", "That email address is already associated with an account");
                 return View("Register", model);
@@ -114,6 +114,7 @@ namespace FinalCapstone.Controllers
                 _userDAL.SaveUser(user);
 
                 HttpContext.Session.Set(SessionKeys.Username, model.EmailAddress);
+                HttpContext.Session.SetInt32(SessionKeys.UserId, user.UserId);
             }
 
             return RedirectToAction("UserProfile", "Users");
