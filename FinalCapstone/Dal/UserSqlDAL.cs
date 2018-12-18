@@ -14,15 +14,34 @@ namespace FinalCapstone.Dal
             this.connectionString = connectionString;
         }
 
+        //Delete if possible
         public Users GetUser(string email)
         {
+            Users user = new Users();
+
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    Users result = conn.QueryFirstOrDefault<Users>("SELECT * FROM users WHERE Email = @emailValue", new { emailValue = email });
-                    return result;
+                    string sql = "SELECT * FROM users WHERE Email = @emailValue;";
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+
+                    cmd.Parameters.AddWithValue("@emailValue", email.Replace("\"", ""));
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        user.UserId = Convert.ToInt32(reader["User_id"]);
+                        user.Email = Convert.ToString(reader["email"]);
+                        user.IsAdmin = Convert.ToInt32(reader["Is_Admin"]);
+                        user.Password = Convert.ToString(reader["password"]);
+                        user.GoalCarbs = Convert.ToInt32(reader["Goal_Carbs"]);
+                        user.GoalProtein = Convert.ToInt32(reader["Goal_Protein"]);
+                        user.GoalFat = Convert.ToInt32(reader["Goal_Fat"]);
+                    }
+                    return user;
                 }
             }
             catch (SqlException ex)

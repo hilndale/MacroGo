@@ -17,12 +17,14 @@ namespace FinalCapstone.Controllers
         private readonly IFoodItemDAL _foodDAL;
         private readonly IRestaurantDAL _restaurantDAL;
         private readonly IUserDAL _userDAL;
+        private readonly IUserFavoritesSqlDAL _userfavoritesDAL;
 
-        public FoodController(IFoodItemDAL foodDAL, IRestaurantDAL restaurantDAL, IUserDAL userDAL) : base(userDAL)
+        public FoodController(IFoodItemDAL foodDAL, IRestaurantDAL restaurantDAL, IUserDAL userDAL, IUserFavoritesSqlDAL userFavoritesDAL) : base(userDAL, userFavoritesDAL)
         {
             _foodDAL = foodDAL;
             _restaurantDAL = restaurantDAL;
             _userDAL = userDAL;
+            _userfavoritesDAL = userFavoritesDAL;
         }
 
         [HttpGet]
@@ -113,7 +115,14 @@ namespace FinalCapstone.Controllers
             foodModel.Carbs = food.Carbs;
             foodModel.Calories = food.Calories;
 
-            return View(foodModel);
+            if(HttpContext.Session.GetString(SessionKeys.AdminFlag) == "1")
+            {
+                return View("FoodDetail_Admin", foodModel);
+            }
+            else
+            {
+                return View("FoodDetail", foodModel);
+            }
         }
 
         [HttpPost]
@@ -206,7 +215,7 @@ namespace FinalCapstone.Controllers
                 HttpContext.Session.Set(SessionKeys.DailyList, new DailyFoodItemList());
             }
             return HttpContext.Session.Get<DailyFoodItemList>(SessionKeys.DailyList);
-        }
+        }   
 
         // Returns the active daily food item list. If there isn't one, then one is created.
         private void SetActiveDailyFoodItemList(DailyFoodItemList listItems)

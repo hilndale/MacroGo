@@ -4,32 +4,17 @@ using FinalCapstone.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace FinalCapstone.Controllers
 {
     public class UsersController : Controller
     {
         private readonly IUserDAL _userDAL;
+        private readonly IUserFavoritesSqlDAL _userfavoritesDAL;
 
-        public UsersController(IUserDAL userDAL)
+        public UsersController(IUserDAL userDAL, IUserFavoritesSqlDAL userFavoritesDAL)
         {
             _userDAL = userDAL;
-        }
-
-        public IActionResult Navigation()
-        {
-            if (HttpContext.Session.Get(SessionKeys.Username) == null)
-            {
-                return PartialView("_AnonymousNav");
-            }
-            else if(_userDAL.IsAdmin(HttpContext.Session.GetString(SessionKeys.Username)))
-            {
-                return PartialView("_AdminNav");
-            }
-            else
-            {
-                return PartialView("_AuthenticatedNav");
-            }
+            _userfavoritesDAL = userFavoritesDAL;
         }
 
         public ActionResult Login()
@@ -54,16 +39,16 @@ namespace FinalCapstone.Controllers
             {
                 ModelState.AddModelError("invalid-credentials", "An invalid username or password was provided");
                 return View("Login", model);
-
             }
             else
             {
-                HttpContext.Session.Set(SessionKeys.Username, user.Email);
+                HttpContext.Session.SetString(SessionKeys.Username, user.Email);
+                HttpContext.Session.SetInt32(SessionKeys.AdminFlag, user.IsAdmin);
+                HttpContext.Session.SetInt32(SessionKeys.UserId, user.UserId);
 
                 if (_userDAL.IsAdmin(user.Email))
                 {
                     return RedirectToAction("Index", "Home");
-
                 }
                 else
                 {
@@ -128,7 +113,6 @@ namespace FinalCapstone.Controllers
                 };
                 _userDAL.SaveUser(user);
 
-                //FormsAuthentication.SetAuthCookie(user.Email, true);
                 HttpContext.Session.Set(SessionKeys.Username, model.EmailAddress);
             }
 
@@ -158,12 +142,67 @@ namespace FinalCapstone.Controllers
             return RedirectToAction("UserProfile", viewModel);
         }
 
-        [HttpGet]
-        public ActionResult Favorites()
+        private int GetActiveUserFromSession()
         {
+            if (HttpContext.Session.Get(SessionKeys.UserId) == null)
+            {
+                RedirectToAction("Login", "Home");
+            }
+            //return HttpContext.Session.Get<Users>(SessionKeys.Username);
+            int? userId = HttpContext.Session.GetInt32(SessionKeys.UserId);
+            int result = (userId == null) ? 0 : (int)userId;
+            return result;
+        }
+
+        [HttpGet]
+        public ActionResult Favorites(int userID)
+        {
+            userID = GetActiveUserFromSession();
+
             UserFavoritesViewModel model = new UserFavoritesViewModel();
+            model.Favorites = _userfavoritesDAL.GetFavorites(userID);
+
             return View("Favorites", model);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddFoodToFavorites(FoodItemViewModel model, int userId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Favorites", "Users");
+            }
+            else
+            {
+                userId = GetActiveUserFromSession();
+                UserFavorites userFavorite = new UserFavorites();
+                userFavorite.FoodId = model.FoodId;
+                userFavorite.RestaurantId = model.RestaurantId;
+                userFavorite.UserId = userId;
+
+                _userfavoritesDAL.AddToFavorites(userFavorite);
+
+            }
+            return RedirectToAction("Favorites", "Users");
+        }
+
+        [HttpPost]
+        public IActionResult DeleteFromFavorites(UserFavorites userFavorite)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Favorites", "Users");
+            }
+            else
+            {
+                userFavorite.UserId = GetActiveUserFromSession();
+                _userfavoritesDAL.DeleteFromFavorites(userFavorite);
+            }
+
+            return RedirectToAction("Favorites", "Users");
+        }
+
 
         [HttpGet]
         public ActionResult ChangePassword()
@@ -180,16 +219,26 @@ namespace FinalCapstone.Controllers
                 return View("ChangePassword", model);
             }
 
-            _userDAL.ChangePassword(HttpContext.Session.GetString(SessionKeys.Username), model.NewPassword);
+            Users user = _userDAL.GetUser(HttpContext.Session.GetString(SessionKeys.Username));
 
-            return RedirectToAction("UserProfile", "Users");
+            if (model.OldPassword == user.Password)
+            {
+                _userDAL.ChangePassword(HttpContext.Session.GetString(SessionKeys.Username), model.NewPassword);
+                return RedirectToAction("UserProfile", "Users");
+            }
+            else
+            {
+                model.ErrorMessage = "Old password is not correct";
+                return View("ChangePassword", model);
+            }
         }
 
         // POST: User/Logout
         public ActionResult Logout()
         {
-            //    FormsAuthentication.SignOut();
             HttpContext.Session.Remove(SessionKeys.Username);
+            HttpContext.Session.Remove(SessionKeys.AdminFlag);
+            HttpContext.Session.Remove(SessionKeys.UserId);
             return RedirectToAction("Index", "Home");
         }
     }
