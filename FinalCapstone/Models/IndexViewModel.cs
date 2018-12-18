@@ -19,6 +19,8 @@ namespace FinalCapstone.Models
         //public string OrderbySelect2 { get; set; }
         //public string OrderbySelect3 { get; set; }
         public int FilterCountSelect { get; set; }
+        public int SearchRadius { get; set; }
+        public string LocationAssent { get; set; }
 
         public IList<SelectListItem> RestaurantSelect { get; set; }
 
@@ -51,6 +53,23 @@ namespace FinalCapstone.Models
            new SelectListItem() {Text = "50"},
            new SelectListItem() {Text = "100"},
            new SelectListItem() {Text = "All"}
+        };
+
+        public IList<SelectListItem> SearchRadiusSelection = new List<SelectListItem>()
+        {
+           new SelectListItem() {Text = "1"},
+           new SelectListItem() {Text = "2"},
+           new SelectListItem() {Text = "3"},
+           new SelectListItem() {Text = "5"},
+           new SelectListItem() {Text = "10"},
+           new SelectListItem() {Text = "No Limit"}
+        };
+
+        public IList<SelectListItem> LocationAssentSelection = new List<SelectListItem>()
+        {
+           new SelectListItem() {Text = "No"},
+           new SelectListItem() {Text = "Yes"},
+           
         };
 
         public IList<Item> Results { get; set; }
