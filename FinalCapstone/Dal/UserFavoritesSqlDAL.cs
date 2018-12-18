@@ -92,12 +92,7 @@ namespace FinalCapstone.Dal
             catch (SqlException ex)
             {
                 throw;
-            }
-
+            } 
         }
     }
-
-
-
-
 }

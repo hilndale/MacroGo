@@ -31,8 +31,8 @@ namespace FinalCapstone.Test
             _restaurantDAL = new RestaurantSqlDAL(MacroGoConnectionString);
             _foodItemDAL = new FoodItemSqlDAL(MacroGoConnectionString);
             tran = new TransactionScope();
-            
-            using(SqlConnection conn = new SqlConnection(MacroGoConnectionString))
+
+            using (SqlConnection conn = new SqlConnection(MacroGoConnectionString))
             {
                 conn.Open();
 
@@ -45,33 +45,7 @@ namespace FinalCapstone.Test
                 SqlCommand cmd3 = new SqlCommand("INSERT INTO food ([Food_Item], [Restaurant_Id], [Calories], [Total_Fat_g], [Carbohydrates_g], [Protein_g]) VALUES ('cheeseburger', @Restaurant_Id, 14, 12, 30, 45);SELECT CAST(SCOPE_IDENTITY() as int);", conn);
                 cmd3.Parameters.AddWithValue("@Restaurant_Id", restaurantId);
                 foodId = (int)cmd3.ExecuteScalar();
-
             }
-            Users user = new Users
-            {
-                IsAdmin = 0,
-                Email = "test@yahoo.com",
-                Password = "password",
-                GoalFat = 10,
-                GoalProtein = 15,
-                GoalCarbs = 2000
-            };
-            _userDAL.SaveUser(user);
-            
-            Restaurant restaurant = _restaurantDAL.GetRestaurant(restaurantId);
-
-            FoodList food = new FoodList
-            {
-                FoodId = foodId,
-                FoodName = "Chips and Salsa",
-                RestaurantId = restaurantId,
-                Protein = 15,
-                Fat = 5,
-                Carbs = 10,
-                Calories = 500
-            };
-            _foodItemDAL.AddFoodItem(food);
-
         }
 
         [TestCleanup]
@@ -87,11 +61,11 @@ namespace FinalCapstone.Test
             public void No_User_Favorites_Exist()
             {
                 IList<UserFavorites> userFavorites = _userFavoritesSqlDAL.GetFavorites(userId);
-                Assert.IsFalse(userFavorites.Any()); 
+                Assert.IsFalse(userFavorites.Any());
             }
 
             [TestMethod]
-            public void AddFavoriteTest()
+            public void AddToFavoritesTest()
             {
                 UserFavorites userFavorite = new UserFavorites
                 {
@@ -109,6 +83,9 @@ namespace FinalCapstone.Test
 
                 _userFavoritesSqlDAL.AddToFavorites(userFavorite);
                 Assert.AreEqual("cheeseburger", userFavorite.FoodName);
+                //IList<UserFavorites> userFavorites = new List<UserFavorites>();
+                //userFavorites.Add(userFavorite);
+                //Assert.AreEqual(1, userFavorites.Count);
             }
 
             [TestMethod]
@@ -122,12 +99,35 @@ namespace FinalCapstone.Test
                     cmd.Parameters.AddWithValue("@User_Id", userId);
                     cmd.Parameters.AddWithValue("@Restaurant_Id", restaurantId);
                     cmd.Parameters.AddWithValue("Food_Id", foodId);
-                    cmd.ExecuteNonQuery(); 
+                    cmd.ExecuteNonQuery();
                 }
                 IList<UserFavorites> userFavorites = _userFavoritesSqlDAL.GetFavorites(userId);
                 Assert.AreEqual(1, userFavorites.Count);
+            }
+
+            [TestMethod]
+            public void DeleteFromFavoritesTest()
+            {
+                UserFavorites userFavorite = new UserFavorites
+                {
+                    Email = "test@yahoo.com",
+                    UserId = userId,
+                    RestaurantId = restaurantId,
+                    RestaurantName = "Burger King",
+                    FoodId = foodId,
+                    FoodName = "cheeseburger",
+                    Protein = 45,
+                    Fat = 12,
+                    Carbs = 30,
+                    Calories = 14
+                };
+
+                _userFavoritesSqlDAL.DeleteFromFavorites(userFavorite);
+                Assert.AreEqual(null, userFavorite.RestaurantName);
+
             }
         }
 
     }
 }
+
