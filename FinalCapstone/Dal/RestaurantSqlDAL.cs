@@ -89,7 +89,30 @@ namespace FinalCapstone.Dal
             }
 
             return restaurant;
+        }
 
+        public bool AddRestaurant(Restaurant restaurant)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand(@"INSERT INTO Restaurants (Restaurant_name, Open_time, close_time) VALUES (@name, @openTime, @closeTime);", conn);
+
+                    cmd.Parameters.AddWithValue("@name", restaurant.RestaurantName);
+                    cmd.Parameters.AddWithValue("@openTime", restaurant.OpenTime);
+                    cmd.Parameters.AddWithValue("@closeTime", restaurant.CloseTime);
+
+                    cmd.ExecuteNonQuery();
+                    return true; 
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }
