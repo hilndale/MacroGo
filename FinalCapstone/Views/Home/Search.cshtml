@@ -46,43 +46,16 @@
             @*<label asp-for="FilterCountSelect"># of results: </label>
             <select id="filter" asp-for="FilterCountSelect" asp-items="Model.FilterCount"></select>*@
             <label asp-for="OrderbySelect">Order by 1: </label>
-            <select asp-for="OrderbySelect" asp-items="Model.OrderBy"></select>
-            @*Future radius search and get location*@
-            @*<label asp-for="SearchRadius">Search Radius (Miles): </label>
-        <select id="radius" asp-for="SearchRadius" asp-items="Model.SearchRadiusSelection"></select>
-        <label asp-for="LocationAssent">Share location to customize results? </label>
-        <select id="location" asp-for="LocationAssent" asp-items="Model.LocationAssentSelection"></select>*@
+            <select asp-for="OrderbySelect" asp-items="Model.OrderBy"></select>       
 
             @*<label asp-for="OrderbySelect2">Order by 2: </label>
-        <select asp-for="OrderbySelect2" asp-items="Model.OrderbyLevel2"></select>
-        <label asp-for="OrderbySelect3">Order by 3: </label>
-        <select asp-for="OrderbySelect3" asp-items="Model.OrderbyLevel3"></select>*@
+            <select asp-for="OrderbySelect2" asp-items="Model.OrderbyLevel2"></select>
+            <label asp-for="OrderbySelect3">Order by 3: </label>
+            <select asp-for="OrderbySelect3" asp-items="Model.OrderbyLevel3"></select>*@
 
-            @*Future radius search and get location*@
-            @*<input id="submitButton" type="submit" value="Submit" />
-        <script src="~/js/TeamLimaLocationAPI.js"></script>
-
-
-        <input type="button" id="locationbutton" onclick="getLocation();" value="Get Location" />*@
-
-
-            <div style="text-align:center;">
-                <input id="button button1" type="submit" value="Search" />
-            </div>
-
-
+            <input id="submitButton" type="submit" value="Submit" />
+                       
         </form>
-
-        @*<p><button onclick="geoFindMe()">Show my location</button></p>
-        <div id="out"></div>*@
-
-
-
-        <script src="~/js/TeamLimaLocationAPI.js"></script>
-
-        
-
-        @*<input asp-for="LocationAssent" type="checkbox" name="LocationAssent" id="LocationAssent" value="false">Location?<br>*@
 
     </div>
 </section>
