@@ -43,31 +43,19 @@
 
             <label asp-for="RestaurantChosen">Filter by Restaurant </label>
             <select id="restaurant" asp-for="RestaurantChosen" asp-items="Model.RestaurantSelect"></select>
-            <label asp-for="FilterCountSelect"># of results: </label>
-            <select id="filter" asp-for="FilterCountSelect" asp-items="Model.FilterCount"></select>
+            @*<label asp-for="FilterCountSelect"># of results: </label>
+            <select id="filter" asp-for="FilterCountSelect" asp-items="Model.FilterCount"></select>*@
             <label asp-for="OrderbySelect">Order by 1: </label>
-            <select asp-for="OrderbySelect" asp-items="Model.OrderBy"></select>
-            @*<label asp-for="SearchRadius">Search Radius (Miles): </label>
-            <select id="radius" asp-for="SearchRadius" asp-items="Model.SearchRadiusSelection"></select>
-            <label asp-for="LocationAssent">Share location to customize results? </label>
-            <select id="location" asp-for="LocationAssent" asp-items="Model.LocationAssentSelection"></select>*@
+            <select asp-for="OrderbySelect" asp-items="Model.OrderBy"></select>       
 
             @*<label asp-for="OrderbySelect2">Order by 2: </label>
-        <select asp-for="OrderbySelect2" asp-items="Model.OrderbyLevel2"></select>
-        <label asp-for="OrderbySelect3">Order by 3: </label>
-        <select asp-for="OrderbySelect3" asp-items="Model.OrderbyLevel3"></select>*@
+            <select asp-for="OrderbySelect2" asp-items="Model.OrderbyLevel2"></select>
+            <label asp-for="OrderbySelect3">Order by 3: </label>
+            <select asp-for="OrderbySelect3" asp-items="Model.OrderbyLevel3"></select>*@
 
             <input id="submitButton" type="submit" value="Submit" />
-            
-            <div style="text-align:center;">
-                <input id="button button1" type="submit" value="Search" />
-            </div>
-
+                       
         </form>
-
-        <script src="~/js/TeamLimaLocationAPI.js"></script>        
-
-        @*<input asp-for="LocationAssent" type="checkbox" name="LocationAssent" id="LocationAssent" value="false">Location?<br>*@
 
     </div>
 </section>
