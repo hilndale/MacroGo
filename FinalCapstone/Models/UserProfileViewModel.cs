@@ -10,6 +10,7 @@ namespace FinalCapstone.Models
     {
         public string Email { get; set; }
         public int IsAdmin { get; set; }
+        public int UserId { get; set; } //added by hilary 
 
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:#.#}")]
         public int GoalFat { get; set; }

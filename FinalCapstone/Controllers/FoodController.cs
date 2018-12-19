@@ -86,19 +86,28 @@ namespace FinalCapstone.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteFoodItem(FoodItemViewModel model)
         {
-            FoodList food = new FoodList();
 
-            food.FoodId = model.FoodId;
-            food.FoodName = model.FoodName;
-            food.RestaurantId = model.RestaurantId;
-            food.Protein = model.Protein;
-            food.Fat = model.Fat;
-            food.Carbs = model.Carbs;
-            food.Calories = model.Calories;
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            else
+            {
+                FoodList food = new FoodList();
 
-            _foodDAL.DeleteFoodItem(food);
+                food.FoodId = model.FoodId;
+                food.FoodName = model.FoodName;
+                food.RestaurantId = model.RestaurantId;
+                food.Protein = model.Protein;
+                food.Fat = model.Fat;
+                food.Carbs = model.Carbs;
+                food.Calories = model.Calories;
 
-            return RedirectToAction("Index", "Home");
+                _foodDAL.DeleteFoodItem(food);
+
+                return RedirectToAction("Index", "Home");
+            }
+
         }
 
         [HttpGet]
@@ -115,7 +124,7 @@ namespace FinalCapstone.Controllers
             foodModel.Carbs = food.Carbs;
             foodModel.Calories = food.Calories;
 
-            if(HttpContext.Session.GetString(SessionKeys.AdminFlag) == "1")
+            if (HttpContext.Session.GetString(SessionKeys.AdminFlag) == "1")
             {
                 return View("FoodDetail_Admin", foodModel);
             }
@@ -129,76 +138,89 @@ namespace FinalCapstone.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult FoodDetail(FoodItemViewModel model)
         {
-            FoodList food = new FoodList();
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            else
+            {
+                FoodList food = new FoodList();
 
-            food.FoodId = model.FoodId;
-            food.FoodName = model.FoodName;
-            food.RestaurantId = model.RestaurantId;
-            food.Protein = model.Protein;
-            food.Fat = model.Fat;
-            food.Carbs = model.Carbs;
-            food.Calories = model.Calories;
+                food.FoodId = model.FoodId;
+                food.FoodName = model.FoodName;
+                food.RestaurantId = model.RestaurantId;
+                food.Protein = model.Protein;
+                food.Fat = model.Fat;
+                food.Carbs = model.Carbs;
+                food.Calories = model.Calories;
 
-            _foodDAL.UpdateFoodItem(food);
+                _foodDAL.UpdateFoodItem(food);
 
-            return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
+            }
+
         }
 
         [HttpPost]
         public IActionResult AddFoodItemToList(FoodItemViewModel model)
         {
-            FoodList food = new FoodList();
-            DailyFoodItemList listItems = GetActiveDailyFoodItemList();
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            else
+            {
+                FoodList food = new FoodList();
+                DailyFoodItemList listItems = GetActiveDailyFoodItemList();
 
-            food.FoodId = model.FoodId;
-            food.FoodName = model.FoodName;
-            food.Protein = model.Protein;
-            food.Carbs = model.Carbs;
-            food.Fat = model.Fat;
+                food.FoodId = model.FoodId;
+                food.FoodName = model.FoodName;
+                food.Protein = model.Protein;
+                food.Carbs = model.Carbs;
+                food.Fat = model.Fat;
 
-            listItems.AddToList(food);
-            SetActiveDailyFoodItemList(listItems);
+                listItems.AddToList(food);
+                SetActiveDailyFoodItemList(listItems);
 
-            return RedirectToAction("ViewDailyFoodItemList");
+                return RedirectToAction("ViewDailyFoodItemList");
+            }
         }
 
         [HttpPost]
         public IActionResult RemoveFoodItemFromList(FoodItemViewModel model)
         {
-            FoodList food = new FoodList();
-            DailyFoodItemList listItems = GetActiveDailyFoodItemList();
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            else
+            {
+                FoodList food = new FoodList();
+                DailyFoodItemList listItems = GetActiveDailyFoodItemList();
 
-            food.FoodId = model.FoodId;
-            food.FoodName = model.FoodName;
-            food.Protein = model.Protein;
-            food.Carbs = model.Carbs;
-            food.Fat = model.Fat;
+                food.FoodId = model.FoodId;
+                food.FoodName = model.FoodName;
+                food.Protein = model.Protein;
+                food.Carbs = model.Carbs;
+                food.Fat = model.Fat;
 
-            listItems.RemoveFromList(food);
-            SetActiveDailyFoodItemList(listItems);
+                listItems.RemoveFromList(food);
+                SetActiveDailyFoodItemList(listItems);
 
-            return RedirectToAction("ViewDailyFoodItemList");
-
+                return RedirectToAction("ViewDailyFoodItemList");
+            }
         }
+
         [HttpGet]
         public IActionResult DisplayFoodItems()
         {
+            //if anon user, just display foodlist
+            //if logged in or admin user, display goals
+                   
             DailyFoodItemList listItems = GetActiveDailyFoodItemList();
+
             return RedirectToAction("ViewDailyFoodItemList");
         }
-
-
-        //[HttpPost]
-        //public ActionResult AddToCart(string sku, int quantity)
-        //{
-
-        //    // Update the Shopping Cart            
-        //    ShoppingCart cart = GetActiveShoppingCart();
-        //    cart.AddToCart(product, quantity);
-
-        //    return RedirectToAction("ViewCart");
-        //}
-
 
         // GET: ViewDailyFoodItemList
         public ActionResult ViewDailyFoodItemList()
@@ -206,6 +228,20 @@ namespace FinalCapstone.Controllers
             DailyFoodItemList foodList = GetActiveDailyFoodItemList();
             return View("DailyFoodItemList", foodList);
         }
+
+        //[HttpGet]
+        //public IActionResult DisplayFoodItems()
+        //{
+        //    DailyFoodItemList listItems = GetActiveDailyFoodItemList();
+        //    return RedirectToAction("ViewDailyFoodItemList");
+        //}
+
+        //// GET: ViewDailyFoodItemList
+        //public ActionResult ViewDailyFoodItemList()
+        //{
+        //    DailyFoodItemList foodList = GetActiveDailyFoodItemList();
+        //    return View("DailyFoodItemList", foodList);
+        //}
 
         // Returns the active daily food item list. If there isn't one, then one is created.
         private DailyFoodItemList GetActiveDailyFoodItemList()
@@ -215,31 +251,12 @@ namespace FinalCapstone.Controllers
                 HttpContext.Session.Set(SessionKeys.DailyList, new DailyFoodItemList());
             }
             return HttpContext.Session.Get<DailyFoodItemList>(SessionKeys.DailyList);
-        }   
+        }
 
         // Returns the active daily food item list. If there isn't one, then one is created.
         private void SetActiveDailyFoodItemList(DailyFoodItemList listItems)
         {
             HttpContext.Session.Set(SessionKeys.DailyList, listItems);
         }
-
-
-
-        //[HttpPost]
-        //public ActionResult AddToCart(string sku, int quantity)
-        //{
-        //    // Validate the SKU
-        //    Product product = productDal.GetProduct(sku);
-        //    if (product == null || quantity < 1)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-
-        //    // Update the Shopping Cart            
-        //    ShoppingCart cart = GetActiveShoppingCart();
-        //    cart.AddToCart(product, quantity);
-
-        //    return RedirectToAction("ViewCart");
-        //}
     }
 }
