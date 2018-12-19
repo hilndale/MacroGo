@@ -15,10 +15,9 @@ $(document).ready(function () {
 
         function showLocation(position) {
             var latitude = position.coords.latitude;
-            var longitude = position.coords.longitude;
-            //alert("Latitude : " + latitude + " Longitude: " + longitude);
+            var longitude = position.coords.longitude;            
 
-            var count = 10;
+            var count = 5;
             var radius = 8000;
             //var name = restaurantSelection;
             var url = "https://developers.zomato.com/api/v2.1/search?count=" + count + "&lat=" + latitude + "&lon=" + longitude + "&radius=" + radius
@@ -34,12 +33,24 @@ $(document).ready(function () {
                 },
             }).done(function (result) {
                 console.log(result);
-                if (result.current_observation != undefined) {
-                    var address = result.current_observation.address;
-                    var response = " " + address + "< br />"
-                    response += address;
-                    $("#conditions").html(" " + response);
-                    alert(response.toString());
+                if (result != undefined) {
+                        for (var i = 0; i < result.results_shown; i++)
+                        {
+                            var restaurantName = result.restaurants[i].restaurant.name;                            
+                            if (restaurantName == "Dirty Frank's Hot Dog Palace")
+                            {
+                                var restaurantAddress = result.restaurants[i].restaurant.location.address;
+                                var response = "" + restaurantAddress + ""
+                                //response += restaurantAddress
+                                $("#conditions").html("" +  response + "");
+      
+                            }
+                            else
+                            {
+                               
+                            }
+                        }                    
+                   
                 }
                 else {
                     alert("dang");

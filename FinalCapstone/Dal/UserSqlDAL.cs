@@ -40,6 +40,8 @@ namespace FinalCapstone.Dal
                         user.GoalCarbs = Convert.ToInt32(reader["Goal_Carbs"]);
                         user.GoalProtein = Convert.ToInt32(reader["Goal_Protein"]);
                         user.GoalFat = Convert.ToInt32(reader["Goal_Fat"]);
+                        user.Salt = (byte[])reader["Salt"];
+                        user.HashedPassword = (byte[])reader["Hashed_Password"];
                     }
                     return user;
                 }
@@ -57,8 +59,8 @@ namespace FinalCapstone.Dal
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    user.UserId = conn.QueryFirst<int>("INSERT INTO Users (Is_Admin, Email, Password, Goal_Fat, Goal_Protein, Goal_Carbs) VALUES (0, @emailValue, @password, @goalfat, @goalprotein, @goalcarbs); SELECT CAST(SCOPE_IDENTITY() as int);",
-                        new { emailValue = user.Email, password = user.Password, goalfat = user.GoalFat, goalprotein = user.GoalProtein, goalcarbs = user.GoalCarbs });
+                    user.UserId = conn.QueryFirst<int>("INSERT INTO Users (Is_Admin, Email, Password, Goal_Fat, Goal_Protein, Goal_Carbs, Salt, Hashed_Password) VALUES (0, @emailValue, @password, @goalfat, @goalprotein, @goalcarbs, @salt, @hashedpassword); SELECT CAST(SCOPE_IDENTITY() as int);",
+                        new { emailValue = user.Email, password = user.Password, goalfat = user.GoalFat, goalprotein = user.GoalProtein, goalcarbs = user.GoalCarbs, salt = user.Salt, hashedpassword = user.HashedPassword });
                 }
             }
             catch (SqlException ex)
@@ -93,18 +95,18 @@ namespace FinalCapstone.Dal
             }
         }
 
-        public bool ChangePassword(string email, string newPassword)
+        public bool ChangePassword(string email, byte[] newHashedPassword)
         {
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string sql = ("UPDATE Users SET password = @password WHERE email = @email;");
+                    string sql = ("UPDATE Users SET hashed_password=@hashedpassword WHERE email = @email;");
                     SqlCommand cmd = new SqlCommand(sql, conn);
 
                     cmd.Parameters.AddWithValue("@email", email.Replace("\"", ""));
-                    cmd.Parameters.AddWithValue("@password", newPassword);
+                    cmd.Parameters.AddWithValue("@hashedpassword", newHashedPassword);
 
                     cmd.ExecuteNonQuery();
 
@@ -172,7 +174,7 @@ namespace FinalCapstone.Dal
                         user.IsAdmin = Convert.ToInt32(reader["Is_Admin"]);
                     }
 
-                    if(user.IsAdmin == 1)
+                    if (user.IsAdmin == 1)
                     {
                         return true;
                     }
