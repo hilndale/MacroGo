@@ -199,7 +199,6 @@ namespace FinalCapstone.Controllers
                 DailyFoodItemList listItemsAnon = GetActiveDailyFoodItemList();
                 return RedirectToAction("ViewDailyFoodItemList");
             }
-            //email not getting passed 
             UserProfileViewModel model = _userDAL.GetUserProfile(HttpContext.Session.GetString(SessionKeys.Username));
 
             DailyFoodItemList listItems = GetActiveDailyFoodItemList();
@@ -227,23 +226,8 @@ namespace FinalCapstone.Controllers
             return View("DailyFoodItemList", foodList);
         }
 
-
-        //[HttpGet]
-        //public IActionResult DisplayFoodItems()
-        //{
-        //    DailyFoodItemList listItems = GetActiveDailyFoodItemList();
-        //    return RedirectToAction("ViewDailyFoodItemList");
-        //}
-
-        //// GET: ViewDailyFoodItemList
-        //public ActionResult ViewDailyFoodItemList()
-        //{
-        //    DailyFoodItemList foodList = GetActiveDailyFoodItemList();
-        //    return View("DailyFoodItemList", foodList);
-        //}
-
         // Returns the active daily food item list. If there isn't one, then one is created.
-        private DailyFoodItemList GetActiveDailyFoodItemList()
+        public DailyFoodItemList GetActiveDailyFoodItemList() //was private
         {
             if (HttpContext.Session.Get(SessionKeys.DailyList) == null)
             {

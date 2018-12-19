@@ -239,12 +239,23 @@ namespace FinalCapstone.Controllers
             }
         }
 
+        //// POST: User/Logout
+        //public ActionResult Logout()
+        //{
+        //    HttpContext.Session.Remove(SessionKeys.Username);
+        //    HttpContext.Session.Remove(SessionKeys.AdminFlag);
+        //    HttpContext.Session.Remove(SessionKeys.UserId);
+            
+        //    return RedirectToAction("Index", "Home");
+        //}
+        
         // POST: User/Logout
         public ActionResult Logout()
         {
             HttpContext.Session.Remove(SessionKeys.Username);
             HttpContext.Session.Remove(SessionKeys.AdminFlag);
             HttpContext.Session.Remove(SessionKeys.UserId);
+            HttpContext.Session.Remove(SessionKeys.DailyList);
             return RedirectToAction("Index", "Home");
         }
     }
