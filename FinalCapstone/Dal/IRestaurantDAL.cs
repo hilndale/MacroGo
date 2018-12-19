@@ -10,5 +10,6 @@ namespace FinalCapstone.Dal
     {
         IList<Restaurant> GetRestaurants();
         Restaurant GetRestaurant(int id);
+        bool AddRestaurant(Restaurant restaurant);
     }
 }

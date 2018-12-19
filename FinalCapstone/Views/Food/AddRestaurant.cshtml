@@ -1,0 +1,30 @@
+﻿@model Restaurant
+@{
+    ViewData["Title"] = "Add Restaurant";
+}
+
+<h2>Add Restaurant</h2>
+
+<section id="one" class="wrapper style2">
+    <div class="inner">
+        <form asp-action="AddRestaurant" method="post">
+            <p>
+                <label asp-for="RestaurantName">Name of Restaurant</label>
+                <input asp-for="RestaurantName" />
+            </p>
+
+            <p>
+                <label asp-for="OpenTime">Open Time</label>
+                <input asp-for="OpenTime" />
+            </p>
+            <p>
+                <label asp-for="CloseTime">Close Time</label>
+                <input asp-for="CloseTime" />
+            </p>
+            <div style="text-align:center;">
+                <button class="button button1" type="submit">Submit</button>
+            </div>
+
+        </form>
+    </div>
+</section>

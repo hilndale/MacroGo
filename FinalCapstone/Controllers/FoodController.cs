@@ -1,14 +1,10 @@
 ﻿using FinalCapstone.Dal;
+using FinalCapstone.Extensions;
 using FinalCapstone.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Web;
-using Newtonsoft.Json;
-using System.Transactions;
-using FinalCapstone.Extensions;
 
 namespace FinalCapstone.Controllers
 {
@@ -66,7 +62,6 @@ namespace FinalCapstone.Controllers
                 return View(foodItemViewModel);
 
             }
-
             else
             {
                 FoodList food = new FoodList();
@@ -82,32 +77,45 @@ namespace FinalCapstone.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult AddRestaurant()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddRestaurant(Restaurant model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            else
+            {
+                _restaurantDAL.AddRestaurant(model);
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteFoodItem(FoodItemViewModel model)
         {
+            FoodList food = new FoodList();
 
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-            else
-            {
-                FoodList food = new FoodList();
+            food.FoodId = model.FoodId;
+            food.FoodName = model.FoodName;
+            food.RestaurantId = model.RestaurantId;
+            food.Protein = model.Protein;
+            food.Fat = model.Fat;
+            food.Carbs = model.Carbs;
+            food.Calories = model.Calories;
 
-                food.FoodId = model.FoodId;
-                food.FoodName = model.FoodName;
-                food.RestaurantId = model.RestaurantId;
-                food.Protein = model.Protein;
-                food.Fat = model.Fat;
-                food.Carbs = model.Carbs;
-                food.Calories = model.Calories;
+            _foodDAL.DeleteFoodItem(food);
 
-                _foodDAL.DeleteFoodItem(food);
-
-                return RedirectToAction("Index", "Home");
-            }
-
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
@@ -124,101 +132,68 @@ namespace FinalCapstone.Controllers
             foodModel.Carbs = food.Carbs;
             foodModel.Calories = food.Calories;
 
-            if (HttpContext.Session.GetString(SessionKeys.AdminFlag) == "1")
-            {
-                return View("FoodDetail_Admin", foodModel);
-            }
-            else
-            {
-                return View("FoodDetail", foodModel);
-            }
+            return View("FoodDetail", foodModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult FoodDetail(FoodItemViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-            else
-            {
-                FoodList food = new FoodList();
+            FoodList food = new FoodList();
 
-                food.FoodId = model.FoodId;
-                food.FoodName = model.FoodName;
-                food.RestaurantId = model.RestaurantId;
-                food.Protein = model.Protein;
-                food.Fat = model.Fat;
-                food.Carbs = model.Carbs;
-                food.Calories = model.Calories;
+            food.FoodId = model.FoodId;
+            food.FoodName = model.FoodName;
+            food.RestaurantId = model.RestaurantId;
+            food.Protein = model.Protein;
+            food.Fat = model.Fat;
+            food.Carbs = model.Carbs;
+            food.Calories = model.Calories;
 
-                _foodDAL.UpdateFoodItem(food);
+            _foodDAL.UpdateFoodItem(food);
 
-                return RedirectToAction("Index", "Home");
-            }
-
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
         public IActionResult AddFoodItemToList(FoodItemViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-            else
-            {
-                FoodList food = new FoodList();
-                DailyFoodItemList listItems = GetActiveDailyFoodItemList();
+            FoodList food = new FoodList();
+            DailyFoodItemList listItems = GetActiveDailyFoodItemList();
 
-                food.FoodId = model.FoodId;
-                food.FoodName = model.FoodName;
-                food.Protein = model.Protein;
-                food.Carbs = model.Carbs;
-                food.Fat = model.Fat;
+            food.FoodId = model.FoodId;
+            food.FoodName = model.FoodName;
+            food.Protein = model.Protein;
+            food.Carbs = model.Carbs;
+            food.Fat = model.Fat;
 
-                listItems.AddToList(food);
-                SetActiveDailyFoodItemList(listItems);
+            listItems.AddToList(food);
+            SetActiveDailyFoodItemList(listItems);
 
-                return RedirectToAction("ViewDailyFoodItemList");
-            }
+            return RedirectToAction("ViewDailyFoodItemList");
         }
 
         [HttpPost]
         public IActionResult RemoveFoodItemFromList(FoodItemViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-            else
-            {
-                FoodList food = new FoodList();
-                DailyFoodItemList listItems = GetActiveDailyFoodItemList();
+            FoodList food = new FoodList();
+            DailyFoodItemList listItems = GetActiveDailyFoodItemList();
 
-                food.FoodId = model.FoodId;
-                food.FoodName = model.FoodName;
-                food.Protein = model.Protein;
-                food.Carbs = model.Carbs;
-                food.Fat = model.Fat;
+            food.FoodId = model.FoodId;
+            food.FoodName = model.FoodName;
+            food.Protein = model.Protein;
+            food.Carbs = model.Carbs;
+            food.Fat = model.Fat;
 
-                listItems.RemoveFromList(food);
-                SetActiveDailyFoodItemList(listItems);
+            listItems.RemoveFromList(food);
+            SetActiveDailyFoodItemList(listItems);
 
-                return RedirectToAction("ViewDailyFoodItemList");
-            }
+            return RedirectToAction("ViewDailyFoodItemList");
+
         }
-
         [HttpGet]
         public IActionResult DisplayFoodItems()
         {
-            //if anon user, just display foodlist
-            //if logged in or admin user, display goals
-                   
             DailyFoodItemList listItems = GetActiveDailyFoodItemList();
-
             return RedirectToAction("ViewDailyFoodItemList");
         }
 
@@ -228,20 +203,6 @@ namespace FinalCapstone.Controllers
             DailyFoodItemList foodList = GetActiveDailyFoodItemList();
             return View("DailyFoodItemList", foodList);
         }
-
-        //[HttpGet]
-        //public IActionResult DisplayFoodItems()
-        //{
-        //    DailyFoodItemList listItems = GetActiveDailyFoodItemList();
-        //    return RedirectToAction("ViewDailyFoodItemList");
-        //}
-
-        //// GET: ViewDailyFoodItemList
-        //public ActionResult ViewDailyFoodItemList()
-        //{
-        //    DailyFoodItemList foodList = GetActiveDailyFoodItemList();
-        //    return View("DailyFoodItemList", foodList);
-        //}
 
         // Returns the active daily food item list. If there isn't one, then one is created.
         private DailyFoodItemList GetActiveDailyFoodItemList()

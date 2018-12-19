@@ -5,13 +5,14 @@
 }
 
 <h2>Daily Foods</h2>
+<br />
 <table>
     <thead>
         <tr>
-            <td><h3>Description</h3></td>
-            <td><h3>Protein</h3></td>
-            <td><h3>Carbohydrates</h3></td>
-            <td><h3>Fat</h3></td>
+            <td>Description</td>
+            <td>Protein</td>
+            <td>Carbohydrates</td>
+            <td>Fat</td>
         </tr>
     </thead>
     @{
@@ -25,19 +26,13 @@
             <td>
                 <a asp-controller="Food" asp-action="FoodDetail" asp-route-id="@item.FoodId">
                     <input type="hidden" asp-for="@item.FoodId" />
-                    <h3>@item.FoodName</h3>
+                    @item.FoodName
                 </a>
 
             </td>
-            <td>
-                <h3>@item.Protein</h3>
-            </td>
-            <td>
-                <h3>@item.Fat</h3>
-            </td>
-            <td>
-                <h3>@item.Carbs</h3>
-            </td>
+            <td>@item.Protein</td>
+            <td>@item.Fat</td>
+            <td>@item.Carbs</td>
 
             @{
                 totalProtein += item.Protein;
@@ -49,16 +44,10 @@
     }
     <tfoot>
         <tr>
-            <td></td>
-            <td>
-                <h3>@totalProtein</h3>
-            </td>
-            <td>
-                <h3>@totalFat</h3>
-            </td>
-            <td>
-                <h3>@totalCarbs</h3>
-            </td>
+            <td>Totals:</td>
+            <td>@totalProtein</td>
+            <td>@totalFat</td>
+            <td>@totalCarbs</td>
         </tr>
     </tfoot>
     @* display this only for admin and logged in user *@

@@ -1,6 +1,7 @@
 ﻿@model Restaurant
 @{
     ViewData["Title"] = "Restaurant Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Restaurant Hours</h2>
@@ -9,5 +10,12 @@
         <h3>@Model.RestaurantName</h3>
         <h4>Opens: @Model.OpenTime</h4>
         <h4>Closes: @Model.CloseTime</h4>
-        </div>
+        <input type="button" id="locationbutton" value="Share Location" />
+    </div>
 </section>
+
+<div class="inner">
+    <p id="conditions"></p>
+</div>
+
+
