@@ -100,7 +100,7 @@ namespace FinalCapstone.Controllers
             else
             {
                 _restaurantDAL.AddRestaurant(model);
-                return RedirectToAction(nameof(AddRestaurant));
+                return RedirectToAction("Index", "Home");
             }
         }
 
