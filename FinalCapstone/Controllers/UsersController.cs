@@ -35,13 +35,24 @@ namespace FinalCapstone.Controllers
 
             Users user = _userDAL.GetUser(model.Email);
             // user does not exist or password is wrong
-            if (user == null || user.Password != model.Password)
+            //if (user == null || user.Password != model.Password)
+            //{
+            //    ModelState.AddModelError("invalid-credentials", "An invalid username or password was provided");
+            //    return View("Login", model);
+            //}
+            if (user == null)
+            {
+                ModelState.AddModelError("invalid-credentials", "An email is required");
+                return View("Login", model);
+            }
+
+            bool correctPassword = user.CheckPassword(user, model.Password);
+            if (!correctPassword)
             {
                 ModelState.AddModelError("invalid-credentials", "An invalid username or password was provided");
                 return View("Login", model);
             }
-            else
-            {
+
                 HttpContext.Session.SetString(SessionKeys.Username, user.Email);
                 HttpContext.Session.Set(SessionKeys.AdminFlag, user.IsAdmin);
                 HttpContext.Session.SetInt32(SessionKeys.UserId, user.UserId);
@@ -55,7 +66,7 @@ namespace FinalCapstone.Controllers
                     viewModel = _userDAL.GetUserProfile(model.Email);
                     return RedirectToAction("UserProfile", viewModel);
                 }
-            }
+            
         }
 
         [HttpGet]
@@ -101,21 +112,21 @@ namespace FinalCapstone.Controllers
                 ModelState.AddModelError("email-exists", "That email address is already associated with an account");
                 return View("Register", model);
             }
-            else
-            {
-                user = new Users()
-                {
-                    Email = model.EmailAddress,
-                    Password = model.Password,
-                    GoalCarbs = model.GoalCarbs,
-                    GoalProtein = model.GoalProtein,
-                    GoalFat = model.GoalFat
-                };
-                _userDAL.SaveUser(user);
 
-                HttpContext.Session.Set(SessionKeys.Username, model.EmailAddress);
-                HttpContext.Session.SetInt32(SessionKeys.UserId, user.UserId);
-            }
+            user = new Users()
+            {
+                Email = model.EmailAddress,
+                Password = model.Password,
+                GoalCarbs = model.GoalCarbs,
+                GoalProtein = model.GoalProtein,
+                GoalFat = model.GoalFat
+            };
+
+            user.HashPassword();
+            _userDAL.SaveUser(user);
+
+            HttpContext.Session.Set(SessionKeys.Username, model.EmailAddress);
+            HttpContext.Session.SetInt32(SessionKeys.UserId, user.UserId);
 
             return RedirectToAction("UserProfile", "Users");
         }
@@ -222,16 +233,32 @@ namespace FinalCapstone.Controllers
 
             Users user = _userDAL.GetUser(HttpContext.Session.GetString(SessionKeys.Username));
 
-            if (model.OldPassword == user.Password)
+            //if (model.OldPassword == user.Password)
+            //{
+            //    //_userDAL.ChangePassword(HttpContext.Session.GetString(SessionKeys.Username), model.NewPassword);
+            //    return RedirectToAction("UserProfile", "Users");
+            //}
+            // have model.OldPassword and user.Password
+            bool correctPassword = user.CheckPassword(user, model.OldPassword);
+            if (correctPassword)
             {
-                _userDAL.ChangePassword(HttpContext.Session.GetString(SessionKeys.Username), model.NewPassword);
+                //need to hash the new password
+                byte[] newHashedPassword = user.HashChangedPassword(model.NewPassword);
+                _userDAL.ChangePassword(HttpContext.Session.GetString(SessionKeys.Username), newHashedPassword);
                 return RedirectToAction("UserProfile", "Users");
             }
-            else
+            
+            if (!correctPassword)
             {
-                model.ErrorMessage = "Old password is not correct";
-                return View("ChangePassword", model);
+                ModelState.AddModelError("invalid-credentials", "An invalid username or password was provided");
+                return View("Login", model);
             }
+
+            //else
+            //{
+            model.ErrorMessage = "Old password is not correct";
+                return View("ChangePassword", model);
+            //}
         }
 
         // POST: User/Logout
