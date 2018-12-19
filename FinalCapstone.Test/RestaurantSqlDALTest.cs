@@ -77,6 +77,20 @@ namespace FinalCapstone.Test
                 Restaurant restaurant = _restaurantDAL.GetRestaurant(id);
                 Assert.AreEqual(id, restaurant.RestaurantId);
             }
+
+            [TestMethod]
+            public void AddRestaurantTest()
+            {
+                Restaurant restaurant = new Restaurant()
+                {
+                    RestaurantName = "Test Restaurant",
+                    OpenTime = "6:00 AM",
+                    CloseTime = "10:00 PM"
+                };
+
+                bool result = _restaurantDAL.AddRestaurant(restaurant);
+                Assert.AreEqual(true, result);
+            }
         }
     }
 }

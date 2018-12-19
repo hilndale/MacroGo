@@ -82,6 +82,28 @@ namespace FinalCapstone.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult AddRestaurant()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddRestaurant(Restaurant model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            else
+            {
+                _restaurantDAL.AddRestaurant(model);
+                return RedirectToAction(nameof(AddRestaurant));
+            }
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteFoodItem(FoodItemViewModel model)
@@ -222,6 +244,7 @@ namespace FinalCapstone.Controllers
         {
             HttpContext.Session.Set(SessionKeys.DailyList, listItems);
         }
+
 
 
 
