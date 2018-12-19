@@ -191,18 +191,56 @@ namespace FinalCapstone.Controllers
 
         }
         [HttpGet]
-        public IActionResult DisplayFoodItems()
+        public IActionResult DisplayFoodItems(int userId)
         {
+            userId = GetActiveUserFromSession();
+            if (userId == 0)
+            {
+                DailyFoodItemList listItemsAnon = GetActiveDailyFoodItemList();
+                return RedirectToAction("ViewDailyFoodItemList");
+            }
+            //email not getting passed 
+            UserProfileViewModel model = _userDAL.GetUserProfile(HttpContext.Session.GetString(SessionKeys.Username));
+
             DailyFoodItemList listItems = GetActiveDailyFoodItemList();
-            return RedirectToAction("ViewDailyFoodItemList");
+            listItems.User.GoalCarbs = model.GoalCarbs;
+            listItems.User.GoalFat = model.GoalFat;
+            listItems.User.GoalProtein = model.GoalProtein;
+            return RedirectToAction("ViewDailyFoodItemList", model);
         }
 
         // GET: ViewDailyFoodItemList
-        public ActionResult ViewDailyFoodItemList()
+        public ActionResult ViewDailyFoodItemList(int userId)
         {
+            userId = GetActiveUserFromSession();
+            if (userId == 0)
+            {
+                DailyFoodItemList listItemsAnon = GetActiveDailyFoodItemList();
+                return View("DailyFoodItemList", listItemsAnon);
+            }
+
+            UserProfileViewModel model = _userDAL.GetUserProfile(HttpContext.Session.GetString(SessionKeys.Username));
             DailyFoodItemList foodList = GetActiveDailyFoodItemList();
+            foodList.User.GoalCarbs = model.GoalCarbs;
+            foodList.User.GoalFat = model.GoalFat;
+            foodList.User.GoalProtein = model.GoalProtein;
             return View("DailyFoodItemList", foodList);
         }
+
+
+        //[HttpGet]
+        //public IActionResult DisplayFoodItems()
+        //{
+        //    DailyFoodItemList listItems = GetActiveDailyFoodItemList();
+        //    return RedirectToAction("ViewDailyFoodItemList");
+        //}
+
+        //// GET: ViewDailyFoodItemList
+        //public ActionResult ViewDailyFoodItemList()
+        //{
+        //    DailyFoodItemList foodList = GetActiveDailyFoodItemList();
+        //    return View("DailyFoodItemList", foodList);
+        //}
 
         // Returns the active daily food item list. If there isn't one, then one is created.
         private DailyFoodItemList GetActiveDailyFoodItemList()

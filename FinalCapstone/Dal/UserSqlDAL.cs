@@ -136,6 +136,7 @@ namespace FinalCapstone.Dal
                     while (reader.Read())
                     {
                         viewModel.UserId = Convert.ToInt32(reader["User_Id"]);
+                        viewModel.Email = Convert.ToString(reader["Email"]);
                         viewModel.IsAdmin = Convert.ToInt32(reader["Is_Admin"]);
                         viewModel.GoalCarbs = Convert.ToInt32(reader["Goal_Carbs"]);
                         viewModel.GoalProtein = Convert.ToInt32(reader["Goal_Protein"]);

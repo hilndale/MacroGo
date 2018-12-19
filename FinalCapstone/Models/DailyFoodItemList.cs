@@ -8,9 +8,8 @@ namespace FinalCapstone.Models
     public class DailyFoodItemList
     {
         public List<FoodList> Items { get; set; } = new List<FoodList>();
-        public UserProfileViewModel User { get; set; } //added by hs for adding goals to daily food list
-
-
+        public UserProfileViewModel User { get; set; } = new UserProfileViewModel();
+        
         public void AddToList(FoodList food)
         {
             if (!Items.Contains(food))
@@ -28,18 +27,6 @@ namespace FinalCapstone.Models
                 Items.Remove(food);
             }
         }
-   
-        
-        ///// <summary>
-        ///// Get the subtotal of all macros in the daily food list.
-        ///// </summary>
-        //public double SubTotal
-        //{
-        //    get
-        //    {
-        //        return Items.Sum(p => p.Price);
-        //    }
-        //}
     }
 }
 

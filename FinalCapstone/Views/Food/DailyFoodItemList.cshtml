@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Http  @*hilary*@
+﻿@using Microsoft.AspNetCore.Http
 @model DailyFoodItemList
 @{
     ViewData["Title"] = "User Daily Foods";
@@ -42,6 +42,19 @@
 
         </tr>
     }
+    @if (Context.Session.GetString(SessionKeys.Username) != null)
+    {
+        <tfoot>
+            <tr>
+                <td>Personal Goals:</td>
+                
+                <td>@Model.User.GoalProtein</td>
+                <td>@Model.User.GoalCarbs</td>
+                <td>@Model.User.GoalFat</td>
+                
+            </tr>
+        </tfoot>
+    }
     <tfoot>
         <tr>
             <td>Totals:</td>
@@ -50,19 +63,7 @@
             <td>@totalCarbs</td>
         </tr>
     </tfoot>
-    @* display this only for admin and logged in user *@
-    @*if (Context.Session.GetString(SessionKeys.Username != null)
-    {
-    <tfoot>
-        <tr>
-            <td></td>
-            <td>
-                <h3>@Model.User.GoalProtein</h3>
-                <h3>@Model.User.GoalCarbs</h3>
-                <h3>@Model.User.GoalFat</h3>
-            </td>
-        </tr>
-    </tfoot>
-    }*@
+
+
 </table>
 
