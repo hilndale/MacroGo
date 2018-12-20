@@ -21,7 +21,7 @@ $(document).ready(function () {
             var restaurantChoiceLength = restaurantChoice.length;
             if (restaurantChoice.includes(" "))
             {
-                var restaurantChoice = restaurantChoice.replace(" ", "%20");
+                var restaurantChoice = restaurantChoice.replace(" ", ""); 
             }
    
             var url = "https://developers.zomato.com/api/v2.1/search?q=" + restaurantChoice + "&count=20&lat=" + latitude + "&lon=" + longitude + "&radius=16000&sort=real_distance&order=asc";
