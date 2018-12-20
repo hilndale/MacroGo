@@ -24,6 +24,7 @@ namespace FinalCapstone.Controllers
 
         // POST: User/Login
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
@@ -77,6 +78,7 @@ namespace FinalCapstone.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult AddAdmin(AddAdminViewModel model)
         {
             if (!_userDAL.IsAdmin(model.EmailAddress))
@@ -96,6 +98,7 @@ namespace FinalCapstone.Controllers
 
         // POST: User/Register
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Register(RegisterViewModel model)
         {
             if (!ModelState.IsValid)
@@ -154,7 +157,7 @@ namespace FinalCapstone.Controllers
             return RedirectToAction("UserProfile", viewModel);
         }
 
-        private int GetActiveUserFromSession()
+        public int GetActiveUserFromSession()  
         {
             if (HttpContext.Session.Get(SessionKeys.UserId) == null)
             {
@@ -200,6 +203,7 @@ namespace FinalCapstone.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult DeleteFromFavorites(UserFavorites userFavorite)
         {
             if (!ModelState.IsValid)
@@ -224,6 +228,7 @@ namespace FinalCapstone.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ChangePassword(ChangePasswordViewModel model)
         {
             if (!ModelState.IsValid)
@@ -267,6 +272,7 @@ namespace FinalCapstone.Controllers
             HttpContext.Session.Remove(SessionKeys.Username);
             HttpContext.Session.Remove(SessionKeys.AdminFlag);
             HttpContext.Session.Remove(SessionKeys.UserId);
+            HttpContext.Session.Remove(SessionKeys.DailyList);
             return RedirectToAction("Index", "Home");
         }
     }
