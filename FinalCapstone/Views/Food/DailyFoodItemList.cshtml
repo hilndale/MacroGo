@@ -13,7 +13,7 @@
                 <tr>
                     <th>Description</th>
                     <th>Protein</th>
-                    <th>Carbohydrates</th> 
+                    <th>Carbs</th>
                     <th>Fat</th>
                 </tr>
             </thead>
@@ -41,15 +41,13 @@
                         totalFat += item.Fat;
                         totalCarbs += item.Carbs;
                     }
-
                 </tr>
             }
             @if (Context.Session.GetString(SessionKeys.Username) != null)
             {
-                <tfoot>
+                <tfoot id="totals">
                     <tr>
                         <th>My Personal Goals:</th>
-
                         <td>@Model.User.GoalProtein</td>
                         <td>@Model.User.GoalCarbs</td>
                         <td>@Model.User.GoalFat</td>
@@ -57,7 +55,7 @@
                     </tr>
                 </tfoot>
             }
-            <tfoot>
+            <tfoot >
                 <tr>
                     <th>Totals:</th>
                     <td>@totalProtein</td>
@@ -66,5 +64,26 @@
                 </tr>
             </tfoot>
         </table>
-        </div>
+    </div>
 </section>
+
+@*@if (Context.Session.GetString(SessionKeys.Username) != null)
+    {
+        <section id="one" class="wrapper style2">
+            <div class="inner">
+                <table>
+                                 <tfoot>
+                        <tr>
+                            <th>My Personal Goals:</th>
+                            <td>@Model.User.GoalProtein</td>
+                            <td>@Model.User.GoalCarbs</td>
+                            <td>@Model.User.GoalFat</td>
+
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </section>
+    }*@
+
+
