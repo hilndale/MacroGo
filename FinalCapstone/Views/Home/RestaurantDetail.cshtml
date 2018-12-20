@@ -10,8 +10,13 @@
         <h3>@Model.RestaurantName</h3>
         <h4>Opens: @Model.OpenTime</h4>
         <h4>Closes: @Model.CloseTime</h4>
-        <input type="button" id="locationbutton" value="Find Locations" />       
-            <h4 id="conditions"></h4>       
+        <div>
+            <input type="button" id="locationbutton" value="Find Locations" name="@Model.RestaurantName" />
+        </div>       
+    </div>
+    <div class="inner">
+        <h4>Closest 5 locations to you, ordered from closest to farthest:</h4>
+        <h3 id="conditions"></h3>                
     </div>
 </section>
 
