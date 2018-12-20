@@ -155,6 +155,7 @@ namespace FinalCapstone.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult AddFoodItemToList(FoodItemViewModel model)
         {
             FoodList food = new FoodList();
@@ -173,6 +174,7 @@ namespace FinalCapstone.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult RemoveFoodItemFromList(FoodItemViewModel model)
         {
             FoodList food = new FoodList();

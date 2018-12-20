@@ -149,6 +149,7 @@ namespace FinalCapstone.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult UpdateUserGoals(UserProfileViewModel viewModel)
         {
             viewModel.Email = HttpContext.Session.GetString(SessionKeys.Username);
