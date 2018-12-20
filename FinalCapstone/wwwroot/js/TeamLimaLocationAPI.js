@@ -57,7 +57,8 @@ $(document).ready(function () {
                             restaurantFilter = restaurantFilter.replace("'", "");
                             if (restaurantName == restaurantFilter && restaurantName.length == restaurantFilter.length)
                             {
-                                var restaurantAddress = result.restaurants[i].restaurant.location.address;                                
+                                var restaurantAddress = result.restaurants[i].restaurant.location.address;
+                                
                                 response += "| " + restaurantAddress + " ";      
                             }                           
                         }
