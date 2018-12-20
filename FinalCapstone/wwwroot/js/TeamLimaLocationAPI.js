@@ -18,10 +18,11 @@ $(document).ready(function () {
             var longitude = position.coords.longitude;
 
             var restaurantChoice = $("#locationbutton").attr("name").toString();
-            var restaurantChoiceLength = restaurantChoice.length;
             if (restaurantChoice.includes(" "))
             {
-                var restaurantChoice = restaurantChoice.replace(" ", ""); 
+
+                var restaurantChoice = restaurantChoice.replace(" ", "");
+
             }
    
             var url = "https://developers.zomato.com/api/v2.1/search?q=" + restaurantChoice + "&count=20&lat=" + latitude + "&lon=" + longitude + "&radius=16000&sort=real_distance&order=asc";
@@ -33,11 +34,11 @@ $(document).ready(function () {
                 data: {
                     "longitude" : longitude,
                     "latitude" : latitude,
-                    "results_shown" : 20,
+                    "results_shown" : 5,
                     "apikey" : "7df79b15f14cd152cc6a2a366d1be686",
                     "results_start" : "0",
                     "start" : "0",
-                    "count": 100,
+                    "count": 10,
                     "q": restaurantChoice
                 },
             }).done(function (result) {
@@ -46,11 +47,15 @@ $(document).ready(function () {
 
                     var response = [];
 
-                        for (var i = 0; i < 20; i++)
+                        for (var i = 0; i < 5; i++)
                         {
                             var restaurantName = result.restaurants[i].restaurant.name;
+                            restaurantName = restaurantName.replace(" ", "");
+                            restaurantName = restaurantName.replace("'", "");
                             var restaurantFilter = $("#locationbutton").attr("name");
-                            if (restaurantName === restaurantFilter && restaurantName.length === restaurantFilter.length)
+                            restaurantFilter = restaurantFilter.replace(" ", "");
+                            restaurantFilter = restaurantFilter.replace("'", "");
+                            if (restaurantName == restaurantFilter && restaurantName.length == restaurantFilter.length)
                             {
                                 var restaurantAddress = result.restaurants[i].restaurant.location.address;                                
                                 response += "| " + restaurantAddress + " ";      
