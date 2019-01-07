@@ -26,6 +26,7 @@ Hilary Sasso-Schleh - user favorites, integration tests, removing food from dail
 
 Vincent Herkender - API call
 
+CSS and Javascript- Hielo template by Templated
+https://templated.co/hielo
 
-
-
+Photo courtesy of https://pxhere.com/en/photo/39121
