@@ -14,15 +14,18 @@ SSMS
 https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-2017
 
 
-Installation: Clone repo to your local machine using $ git clone https://github.com/hilndale/Pencil_Durability.git
+Installation: Clone repo to your local machine using $ git clone https://github.com/hilndale/MacroGo.git
 
 
 Authors: 
-Keelie Bente
-Debbie Murphy 
-Hilary Sasso-Schleh
-Vincent Herkender
+Keelie Bente - limit macronutrient search results, creating logged in user, admin, limit access by user
+
+Debbie Murphy - password security, adding food to daily list, styling
+
+Hilary Sasso-Schleh - user favorites, integration tests, removing food from daily list, styling
+
+Vincent Herkender - API call
 
 
-License: The code in this project is licensed under MIT license.
+
 
