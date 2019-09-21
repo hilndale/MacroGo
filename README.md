@@ -22,7 +22,6 @@ Keelie Bente - limit macronutrient search results, creating logged in user, admi
 
 Debbie Murphy - password security, adding food to daily list, styling
 
-Hilary Sasso-Schleh - user favorites, integration tests, removing food from daily list, styling
 
 Vincent Herkender - API call
 
